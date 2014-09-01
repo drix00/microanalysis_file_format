@@ -1,0 +1,5 @@
+syntax: glob
+testData/
+*.txt
+*.emsa
+.coverage
