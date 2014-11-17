@@ -21,7 +21,7 @@ import logging
 
 # Local modules.
 import TemCsvFile
-import DrixUtilities.Files as Files
+import pyHendrixDemersTools.Files as Files
 
 # Globals and constants variables.
 

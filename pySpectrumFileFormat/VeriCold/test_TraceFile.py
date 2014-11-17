@@ -22,7 +22,7 @@ import os.path
 
 # Local modules.
 import TraceFile
-import DrixUtilities.Files as Files
+import pyHendrixDemersTools.Files as Files
 
 # Globals and constants variables.
 

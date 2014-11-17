@@ -21,7 +21,7 @@ import os.path
 # Third party modules.
 
 # Local modules.
-import DrixUtilities.Files as Files
+import pyHendrixDemersTools.Files as Files
 
 # Project modules
 import ParametersFile
@@ -122,5 +122,5 @@ class TestParametersFile(unittest.TestCase):
 
 if __name__ == '__main__':  #pragma: no cover
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModuleWithCoverage
+    from pyHendrixDemersTools.Testings import runTestModuleWithCoverage
     runTestModuleWithCoverage(__file__)
