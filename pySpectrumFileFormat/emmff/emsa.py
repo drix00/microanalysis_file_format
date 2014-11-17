@@ -7,7 +7,7 @@
 .. module:: emsa
    :synopsis: Reader/writer of EMSA/MAS file format
 
-.. inheritance-diagram:: SpectrumFileFormatTools.emmff.emsa
+.. inheritance-diagram:: pySpectrumFileFormat.emmff.emsa
 
 """
 

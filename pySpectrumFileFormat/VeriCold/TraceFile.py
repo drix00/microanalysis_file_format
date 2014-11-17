@@ -356,7 +356,7 @@ class TraceFile(object):
         return times_ms, pulseData
 
 def run():
-    filepath = os.path.expanduser("~/works/prgrms/pythondev/SpectrumFileFormatTools/testData/test01.trc")
+    filepath = os.path.expanduser("~/works/prgrms/pythondev/pySpectrumFileFormat/testData/test01.trc")
 
     traceFile = TraceFile(filepath)
 
@@ -418,5 +418,5 @@ def run():
     #traceFile.printHeader()
 
 if __name__ == '__main__': #pragma: no cover
-    import DrixUtilities.Runner as Runner
+    import pyHendrixDemersTools.Runner as Runner
     Runner.Runner().run(runFunction=run)

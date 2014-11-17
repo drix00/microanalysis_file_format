@@ -17,7 +17,7 @@ import logging
 import sys
 
 import emsaFormat
-import DrixUtilities.Files as Files
+import pyHendrixDemersTools.Files as Files
 
 class emsaFormatTestCase(unittest.TestCase):
 

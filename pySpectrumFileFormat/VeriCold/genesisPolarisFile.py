@@ -285,7 +285,7 @@ class GenesisPolarisFile(object):
 def run():
     import pylab
 
-    filepath = os.path.expanduser("~/works/prgrms/pythondev/SpectrumFileFormatTools/testData/k3670_30keV_OFeCalibration.csp")
+    filepath = os.path.expanduser("~/works/prgrms/pythondev/pySpectrumFileFormat/testData/k3670_30keV_OFeCalibration.csp")
 
     gpFile = GenesisPolarisFile(filepath)
 
@@ -312,5 +312,5 @@ def run():
     pylab.show()
 
 if __name__ == '__main__': #pragma: no cover
-    import DrixUtilities.Runner as Runner
+    import pyHendrixDemersTools.Runner as Runner
     Runner.Runner().run(runFunction=run)

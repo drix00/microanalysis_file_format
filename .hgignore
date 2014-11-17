@@ -3,3 +3,4 @@ testData/
 *.txt
 *.emsa
 .coverage
+*.pyc
