@@ -144,11 +144,11 @@ class TraceFile(object):
 
         timeLastChange = time.asctime(timeLastChange)
 
-        print "Time of the last access: %s" % (timeLastAccess)
+        print("Time of the last access: %s" % (timeLastAccess))
 
-        print "Time of the last modification: %s" % (timeLastModification)
+        print("Time of the last modification: %s" % (timeLastModification))
 
-        print "Time of the last status change: %s" % (timeLastChange)
+        print("Time of the last status change: %s" % (timeLastChange))
 
     def readTrace(self, traceID):
         if traceID > 0:
@@ -290,44 +290,44 @@ class TraceFile(object):
         self.header["PixelSize"] = float(values[30])
 
     def printHeader(self):
-        print "Size: ", self.header["Size"]
-        print "Version: ", self.header["Version"]
+        print("Size: ", self.header["Size"])
+        print("Version: ", self.header["Version"])
 
-        print "DetectorNumber: >>%s<<" % self.header["DetectorNumber"]
-        print "SQUIDNumber: >>%s<<" % self.header["SQUIDNumber"]
-        print "ElectronicNumber: >>%s<<" % self.header["ElectronicNumber"]
-        print "PolarisNumber: >>%s<<" % self.header["PolarisNumber"]
+        print("DetectorNumber: >>%s<<" % self.header["DetectorNumber"])
+        print("SQUIDNumber: >>%s<<" % self.header["SQUIDNumber"])
+        print("ElectronicNumber: >>%s<<" % self.header["ElectronicNumber"])
+        print("PolarisNumber: >>%s<<" % self.header["PolarisNumber"])
 
-        print "CurrentSystemTime_64", self.header["CurrentSystemTime_64"]
-        print "CurrentSystemTime_milli", self.header["CurrentSystemTime_milli"]
-        print "CurrentSystemTime_timezone", self.header["CurrentSystemTime_timezone"]
-        print "CurrentSystemTime_dstflag", self.header["CurrentSystemTime_dstflag"]
+        print("CurrentSystemTime_64", self.header["CurrentSystemTime_64"])
+        print("CurrentSystemTime_milli", self.header["CurrentSystemTime_milli"])
+        print("CurrentSystemTime_timezone", self.header["CurrentSystemTime_timezone"])
+        print("CurrentSystemTime_dstflag", self.header["CurrentSystemTime_dstflag"])
 
-        print "Localtime_sec", self.header["Localtime_sec"]
-        print "Localtime_min", self.header["Localtime_min"]
-        print "Localtime_hour", self.header["Localtime_hour"]
-        print "Localtime_mday", self.header["Localtime_mday"]
-        print "Localtime_mon", self.header["Localtime_mon"]
-        print "Localtime_year", self.header["Localtime_year"]
-        print "Localtime_wday", self.header["Localtime_wday"]
-        print "Localtime_yday", self.header["Localtime_yday"]
-        print "Localtime_isdst", self.header["Localtime_isdst"]
+        print("Localtime_sec", self.header["Localtime_sec"])
+        print("Localtime_min", self.header["Localtime_min"])
+        print("Localtime_hour", self.header["Localtime_hour"])
+        print("Localtime_mday", self.header["Localtime_mday"])
+        print("Localtime_mon", self.header["Localtime_mon"])
+        print("Localtime_year", self.header["Localtime_year"])
+        print("Localtime_wday", self.header["Localtime_wday"])
+        print("Localtime_yday", self.header["Localtime_yday"])
+        print("Localtime_isdst", self.header["Localtime_isdst"])
 
-        print "ClockTime_ms", self.header["ClockTime_ms"]
-        print "LiveTime_ms", self.header["LiveTime_ms"]
-        print "DeadTime_ms", self.header["DeadTime_ms"]
+        print("ClockTime_ms", self.header["ClockTime_ms"])
+        print("LiveTime_ms", self.header["LiveTime_ms"])
+        print("DeadTime_ms", self.header["DeadTime_ms"])
 
-        print "TraceLength", self.header["TraceLength"]
-        print "SampleRate", self.header["SampleRate"]
+        print("TraceLength", self.header["TraceLength"])
+        print("SampleRate", self.header["SampleRate"])
 
-        print "RegTemperature", self.header["RegTemperature"]
-        print "IBias", self.header["IBias"]
-        print "AmpFactor", self.header["AmpFactor"]
+        print("RegTemperature", self.header["RegTemperature"])
+        print("IBias", self.header["IBias"])
+        print("AmpFactor", self.header["AmpFactor"])
 
-        print "AccVoltage", self.header["AccVoltage"]
-        print "Aperture", self.header["Aperture"]
-        print "WDistance", self.header["WDistance"]
-        print "PixelSize", self.header["PixelSize"]
+        print("AccVoltage", self.header["AccVoltage"])
+        print("Aperture", self.header["Aperture"])
+        print("WDistance", self.header["WDistance"])
+        print("PixelSize", self.header["PixelSize"])
 
     def computeBaseLine(self, times_ms, data):
         endIndex = 0

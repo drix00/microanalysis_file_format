@@ -19,12 +19,13 @@ import logging
 import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import pyHendrixDemersTools.Files as Files
 
 # Project modules
-import ParametersFile
+import pySpectrumFileFormat.OxfordInstruments.MapRaw.ParametersFile as ParametersFile
 
 # Globals and constants variables.
 
@@ -41,6 +42,8 @@ class TestParametersFile(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
         self.path = Files.getCurrentModulePath(__file__, "../../testData/OxfordInstruments/MapRaw")
+        if not os.path.isfile(self.path):
+            raise SkipTest
 
     def tearDown(self):
         """

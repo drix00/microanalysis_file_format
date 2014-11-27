@@ -471,7 +471,7 @@ def run():
     keys = linescanFile.points.keys()
     keys.sort()
 
-    print keys, len(keys)
+    print(keys, len(keys))
 
 if __name__ == '__main__': #pragma: no cover
     import pyHendrixDemersTools.Runner as Runner

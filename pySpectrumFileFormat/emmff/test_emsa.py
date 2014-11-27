@@ -15,11 +15,12 @@ import tempfile
 import os
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import pyHendrixDemersTools.Files as Files
 
-import emsa
+import pySpectrumFileFormat.emmff.emsa as emsa
 
 # Globals and constants variables.
 
@@ -29,6 +30,8 @@ class TestEmsaReader(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
         filepath = Files.getCurrentModulePath(__file__, "spectra/spectrum1.emsa")
+        if not os.path.isfile(filepath):
+            raise SkipTest
         with open(filepath, 'rb') as f:
             self.emsa = emsa.read(f)
 

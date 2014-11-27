@@ -158,7 +158,7 @@ def runData():
     data = fileFormatRtx.decompress(compressedData)
     fileFormatRtx.extractData(data)
 
-    print data
+    print(data)
 
     path = r"../testData/Bruker"
     filename = "CN.dat"

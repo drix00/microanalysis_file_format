@@ -16,11 +16,13 @@ __svnId__ = "$Id: test_TemCsvFile.py 2280 2011-03-15 21:45:23Z hdemers $"
 # Standard library modules.
 import unittest
 import logging
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
-import TemCsvFile
+import pySpectrumFileFormat.Edax.TemCsvFile as TemCsvFile
 import pyHendrixDemersTools.Files as Files
 
 # Globals and constants variables.
@@ -31,6 +33,8 @@ class TestTemCsvFile(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
         self.filepathRef = Files.getCurrentModulePath(__file__, "../testData/TEM_Edax/OVERALL.CSV")
+        if not os.path.isfile(self.filepathRef):
+            raise SkipTest
 
         self.data = TemCsvFile.TemCsvFile(self.filepathRef)
 

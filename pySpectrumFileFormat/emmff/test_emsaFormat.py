@@ -15,8 +15,11 @@ __svnId__ = "$Id: test_emsaFormat.py 2917 2013-10-14 01:11:56Z hdemers $"
 import unittest
 import logging
 import sys
+import os.path
 
-import emsaFormat
+from nose.plugins.skip import SkipTest
+
+import pySpectrumFileFormat.emmff.emsaFormat as emsaFormat
 import pyHendrixDemersTools.Files as Files
 
 class emsaFormatTestCase(unittest.TestCase):
@@ -25,6 +28,8 @@ class emsaFormatTestCase(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
         self.filepath = Files.getCurrentModulePath(__file__, "../emmff/spectra/spectrum1.emsa")
+        if not os.path.isfile(self.filepath):
+            raise SkipTest
 
         self.emsa = emsaFormat.EmsaFormat(self.filepath)
 

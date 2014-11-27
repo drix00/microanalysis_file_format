@@ -178,7 +178,7 @@ class GenesisPolarisFile(object):
 
             energy_eV = float(values[0])
 
-            time = long(values[1])
+            time = values[1]
 
             cspData.append((energy_eV, time))
 
@@ -198,7 +198,7 @@ class GenesisPolarisFile(object):
 
             values = struct.unpack(self.pixelTimesFormat, pixelTimesStr)
 
-            pixelTime = long(values[0])
+            pixelTime = values[0]
 
             pixelTimes.append(pixelTime)
 
@@ -220,21 +220,21 @@ class GenesisPolarisFile(object):
 
         header["tag"] = values[0]
 
-        header["version"] = long(values[1])
-        header["nPoints"] = long(values[2])
-        header["nLines"] = long(values[3])
+        header["version"] = values[1]
+        header["nPoints"] = values[2]
+        header["nLines"] = values[3]
 
-        header["pixOffset"] = long(values[4])
-        header["pixSize"] = long(values[5])
-        header["dataOffset"] = long(values[6])
-        header["dataSize"] = long(values[7])
+        header["pixOffset"] = values[4]
+        header["pixSize"] = values[5]
+        header["dataOffset"] = values[6]
+        header["dataSize"] = values[7]
 
         header["dwell"] = float(values[8])
 
         header["date"] = values[9]
 
-        header["analyzerType"] = long(values[10])
-        header["analysisMode"] = long(values[11])
+        header["analyzerType"] = values[10]
+        header["analysisMode"] = values[11]
 
         header["preset"] = float(values[12])
         header["liveTime"] = float(values[13])
@@ -256,7 +256,7 @@ class GenesisPolarisFile(object):
         keys.sort()
 
         for key in keys:
-            print "%30s: %s" % (key, str(self.header[key]))
+            print("%30s: %s" % (key, str(self.header[key])))
 
     # TODO: Get spectrum from a pixel.
     def getSpectrum(self, eVChannel=1.0, limits=None):

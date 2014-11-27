@@ -26,7 +26,7 @@ from collections import MutableMapping
 # Third party modules.
 
 # Local modules.
-from misctools.formatter import formatter
+from pySpectrumFileFormat.emmff.formatter import formatter
 
 # Globals and constants variables.
 
@@ -255,11 +255,11 @@ class Emsa(object):
 
           >>> spectrum1 = emsa.Emsa()
           >>> spectrum1.header.beamkv = 15.0
-          >>> print spectrum.header.beamkv
+          >>> print(spectrum.header.beamkv)
           >>> 15.0
 
           >>> spectrum1.header[BEAM_ENERGY] = 15.0
-          >>> print spectrum.header[BEAM_ENERGY]
+          >>> print(spectrum.header[BEAM_ENERGY])
           >>> 15.0
         """
         self._header = EmsaHeader()
@@ -280,11 +280,11 @@ class Emsa(object):
 
           >>> spectrum1 = emsa.Emsa()
           >>> spectrum1.header.title = "Spectrum 1"
-          >>> print spectrum.header.title
+          >>> print(spectrum.header.title)
           >>> Spectrum 1
 
           >>> spectrum1.header[TITLE] = "Spectrum 1"
-          >>> print spectrum.header[TITLE]
+          >>> print(spectrum.header[TITLE])
           >>> Spectrum 1
         """
         return self._header
@@ -297,15 +297,15 @@ class Emsa(object):
         """
         for keyword in _REQUIRED_KEYWORDS:
             if keyword not in self.header:
-                raise ValueError, "Missing required keyword: %s" % keyword
+                raise ValueError("Missing required keyword: %s" % keyword)
 
         if len(self.xdata) != len(self.ydata):
-            raise ValueError, "Number of x points (%i) != number of y points (%i)" % \
-                (len(self.xdata), len(self.ydata))
+            raise ValueError("Number of x points (%i) != number of y points (%i)" % \
+                (len(self.xdata), len(self.ydata)))
 
         if self.header.npoints != len(self.ydata):
-            raise ValueError, "Keyword NPOINTS (%i) != number of points in the data (%i)" % \
-                (self.header.npoints, len(self.ydata))
+            raise ValueError("Keyword NPOINTS (%i) != number of points in the data (%i)" % \
+                (self.header.npoints, len(self.ydata)))
 
     def get_data(self):
         """
@@ -352,8 +352,8 @@ class EmsaReader(object):
         if self._checksum > 0: # only check if a checksum is in the input file
             checksum = _calculate_checksum(lines)
             if checksum != self._checksum:
-                raise IOError, "The checksums don't match: %i != %i " % \
-                    (checksum, self._checksum)
+                raise IOError("The checksums don't match: %i != %i " % \
+                    (checksum, self._checksum))
 
         # Create xdata for DATA_TYPE == Y
         emsa.header.npoints = len(emsa.ydata)
@@ -482,7 +482,7 @@ class EmsaWriter(object):
             header.pop(keyword)
 
         # Other keywords
-        for keyword, value in header.iteritems():
+        for keyword, value in header.items():
             lines.append(self._create_keyword_line(keyword, value))
 
         # Data lines
