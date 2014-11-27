@@ -16,11 +16,13 @@ __svnId__ = "$Id: test_genesisPolarisFile.py 2282 2011-03-15 21:46:04Z hdemers $
 # Standard library modules.
 import unittest
 import logging
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
-import genesisPolarisFile
+import pySpectrumFileFormat.VeriCold.genesisPolarisFile as genesisPolarisFile
 import pyHendrixDemersTools.Files as Files
 
 # Globals and constants variables.
@@ -31,6 +33,8 @@ class TestgenesisPolarisFile(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
         self.filepath = Files.getCurrentModulePath(__file__, "../testData/k3670_30keV_OFeCalibration.csp")
+        if not os.path.isfile(self.filepath):
+            raise SkipTest
 
         self.gpFile = genesisPolarisFile.GenesisPolarisFile()
 

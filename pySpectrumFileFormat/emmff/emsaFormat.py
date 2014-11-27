@@ -407,7 +407,7 @@ class EmsaFormat:
                     if self.setFunction.has_key(RequiredKeyword.__dict__[variable]):
                         EmsaFormat.__dict__[self.setFunction[RequiredKeyword.__dict__[variable]]](self, keyword["data"])
                         if checkOrder != keyword["order"]:
-                            print "Warning keyword in the wrong order."
+                            print("Warning keyword in the wrong order.")
                             self.isFileValid = False
 
             for variable in OptionalKeyword.__dict__.keys():
@@ -415,7 +415,7 @@ class EmsaFormat:
                     if self.setFunction.has_key(OptionalKeyword.__dict__[variable]):
                         EmsaFormat.__dict__[self.setFunction[OptionalKeyword.__dict__[variable]]](self, keyword["data"])
                         if checkOrder != keyword["order"]:
-                            print "Warning keyword in the wrong order."
+                            print("Warning keyword in the wrong order.")
                             self.isFileValid = False
 
             for variable in OptionalUserDefinedKeyword.OxfordInstruments.__dict__.keys():
@@ -423,7 +423,7 @@ class EmsaFormat:
                     if self.setFunction.has_key(OptionalUserDefinedKeyword.OxfordInstruments.__dict__[variable]):
                         EmsaFormat.__dict__[self.setFunction[OptionalUserDefinedKeyword.OxfordInstruments.__dict__[variable]]](self, keyword["data"])
                         if checkOrder != keyword["order"]:
-                            print "Warning keyword in the wrong order."
+                            print("Warning keyword in the wrong order.")
                             self.isFileValid = False
 
     def setFormat(self, newFormat):
@@ -586,7 +586,7 @@ class EmsaFormat:
                     try:
                         self.xData.append(values[0])
                         self.yData.append(values[1])
-                    except IndexError, message:
+                    except IndexError as message:
                         logging.error(message)
                         logging.info(values)
                         logging.info(self.filename)

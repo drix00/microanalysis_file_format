@@ -25,7 +25,7 @@ import numpy as np
 # Local modules.
 
 # Project modules
-import ParametersFile
+import pySpectrumFileFormat.OxfordInstruments.MapRaw.ParametersFile as ParametersFile
 
 # Globals and constants variables.
 
@@ -161,7 +161,7 @@ class MapRawFormat(object):
             x = np.arange(0, self._parameters.depth)
             y = np.zeros_like(x)
             rawFile = open(self._rawFilepath, 'rb')
-            for channel in xrange(self._parameters.depth):
+            for channel in range(self._parameters.depth):
                 fileOffset = self._parameters.offset + (pixelId + channel*imageOffset)*self._parameters.dataLength_B
                 rawFile.seek(fileOffset)
                 fileBuffer = rawFile.read(struct.calcsize(self._format))
@@ -197,7 +197,7 @@ class MapRawFormat(object):
 
         if self._parameters.recordBy == ParametersFile.RECORED_BY_IMAGE:
             sumSpectrumformat = self._generateSumSpectraFormat(self._parameters)
-            for channel in xrange(self._parameters.depth):
+            for channel in range(self._parameters.depth):
                 logging.info("Channel: %i", channel)
                 fileBuffer = rawFile.read(struct.calcsize(sumSpectrumformat))
                 items = struct.unpack(sumSpectrumformat, fileBuffer)
@@ -223,7 +223,7 @@ class MapRawFormat(object):
         x = np.arange(0, self._parameters.depth)
         ySum = np.zeros_like(x)
 
-        for pixelId in xrange(numberPixels):
+        for pixelId in range(numberPixels):
             _x, y = self.getSpectrum(pixelId)
             ySum += y
 

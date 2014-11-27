@@ -22,7 +22,7 @@ import logging
 # Local modules.
 
 # Project modules
-import MapRawFormat
+import pySpectrumFileFormat.OxfordInstruments.MapRaw.MapRawFormat as MapRawFormat
 
 # Globals and constants variables.
 

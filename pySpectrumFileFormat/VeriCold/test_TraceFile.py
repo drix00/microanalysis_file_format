@@ -19,9 +19,10 @@ import logging
 import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
-import TraceFile
+import pySpectrumFileFormat.VeriCold.TraceFile as TraceFile
 import pyHendrixDemersTools.Files as Files
 
 # Globals and constants variables.
@@ -32,6 +33,8 @@ class TestTraceFile(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
         self.filepath = Files.getCurrentModulePath(__file__, "../testData/test01.trc")
+        if not os.path.isfile(self.filepath):
+            raise SkipTest
 
         self.traceFile = TraceFile.TraceFile(self.filepath)
 

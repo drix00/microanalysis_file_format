@@ -19,9 +19,10 @@ import logging
 import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
-import JEOL8900McGill
+import pySpectrumFileFormat.EPMA.JEOL8900McGill as JEOL8900McGill
 import pyHendrixDemersTools.Files as Files
 
 # Globals and constants variables.
@@ -34,6 +35,8 @@ class TestJEOL8900McGill(unittest.TestCase):
         projectPath =Files.getCurrentModulePath(__file__)
 
         self.filename = os.path.join(projectPath, "../testData/data0407.ful")
+        if not os.path.isfile(self.filename):
+            raise SkipTest
 
         self.linescanFile = JEOL8900McGill.JEOL8900McGill(self.filename)
 

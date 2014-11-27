@@ -19,9 +19,10 @@ import logging
 import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
-import ReadAllSpectrumResults
+import pySpectrumFileFormat.OxfordInstruments.INCA.ReadAllSpectrumResults as ReadAllSpectrumResults
 import pyHendrixDemersTools.Files as Files
 
 # Globals and constants variables.
@@ -32,6 +33,8 @@ class TestReadAllSpectrumResults(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
         self.filepath = Files.getCurrentModulePath(__file__, "../../testData/AllSpectra.txt")
+        if not os.path.isfile(self.filepath):
+            raise SkipTest
 
         self.results = ReadAllSpectrumResults.ReadAllSpectrumResults(self.filepath)
 

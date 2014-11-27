@@ -19,12 +19,13 @@ import logging
 import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import pyHendrixDemersTools.Files as Files
 
 # Project modules
-import ParametersFile
+import pySpectrumFileFormat.Bruker.MapRaw.ParametersFile as ParametersFile
 
 # Globals and constants variables.
 
@@ -60,6 +61,8 @@ class TestParametersFile(unittest.TestCase):
     def test_read(self):
         filename = "Map30kV.rpl"
         filepath = os.path.join(self.path, filename)
+        if not os.path.isfile(filepath):
+            raise SkipTest
 
         parameters = ParametersFile.ParametersFile()
         parameters.read(filepath)
