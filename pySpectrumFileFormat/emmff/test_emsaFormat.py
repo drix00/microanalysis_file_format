@@ -184,9 +184,10 @@ class emsaFormatTestCase(unittest.TestCase):
         self.assertEqual(1, self.emsa.isLineData(line)[2], msg="With leading space")
 
         line = "         0.0000,             0.0,"
-        self.assertEqual(True, self.emsa.isLineData(line)[0], msg="With leading space")
-        self.assertEqual('XY', self.emsa.isLineData(line)[1], msg="With leading space")
-        self.assertEqual(2, self.emsa.isLineData(line)[2], msg="With leading space")
+        flag, mode, number = self.emsa.isLineData(line)
+        self.assertEqual(True, flag, msg="With leading space")
+        self.assertEqual('Y', mode, msg="With leading space")
+        self.assertEqual(2, number, msg="With leading space")
 
     def testIsLineKeyword(self):
         line = ""
@@ -505,7 +506,9 @@ class emsaFormatTestCase(unittest.TestCase):
         self.assertAlmostEquals(xDataRef[-10], xData[-10])
 
     def testReadFileTEMBruker(self):
-        filename = Files.getCurrentModulePath(__file__, "../testData/TEM_Bruker/Gold-pt 2-2.msa")
+        filename = Files.getCurrentModulePath(__file__, "../../testData/TEM_Bruker/Gold-pt 2-2.msa")
+        if not os.path.isfile(filename):
+            raise SkipTest
 
         emsa = emsaFormat.EmsaFormat()
         emsa.open(filename)
@@ -518,8 +521,8 @@ class emsaFormatTestCase(unittest.TestCase):
         self.assertEqual(1055, len(emsa.lines))
 
         self.assertEqual(1024, len(emsa.values))
-        self.assertEqual(3072, len(emsa.getDataX()))
-        self.assertEqual(3072, len(emsa.getDataY()))
+        self.assertEqual(4096, len(emsa.getDataX()))
+        self.assertEqual(4096, len(emsa.getDataY()))
 
 if __name__ == '__main__': #pragma: no cover
     logging.getLogger().setLevel(logging.DEBUG)
