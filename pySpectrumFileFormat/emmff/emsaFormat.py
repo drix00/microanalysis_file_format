@@ -154,6 +154,9 @@ class EmsaFormat:
         """Check if the line is a valide data. Return True or False, type (Y, XY),
         and number of column (1--5)."""
 
+        if line is None or line.strip().startswith('#'):
+            return False, None, 0
+
         dataType = self.getDataType()
 
         if dataType == 'Y':
