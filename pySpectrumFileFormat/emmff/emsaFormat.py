@@ -407,7 +407,7 @@ class EmsaFormat:
             checkOrder += 1
             for variable in RequiredKeyword.__dict__.keys():
                 if RequiredKeyword.__dict__.get(variable, None) == keyword["keyword"]:
-                    if self.setFunction.has_key(RequiredKeyword.__dict__[variable]):
+                    if RequiredKeyword.__dict__[variable] in self.setFunction:
                         EmsaFormat.__dict__[self.setFunction[RequiredKeyword.__dict__[variable]]](self, keyword["data"])
                         if checkOrder != keyword["order"]:
                             print("Warning keyword in the wrong order.")
@@ -415,7 +415,7 @@ class EmsaFormat:
 
             for variable in OptionalKeyword.__dict__.keys():
                 if OptionalKeyword.__dict__.get(variable, None) == keyword["keyword"]:
-                    if self.setFunction.has_key(OptionalKeyword.__dict__[variable]):
+                    if OptionalKeyword.__dict__[variable] in self.setFunction:
                         EmsaFormat.__dict__[self.setFunction[OptionalKeyword.__dict__[variable]]](self, keyword["data"])
                         if checkOrder != keyword["order"]:
                             print("Warning keyword in the wrong order.")
@@ -423,7 +423,7 @@ class EmsaFormat:
 
             for variable in OptionalUserDefinedKeyword.OxfordInstruments.__dict__.keys():
                 if OptionalUserDefinedKeyword.OxfordInstruments.__dict__.get(variable, None) == keyword["keyword"]:
-                    if self.setFunction.has_key(OptionalUserDefinedKeyword.OxfordInstruments.__dict__[variable]):
+                    if OptionalUserDefinedKeyword.OxfordInstruments.__dict__[variable] in self.setFunction:
                         EmsaFormat.__dict__[self.setFunction[OptionalUserDefinedKeyword.OxfordInstruments.__dict__[variable]]](self, keyword["data"])
                         if checkOrder != keyword["order"]:
                             print("Warning keyword in the wrong order.")

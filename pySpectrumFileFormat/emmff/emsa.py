@@ -321,7 +321,7 @@ def _calculate_checksum(lines):
         if line.startswith('#CHECKSUM'):
             continue
         for character in line:
-            checksum += ord(character)
+            checksum += ord(character.encode('utf-8'))
 
     return checksum
 

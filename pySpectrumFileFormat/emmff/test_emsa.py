@@ -13,6 +13,7 @@ import unittest
 import logging
 import tempfile
 import os
+from six import PY2, PY3
 
 # Third party modules.
 from nose.plugins.skip import SkipTest
@@ -32,8 +33,12 @@ class TestEmsaReader(unittest.TestCase):
         filepath = Files.getCurrentModulePath(__file__, "spectra/spectrum1.emsa")
         if not os.path.isfile(filepath):
             raise SkipTest
-        with open(filepath, 'rb') as f:
-            self.emsa = emsa.read(f)
+        if PY3:
+            with open(filepath, 'r', newline="\r\n") as f:
+                self.emsa = emsa.read(f)
+        elif PY2:
+            with open(filepath, 'rb') as f:
+                self.emsa = emsa.read(f)
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
@@ -270,11 +275,15 @@ class TestEmsaWriter(unittest.TestCase):
         os.remove(self.f.name)
 
     def testskeleton(self):
-        self.assert_(True)
+        self.assertTrue(True)
 
     def testlines(self):
-        with open(self.f.name, 'r') as f:
-            lines = [line.strip() for line in f.readlines()]
+        if PY3:
+            with open(self.f.name, 'r', newline="\r\n") as f:
+                lines = [line.strip() for line in f.readlines()]
+        elif PY2:
+            with open(self.f.name, 'rb') as f:
+                lines = [line.strip() for line in f.readlines()]
 
         self.assertEqual(len(lines), len(self.LINES))
 
