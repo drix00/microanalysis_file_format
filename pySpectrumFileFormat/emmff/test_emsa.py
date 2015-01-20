@@ -244,7 +244,10 @@ class TestEmsaWriter(unittest.TestCase):
 
         spectrum = self._create_emsa()
 
-        self.f = tempfile.NamedTemporaryFile('w', delete=False)
+        if PY3:
+            self.f = tempfile.NamedTemporaryFile('w', delete=False, newline="\r\n")
+        elif PY2:
+            self.f = tempfile.NamedTemporaryFile('w', delete=False)
         emsa.write(spectrum, self.f)
         self.f.close()
 
