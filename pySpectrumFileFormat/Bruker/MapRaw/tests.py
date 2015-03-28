@@ -25,4 +25,8 @@ import pyHendrixDemersTools.Testings as Testings
 # Globals and constants variables.
 
 if __name__ == "__main__": #pragma: no cover
-    Testings.runTestSuiteWithCoverage(packageName=__file__)
+    import nose
+    import sys
+    argv = sys.argv
+    argv.append("--cover-package=pySpectrumFileFormat.Bruker.MapRaw")
+    nose.main(argv=argv)

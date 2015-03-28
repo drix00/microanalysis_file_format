@@ -25,7 +25,7 @@ import numpy as np
 # Local modules.
 
 # Project modules
-import pySpectrumFileFormat.OxfordInstruments.MapRaw.ParametersFile as ParametersFile
+import pySpectrumFileFormat.Bruker.MapRaw.ParametersFile as ParametersFile
 
 # Globals and constants variables.
 
@@ -38,6 +38,8 @@ class MapRawFormat(object):
 
         self._parameters = ParametersFile.ParametersFile()
         self._parameters.read(parametersFilepath)
+
+        self._data = None
 
         self._format = self._generateFormat(self._parameters)
 
@@ -149,43 +151,22 @@ class MapRawFormat(object):
 
         return spectrumFormat
 
-    def getSpectrum(self, pixelId):
-        logging.debug("Pixel ID: %i", pixelId)
-
+    def getSpectrum(self, pixelX, pixelY):
         imageOffset = self._parameters.width*self._parameters.height
         logging.debug("File offset: %i", imageOffset)
 
-        logging.debug("Size: %i", struct.calcsize(self._format))
+        self._read_data()
 
         if self._parameters.recordBy == ParametersFile.RECORED_BY_IMAGE:
-            x = np.arange(0, self._parameters.depth)
-            y = np.zeros_like(x)
-            rawFile = open(self._rawFilepath, 'rb')
-            for channel in range(self._parameters.depth):
-                fileOffset = self._parameters.offset + (pixelId + channel*imageOffset)*self._parameters.dataLength_B
-                rawFile.seek(fileOffset)
-                fileBuffer = rawFile.read(struct.calcsize(self._format))
-                items = struct.unpack(self._format, fileBuffer)
-                y[channel] = float(items[0])
+            spectrum = self._data[:, pixelY, pixelX]
 
-            rawFile.close()
         elif self._parameters.recordBy == ParametersFile.RECORED_BY_VECTOR:
-            spectrumFormat = self._generateSpectraFormatVector(self._parameters)
+            spectrum = self._data[pixelY, pixelX, :]
 
-            x = np.arange(0, self._parameters.depth)
-            y = np.zeros_like(x)
-            rawFile = open(self._rawFilepath, 'rb')
+        channels = np.arange(0, self._parameters.depth)
 
-            fileOffset = self._parameters.offset + pixelId*self._parameters.dataLength_B
-            rawFile.seek(fileOffset)
-            fileBuffer = rawFile.read(struct.calcsize(spectrumFormat))
-            items = struct.unpack(spectrumFormat, fileBuffer)
-            y = np.array(items)
-
-            rawFile.close()
-
-            assert len(x) == len(y)
-        return x, y
+        assert len(channels) == len(spectrum)
+        return channels, spectrum
 
     def getSumSpectrum(self):
         imageOffset = self._parameters.width*self._parameters.height
@@ -228,6 +209,55 @@ class MapRawFormat(object):
             ySum += y
 
         return x, ySum
+
+    def getTotalIntensityImage(self):
+        width = self._parameters.width
+        height = self._parameters.height
+        shape = (width, height)
+        image = np.zeros(shape=shape)
+
+        pixelID = 0
+        for i in range(width):
+            for j in range(height):
+                _x, y = self.getSpectrum(pixelID)
+                image[i, j] = np.sum(y)
+                pixelID += 1
+
+    def _read_data(self):
+        mmap_mode = 'c'
+        if self._data is None:
+            if self._parameters.dataType == 'signed':
+                data_type = 'int'
+            elif self._parameters.dataType == 'unsigned':
+                data_type = 'uint'
+            elif self._parameters.dataType == 'float':
+                pass
+            else:
+                raise TypeError('Unknown "data-type" string.')
+
+            if self._parameters.byteOrder == 'big-endian':
+                endian = '>'
+            elif self._parameters.byteOrder == 'little-endian':
+                endian = '<'
+            else:
+                endian = '='
+
+            data_type = data_type + str(int(self._parameters.dataLength_B) * 8)
+            data_type = np.dtype(data_type)
+            data_type = data_type.newbyteorder(endian)
+
+            #self._data = np.fromfile(self._rawFilepath, dtype=data_type)
+            self._data = np.memmap(self._rawFilepath, offset=self._parameters.offset, dtype=data_type, mode=mmap_mode)
+
+            if self._parameters.recordBy == 'vector':
+                shape = (self._parameters.height, self._parameters.width, self._parameters.depth)
+                self._data = self._data.reshape(shape)
+            elif self._parameters.recordBy == 'image':
+                shape = (self._parameters.depth, self._parameters.height, self._parameters.width)
+                self._data = self._data.reshape(shape)
+            elif self._parameters.recordBy == 'dont-care':
+                shape = (self._parameters.height, self._parameters.width)
+                self._data = self._data.reshape(shape)
 
 def run():
     path = r"J:\hdemers\work\mcgill2012\results\experimental\McGill\su8000\others\exampleEDS"
