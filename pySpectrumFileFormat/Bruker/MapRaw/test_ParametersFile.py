@@ -41,7 +41,7 @@ class TestParametersFile(unittest.TestCase):
 
         unittest.TestCase.setUp(self)
 
-        self.path = Files.getCurrentModulePath(__file__, "../../testData/OxfordInstruments/MapRaw")
+        self.path = Files.getCurrentModulePath(__file__, "../../../testData/Bruker/MapRaw")
 
     def tearDown(self):
         """
@@ -59,7 +59,7 @@ class TestParametersFile(unittest.TestCase):
         self.assert_(True)
 
     def test_read(self):
-        filename = "Map30kV.rpl"
+        filename = "Sample01.rpl"
         filepath = os.path.join(self.path, filename)
         if not os.path.isfile(filepath):
             raise SkipTest
@@ -67,63 +67,20 @@ class TestParametersFile(unittest.TestCase):
         parameters = ParametersFile.ParametersFile()
         parameters.read(filepath)
 
-        self.assertEquals(512, parameters.width)
-        self.assertEquals(384, parameters.height)
+        self.assertEquals(1024, parameters.width)
+        self.assertEquals(768, parameters.height)
         self.assertEquals(2048, parameters.depth)
         self.assertEquals(0, parameters.offset)
         self.assertEquals(1, parameters.dataLength_B)
         self.assertEquals(ParametersFile.DATA_TYPE_UNSIGNED, parameters.dataType)
         self.assertEquals(ParametersFile.BYTE_ORDER_DONT_CARE, parameters.byteOrder)
-        self.assertEquals("IMAGE \"Site of Interest 1\"", parameters.recordBy)
-
-        filename = "Project 1.rpl"
-        filepath = os.path.join(self.path, filename)
-
-        parameters = ParametersFile.ParametersFile()
-        parameters.read(filepath)
-
-        self.assertEquals(512, parameters.width)
-        self.assertEquals(384, parameters.height)
-        self.assertEquals(2048, parameters.depth)
-        self.assertEquals(0, parameters.offset)
-        self.assertEquals(2, parameters.dataLength_B)
-        self.assertEquals(ParametersFile.DATA_TYPE_SIGNED, parameters.dataType)
-        self.assertEquals(ParametersFile.BYTE_ORDER_LITTLE_ENDIAN, parameters.byteOrder)
-        self.assertEquals("IMAGE \"Site of Interest 1\"", parameters.recordBy)
-
-        filename = "mapSOI_15.rpl"
-        filepath = os.path.join(self.path, filename)
-
-        parameters = ParametersFile.ParametersFile()
-        parameters.read(filepath)
-
-        self.assertEquals(512, parameters.width)
-        self.assertEquals(384, parameters.height)
-        self.assertEquals(2048, parameters.depth)
-        self.assertEquals(0, parameters.offset)
-        self.assertEquals(4, parameters.dataLength_B)
-        self.assertEquals(ParametersFile.DATA_TYPE_SIGNED, parameters.dataType)
-        self.assertEquals(ParametersFile.BYTE_ORDER_LITTLE_ENDIAN, parameters.byteOrder)
-        self.assertEquals("IMAGE \"Site of Interest 15\"", parameters.recordBy)
-
-        filename = "mapSOI14.rpl"
-        filepath = os.path.join(self.path, filename)
-
-        parameters = ParametersFile.ParametersFile()
-        parameters.read(filepath)
-
-        self.assertEquals(512, parameters.width)
-        self.assertEquals(384, parameters.height)
-        self.assertEquals(2048, parameters.depth)
-        self.assertEquals(0, parameters.offset)
-        self.assertEquals(4, parameters.dataLength_B)
-        self.assertEquals(ParametersFile.DATA_TYPE_SIGNED, parameters.dataType)
-        self.assertEquals(ParametersFile.BYTE_ORDER_LITTLE_ENDIAN, parameters.byteOrder)
-        self.assertEquals("IMAGE \"Site of Interest 14\"", parameters.recordBy)
+        self.assertEquals("vector", parameters.recordBy)
 
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__':  #pragma: no cover
-    logging.getLogger().setLevel(logging.DEBUG)
-    from pyHendrixDemersTools.Testings import runTestModuleWithCoverage
-    runTestModuleWithCoverage(__file__)
+    import nose
+    import sys
+    argv = sys.argv
+    argv.append("--cover-package=pySpectrumFileFormat.Bruker.MapRaw.ParametersFile")
+    nose.runmodule(argv=argv)

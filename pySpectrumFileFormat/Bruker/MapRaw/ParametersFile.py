@@ -57,7 +57,7 @@ class ParametersFile(object):
     def read(self, filepath):
         logging.info("Reading parameters file: %s", filepath)
 
-        lines = open(filepath, 'rb').readlines()
+        lines = open(filepath, 'r').readlines()
 
         for line in lines:
             line = line.replace('(', '').replace(')', '')
