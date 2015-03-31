@@ -211,17 +211,78 @@ class MapRawFormat(object):
         return x, ySum
 
     def getTotalIntensityImage(self):
-        width = self._parameters.width
-        height = self._parameters.height
-        shape = (width, height)
-        image = np.zeros(shape=shape)
+        self._read_data()
 
-        pixelID = 0
-        for i in range(width):
-            for j in range(height):
-                _x, y = self.getSpectrum(pixelID)
-                image[i, j] = np.sum(y)
-                pixelID += 1
+        if self._parameters.recordBy == ParametersFile.RECORED_BY_IMAGE:
+            image = np.sum(self._data, axis=0)
+
+        elif self._parameters.recordBy == ParametersFile.RECORED_BY_VECTOR:
+            image = np.sum(self._data, axis=2)
+
+        return image
+
+    def getMaximumPixelSpectrum(self):
+        self._read_data()
+
+        if self._parameters.recordBy == ParametersFile.RECORED_BY_IMAGE:
+            spectrum = np.amax(self._data, axis=(1,2))
+
+        elif self._parameters.recordBy == ParametersFile.RECORED_BY_VECTOR:
+            spectrum = np.amax(self._data, axis=(0,1))
+
+        channels = np.arange(0, self._parameters.depth)
+
+        assert len(channels) == len(spectrum)
+        return channels, spectrum
+
+    def getMaximumPixelSpectrumPixels(self):
+        self._read_data()
+        flat_pixels = np.zeros(self._parameters.depth)
+
+        if self._parameters.recordBy == ParametersFile.RECORED_BY_IMAGE:
+            flat_pixels = np.argmax(self._data, axis=0)
+
+        elif self._parameters.recordBy == ParametersFile.RECORED_BY_VECTOR:
+            for channel in np.arange(0, self._parameters.depth):
+                flat_pixels[channel] = np.argmax(self._data[:,:,channel])
+
+
+        pixels = []
+        for pixel in flat_pixels:
+            j = int(pixel/self._parameters.width)
+            i = int(pixel % self._parameters.width)
+            pixels.append((i, j))
+
+        return pixels
+
+    def getMaximumPixelSpectrum2(self):
+        self._read_data()
+        channels = np.arange(0, self._parameters.depth)
+        spectrum = np.zeros_like(channels)
+
+        if self._parameters.recordBy == ParametersFile.RECORED_BY_IMAGE:
+            spectrum = np.amax(self._data, axis=(1,2))
+
+        elif self._parameters.recordBy == ParametersFile.RECORED_BY_VECTOR:
+            for channel in channels:
+                spectrum[channel] = np.amax(self._data[:,:,channel])
+
+        assert len(channels) == len(spectrum)
+        return channels, spectrum
+
+    def getTotalSpectrum(self):
+        self._read_data()
+
+        if self._parameters.recordBy == ParametersFile.RECORED_BY_IMAGE:
+            spectrum = np.sum(self._data, axis=(1,2))
+
+        elif self._parameters.recordBy == ParametersFile.RECORED_BY_VECTOR:
+            spectrum = np.sum(self._data, axis=(0,1))
+
+        channels = np.arange(0, self._parameters.depth)
+
+        assert len(channels) == len(spectrum)
+        return channels, spectrum
 
     def _read_data(self):
         mmap_mode = 'c'
