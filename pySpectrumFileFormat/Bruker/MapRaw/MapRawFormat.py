@@ -221,6 +221,19 @@ class MapRawFormat(object):
 
         return image
 
+    def getRoiIntensityImage(self, channelRange):
+        channel_min, channel_max = channelRange
+
+        self._read_data()
+
+        if self._parameters.recordBy == ParametersFile.RECORED_BY_IMAGE:
+            image = np.sum(self._data[channel_min:channel_max, ...], axis=0)
+
+        elif self._parameters.recordBy == ParametersFile.RECORED_BY_VECTOR:
+            image = np.sum(self._data[...,channel_min:channel_max], axis=2)
+
+        return image
+
     def getMaximumPixelSpectrum(self):
         self._read_data()
 
