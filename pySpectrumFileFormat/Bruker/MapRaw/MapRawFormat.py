@@ -168,31 +168,34 @@ class MapRawFormat(object):
         assert len(channels) == len(spectrum)
         return channels, spectrum
 
-    def getSumSpectrum(self):
+    def getROISpectrum(self, pixelXmin, pixelXmax, pixelYmin, pixelYmax):
         imageOffset = self._parameters.width*self._parameters.height
-        x = np.arange(0, self._parameters.depth)
-        y = np.zeros_like(x)
-        rawFile = open(self._rawFilepath, 'rb')
-        fileOffset = self._parameters.offset
-        rawFile.seek(fileOffset)
+        logging.debug("File offset: %i", imageOffset)
+
+        self._read_data()
 
         if self._parameters.recordBy == ParametersFile.RECORED_BY_IMAGE:
-            sumSpectrumformat = self._generateSumSpectraFormat(self._parameters)
-            for channel in range(self._parameters.depth):
-                logging.info("Channel: %i", channel)
-                fileBuffer = rawFile.read(struct.calcsize(sumSpectrumformat))
-                items = struct.unpack(sumSpectrumformat, fileBuffer)
-                y[channel] = np.sum(items)
+            spectrum = np.sum(self._data[:, pixelYmin:pixelYmax+1, pixelXmin:pixelXmax+1], axis=(1,2))
 
         elif self._parameters.recordBy == ParametersFile.RECORED_BY_VECTOR:
-            sumSpectrumformat = self._generateSumSpectraFormatVector(self._parameters)
-            fileBuffer = rawFile.read(struct.calcsize(sumSpectrumformat))
-            items = struct.unpack(sumSpectrumformat, fileBuffer)
-            data = np.array(items)
-            data = data.reshape(self._parameters.width, self._parameters.height, self._parameters.depth)
-            y = data.sum(axis=(0, 1))
+            spectrum = np.sum(self._data[pixelYmin:pixelYmax+1, pixelXmin:pixelXmax+1, :], axis=(0,1))
 
-        rawFile.close()
+        channels = np.arange(0, self._parameters.depth)
+
+        assert len(channels) == len(spectrum)
+        return channels, spectrum
+
+    def getSumSpectrum(self):
+        x = np.arange(0, self._parameters.depth)
+        y = np.zeros_like(x)
+
+        self._read_data()
+
+        if self._parameters.recordBy == ParametersFile.RECORED_BY_IMAGE:
+            raise NotImplementedError
+
+        elif self._parameters.recordBy == ParametersFile.RECORED_BY_VECTOR:
+            y = self._data.sum(axis=(0, 1))
 
         assert len(x) == len(y)
         return x, y
@@ -320,7 +323,6 @@ class MapRawFormat(object):
             data_type = np.dtype(data_type)
             data_type = data_type.newbyteorder(endian)
 
-            #self._data = np.fromfile(self._rawFilepath, dtype=data_type)
             self._data = np.memmap(self._rawFilepath, offset=self._parameters.offset, dtype=data_type, mode=mmap_mode)
 
             if self._parameters.recordBy == 'vector':
