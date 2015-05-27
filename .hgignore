@@ -4,3 +4,4 @@ testData/
 *.emsa
 .coverage
 *.pyc
+pySpectrumFileFormat.egg-info/
