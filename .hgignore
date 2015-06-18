@@ -5,3 +5,5 @@ testData/
 .coverage
 *.pyc
 pySpectrumFileFormat.egg-info/
+build/
+dist/
