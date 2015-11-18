@@ -433,7 +433,7 @@ class EmsaReader(object):
         return row
 
     def _create_xdata(self, npoints, offset, xperchan):
-        return [offset.val + xperchan.val * i for i in range(npoints)]
+        return [offset + xperchan * i for i in range(npoints)]
 
 def read(fileobj):
     """
