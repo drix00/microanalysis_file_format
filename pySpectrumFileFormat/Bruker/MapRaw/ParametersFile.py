@@ -29,14 +29,14 @@ DATA_TYPE_SIGNED = "signed"
 BYTE_ORDER_DONT_CARE = "dont-care"
 BYTE_ORDER_LITTLE_ENDIAN = "little-endian"
 
-RECORED_BY_IMAGE = "IMAGE"
+RECORED_BY_IMAGE = "image"
 RECORED_BY_VECTOR = "vector"
 
 KEY_WIDTH = "width"
 KEY_HEIGHT = "height"
 KEY_DEPTH = "depth"
 KEY_OFFSET = "offset"
-KEY_DATA_LENGTH_B = "data-Length"
+KEY_DATA_LENGTH_B = "data-length"
 KEY_DATA_TYPE = "data-type"
 KEY_BYTE_ORDER = "byte-order"
 KEY_RECORED_BY = "record-by"
@@ -61,12 +61,13 @@ class ParametersFile(object):
 
         for line in lines:
             line = line.replace('(', '').replace(')', '')
-
+            line = line.lower()
+            
             keywords = self._getKeywords()
             valueFormatters = self._getValueFormatter()
             for keyword in keywords:
                 if keyword in line:
-                    value = line.replace(keyword, '')
+                    value = line.replace(keyword, '').replace("mlx::", '').replace(":", '')
                     valueFormatter = valueFormatters[keyword]
                     self._parameters[keyword] = valueFormatter(value)
 
@@ -94,7 +95,7 @@ class ParametersFile(object):
         valueFormatters[KEY_DATA_LENGTH_B] = int
         valueFormatters[KEY_DATA_TYPE] = self._extractDataType
         valueFormatters[KEY_BYTE_ORDER] = self._extractByteOrder
-        valueFormatters[KEY_RECORED_BY] = self._extractString
+        valueFormatters[KEY_RECORED_BY] = self._extractRecordBy
 
         return valueFormatters
 
@@ -116,6 +117,12 @@ class ParametersFile(object):
 
     def _extractString(self, valueStr):
         return valueStr.strip()
+
+    def _extractRecordBy(self, valueStr):
+        if RECORED_BY_IMAGE in valueStr:
+            return RECORED_BY_IMAGE
+        elif RECORED_BY_VECTOR in valueStr:
+            return RECORED_BY_VECTOR
 
     @property
     def width(self):
@@ -172,7 +179,3 @@ class ParametersFile(object):
     @recordBy.setter
     def recordBy(self, recordBy):
         self._parameters[KEY_RECORED_BY] = recordBy
-
-if __name__ == '__main__': #pragma: no cover
-    import pyHendrixDemersTools.Runner as Runner
-    Runner.Runner().run(runFunction=None)

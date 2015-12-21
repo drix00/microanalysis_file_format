@@ -15,7 +15,6 @@ __license__ = ""
 
 # Standard library modules.
 import os.path
-import struct
 import logging
 
 # Third party modules.
@@ -167,6 +166,23 @@ class MapRawFormat(object):
 
         assert len(channels) == len(spectrum)
         return channels, spectrum
+    
+    def getDataCube(self):
+        
+        self._read_data()
+
+        if self._parameters.recordBy == ParametersFile.RECORED_BY_IMAGE:
+            datacube = self._data[:, :, :]
+            print(datacube.shape)
+            datacube = np.rollaxis(datacube, 0, 3)
+            print(datacube.shape)
+
+        elif self._parameters.recordBy == ParametersFile.RECORED_BY_VECTOR:
+            datacube = self._data[:, :, :]
+
+        channels = np.arange(0, self._parameters.depth)
+
+        return channels, datacube
 
     def getROISpectrum(self, pixelXmin, pixelXmax, pixelYmin, pixelYmax):
         imageOffset = self._parameters.width*self._parameters.height
@@ -336,17 +352,21 @@ class MapRawFormat(object):
                 self._data = self._data.reshape(shape)
 
 def run():
-    path = r"J:\hdemers\work\mcgill2012\results\experimental\McGill\su8000\others\exampleEDS"
+    path = r"F:\backup_su8230\bruker_data\Quantax User\edx\Data\2015\Demopoulos\Christine\D3-900"
     #filename = "Map30kV.raw"
-    filename = "Project 1.raw"
+    filename = "D3-900-map4.raw"
     filepath = os.path.join(path, filename)
 
     mapRaw = MapRawFormat(filepath)
 
+    channels, datacube = mapRaw.getDataCube()
+    plt.figure()
+    plt.plot(channels, datacube[100,100,:])
+
     line = 150
     column = 150
     pixelId = line + column*512
-    xData, yData = mapRaw.getSpectrum(pixelId=pixelId)
+    xData, yData = mapRaw.getSpectrum(line, column)
 
     plt.figure()
     plt.plot(xData, yData)
@@ -355,11 +375,22 @@ def run():
 
     plt.figure()
     plt.plot(xData, yData)
-    plt.show()
+    
+    path = r"G:\backup_su8000\eds_ebsd\2010-2013-EDS\HDemers\AuCuStandard"
+    filename = r"20130701_AuMap.raw"
+    filepath = os.path.join(path, filename)
 
+    mapRaw = MapRawFormat(filepath)
+
+    channels, datacube = mapRaw.getDataCube()
+    plt.figure()
+    plt.plot(channels, datacube[0,0,:])
+
+    plt.show()
+    
 def run20120307():
-    path = r"J:\hdemers\work\mcgill2012\results\experimental\McGill\su8000\hdemers\20120307\rareearthSample"
-    filename = "mapSOI_15.raw"
+    path = r"G:\backup_su8000\eds_ebsd\2010-2013-EDS\HDemers\20120307\rareearthSample"
+    filename = "D3-900-map4.raw"
     filepath = os.path.join(path, filename)
 
     mapRaw = MapRawFormat(filepath)
@@ -374,5 +405,4 @@ def run20120307():
     plt.show()
 
 if __name__ == '__main__': #pragma: no cover
-    import pyHendrixDemersTools.Runner as Runner
-    Runner.Runner().run(runFunction=run)
+    run()
