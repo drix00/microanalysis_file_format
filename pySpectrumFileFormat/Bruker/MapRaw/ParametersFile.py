@@ -40,6 +40,8 @@ KEY_DATA_LENGTH_B = "data-length"
 KEY_DATA_TYPE = "data-type"
 KEY_BYTE_ORDER = "byte-order"
 KEY_RECORED_BY = "record-by"
+KEY_ENERGY_keV = "E0_kV"
+KEY_PIXEL_SIZE_nm = "px_size_nm"
 
 class ParametersFile(object):
     def __init__(self):
@@ -53,6 +55,8 @@ class ParametersFile(object):
         self.dataType = None
         self.byteOrder = None
         self.recordBy = ""
+        self.energy_keV = None
+        self.pixel_size_nm = None
 
     def read(self, filepath):
         logging.info("Reading parameters file: %s", filepath)
@@ -66,8 +70,8 @@ class ParametersFile(object):
             keywords = self._getKeywords()
             valueFormatters = self._getValueFormatter()
             for keyword in keywords:
-                if keyword in line:
-                    value = line.replace(keyword, '').replace("mlx::", '').replace(":", '')
+                if keyword.lower() in line:
+                    value = line.replace(keyword.lower(), '').replace("mlx::", '').replace(":", '')
                     valueFormatter = valueFormatters[keyword]
                     self._parameters[keyword] = valueFormatter(value)
 
@@ -82,6 +86,8 @@ class ParametersFile(object):
         keywords.append(KEY_DATA_TYPE)
         keywords.append(KEY_BYTE_ORDER)
         keywords.append(KEY_RECORED_BY)
+        keywords.append(KEY_ENERGY_keV)
+        keywords.append(KEY_PIXEL_SIZE_nm)
 
         return keywords
 
@@ -96,6 +102,8 @@ class ParametersFile(object):
         valueFormatters[KEY_DATA_TYPE] = self._extractDataType
         valueFormatters[KEY_BYTE_ORDER] = self._extractByteOrder
         valueFormatters[KEY_RECORED_BY] = self._extractRecordBy
+        valueFormatters[KEY_ENERGY_keV] = float
+        valueFormatters[KEY_PIXEL_SIZE_nm] = float
 
         return valueFormatters
 
@@ -179,3 +187,18 @@ class ParametersFile(object):
     @recordBy.setter
     def recordBy(self, recordBy):
         self._parameters[KEY_RECORED_BY] = recordBy
+        
+    @property
+    def energy_keV(self):
+        return self._parameters[KEY_ENERGY_keV]
+    @energy_keV.setter
+    def energy_keV(self, energy_keV):
+        self._parameters[KEY_ENERGY_keV] = energy_keV
+        
+    @property
+    def pixel_size_nm(self):
+        return self._parameters[KEY_PIXEL_SIZE_nm]
+    @pixel_size_nm.setter
+    def pixel_size_nm(self, pixel_size_nm):
+        self._parameters[KEY_PIXEL_SIZE_nm] = pixel_size_nm
+
