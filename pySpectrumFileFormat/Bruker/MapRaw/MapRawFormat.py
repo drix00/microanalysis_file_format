@@ -315,6 +315,9 @@ class MapRawFormat(object):
 
         assert len(channels) == len(spectrum)
         return channels, spectrum
+        
+    def getParameters(self):
+        return self._parameters
 
     def _read_data(self):
         mmap_mode = 'c'
