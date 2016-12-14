@@ -1,17 +1,30 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2007 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: VeriCold.genesisPolarisFile
+   :synopsis: Read genesis polaris file.
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2293 $"
-__svnDate__ = "$Date: 2011-03-21 14:39:25 -0400 (Mon, 21 Mar 2011) $"
-__svnId__ = "$Id: genesisPolarisFile.py 2293 2011-03-21 18:39:25Z hdemers $"
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Read genesis polaris file.
+"""
+
+###############################################################################
+# Copyright 2007 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import os.path
@@ -22,6 +35,8 @@ import numpy
 import scipy.stats as stats
 
 # Local modules.
+
+# Project modules.
 
 # Globals and constants variables.
 
@@ -69,73 +84,73 @@ class GenesisPolarisFile(object):
         return os.stat(filepath).st_size
 
     def getHeaderFormat(self):
-        format = "<"
+        header_format = "<"
 
         # tag[16]
-        format += "16s"
+        header_format += "16s"
         # version
-        format += "3l"
+        header_format += "3l"
 
         # pixOffset
-        format += "4L"
+        header_format += "4L"
 
         # dwell
-        format += "f"
+        header_format += "f"
 
-        # TODO: find the correct format for date.
+        # TODO: find the correct header_format for date.
         # date
-        format += "8s"
+        header_format += "8s"
 
         # analyzerType
-        format += "2l"
+        header_format += "2l"
 
         # preset
-        format += "12f"
+        header_format += "12f"
 
         # nPeaks
-        format += "l"
+        header_format += "l"
 
-        # TODO: Find the correct format for Peaks.
+        # TODO: Find the correct header_format for Peaks.
         # Peaks[48]
-        format += "384s"
+        header_format += "384s"
 
         # nRemark
-        format += "l"
+        header_format += "l"
 
-        # TODO: Find the correct format for Remarks.
+        # TODO: Find the correct header_format for Remarks.
         # Remarks[10]
-        format += "400s"
+        header_format += "400s"
 
         # x
-        format += "4f"
+        header_format += "4f"
 
         # nDetRes
-        format += "l"
+        header_format += "l"
 
         # detRes[12]
-        format += "12f"
+        header_format += "12f"
 
         # nStartX
-        format += "4l"
+        header_format += "4l"
 
         # Filler[1708]
-        format += "1708s"
+        header_format += "1708s"
 
         # matLabel[40]
-        format += "40s"
+        header_format += "40s"
 
         # Filler[2]
-        #format += "2s"
+        #header_format += "2s"
 
         # Label[216]
-        format += "216s"
+        header_format += "216s"
 
         # imgFilename[120]
-        format += "120s"
+        header_format += "120s"
 
         # TODO: finish all data in header.
 
-        return format
+        return header_format
 
     # TODO: Add the option to read only a fraction of the data for huge file.
     def readFile(self, filepath):
@@ -311,6 +326,5 @@ def run():
 
     pylab.show()
 
-if __name__ == '__main__': #pragma: no cover
-    import pyHendrixDemersTools.Runner as Runner
-    Runner.Runner().run(runFunction=run)
+if __name__ == '__main__':  # pragma: no cover
+    run()

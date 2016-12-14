@@ -1,5 +1,12 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
+.. py:currentmodule:: VeriCold.TraceFile
+   :synopsis: Read a trace file from VeriCold/EDAX microcalorimeter x-ray detector.
+
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
 TraceFile header
     long    m_dwHeaderSize; //(bytes)
     long    m_dwHeaderVersion;//long
@@ -72,17 +79,22 @@ Trace data
                 delete [] pi16Buf;
 """
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2007 Hendrix Demers"
-__license__ = ""
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2293 $"
-__svnDate__ = "$Date: 2011-03-21 14:39:25 -0400 (Mon, 21 Mar 2011) $"
-__svnId__ = "$Id: TraceFile.py 2293 2011-03-21 18:39:25Z hdemers $"
+###############################################################################
+# Copyright 2007 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import os
@@ -92,7 +104,7 @@ import struct
 # Third party modules.
 import pylab
 
-# Local modules.
+# Project modules.
 
 # Globals and constants variables.
 
@@ -417,6 +429,5 @@ def run():
 
     #traceFile.printHeader()
 
-if __name__ == '__main__': #pragma: no cover
-    import pyHendrixDemersTools.Runner as Runner
-    Runner.Runner().run(runFunction=run)
+if __name__ == '__main__':  # pragma: no cover
+    run()

@@ -1,17 +1,30 @@
 #!/usr/bin/env python
-"""Regression testing for the project."""
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2007 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: tests
+   :synopsis: Regression testing for the project.
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2180 $"
-__svnDate__ = "$Date: 2011-01-27 23:14:22 -0500 (Thu, 27 Jan 2011) $"
-__svnId__ = "$Id: tests.py 2180 2011-01-28 04:14:22Z hdemers $"
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Regression testing for the project.
+"""
+
+###############################################################################
+# Copyright 2007 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 
@@ -19,11 +32,10 @@ __svnId__ = "$Id: tests.py 2180 2011-01-28 04:14:22Z hdemers $"
 
 # Local modules.
 
+# Project modules.
+
 # Globals and constants variables.
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     import nose
-    import sys
-    argv = sys.argv
-    argv.append("--cover-package=pySpectrumFileFormat")
-    nose.main(argv=argv)
+    nose.main()
