@@ -1,16 +1,30 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2007 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: pySpectrumFileFormat.emmff.emsaFormat
+   :synopsis: Reader/writer of EMSA/MAS file format.
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2934 $"
-__svnDate__ = "$Date: 2014-03-19 15:00:48 -0400 (Wed, 19 Mar 2014) $"
-__svnId__ = "$Id: emsaFormat.py 2934 2014-03-19 19:00:48Z hdemers $"
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Reader/writer of EMSA/MAS file format.
+"""
+
+###############################################################################
+# Copyright 2007 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import logging
@@ -19,7 +33,7 @@ import logging
 
 # Local modules.
 
-# Project modules
+# Project modules.
 
 # Globals and constants variables.
 

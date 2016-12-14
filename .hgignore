@@ -8,3 +8,4 @@ pySpectrumFileFormat.egg-info/
 build/
 dist/
 .eggs
+.settings/

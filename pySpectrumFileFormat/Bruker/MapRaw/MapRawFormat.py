@@ -1,17 +1,30 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 .. py:currentmodule:: OxfordInstruments.MapRaw.MapRawFormat
+   :synopsis: Read Oxford Instruments map in the raw format.
+
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 Read Oxford Instruments map in the raw format.
 """
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2012 Hendrix Demers"
-__license__ = ""
+###############################################################################
+# Copyright 2012 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import os.path
@@ -23,7 +36,7 @@ import numpy as np
 
 # Local modules.
 
-# Project modules
+# Project modules.
 import pySpectrumFileFormat.Bruker.MapRaw.ParametersFile as ParametersFile
 
 # Globals and constants variables.
@@ -166,9 +179,9 @@ class MapRawFormat(object):
 
         assert len(channels) == len(spectrum)
         return channels, spectrum
-    
+
     def getDataCube(self):
-        
+
         self._read_data()
 
         if self._parameters.recordBy == ParametersFile.RECORED_BY_IMAGE:
@@ -315,7 +328,7 @@ class MapRawFormat(object):
 
         assert len(channels) == len(spectrum)
         return channels, spectrum
-        
+
     def getParameters(self):
         return self._parameters
 
@@ -378,7 +391,7 @@ def run():
 
     plt.figure()
     plt.plot(xData, yData)
-    
+
     path = r"G:\backup_su8000\eds_ebsd\2010-2013-EDS\HDemers\AuCuStandard"
     filename = r"20130701_AuMap.raw"
     filepath = os.path.join(path, filename)
@@ -390,7 +403,7 @@ def run():
     plt.plot(channels, datacube[0,0,:])
 
     plt.show()
-    
+
 def run20120307():
     path = r"G:\backup_su8000\eds_ebsd\2010-2013-EDS\HDemers\20120307\rareearthSample"
     filename = "D3-900-map4.raw"
@@ -407,5 +420,5 @@ def run20120307():
     plt.plot(xData, yData)
     plt.show()
 
-if __name__ == '__main__': #pragma: no cover
+if __name__ == '__main__':  # pragma: no cover
     run()

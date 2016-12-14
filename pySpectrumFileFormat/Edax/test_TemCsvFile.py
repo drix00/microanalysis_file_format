@@ -1,29 +1,43 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: Edax.test_TemCsvFile
+   :synopsis: Tests for the module :py:mod:`Edax.TemCsvFile`
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2280 $"
-__svnDate__ = "$Date: 2011-03-15 17:45:23 -0400 (Tue, 15 Mar 2011) $"
-__svnId__ = "$Id: test_TemCsvFile.py 2280 2011-03-15 21:45:23Z hdemers $"
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Tests for the module :py:mod:`Edax.TemCsvFile`.
+"""
+
+###############################################################################
+# Copyright 2009 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import unittest
-import logging
 import os.path
 
 # Third party modules.
 from nose.plugins.skip import SkipTest
 
 # Local modules.
+
+# Project modules.
 import pySpectrumFileFormat.Edax.TemCsvFile as TemCsvFile
-import pyHendrixDemersTools.Files as Files
+from pySpectrumFileFormat import get_current_module_path
 
 # Globals and constants variables.
 
@@ -32,7 +46,7 @@ class TestTemCsvFile(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepathRef = Files.getCurrentModulePath(__file__, "../testData/TEM_Edax/OVERALL.CSV")
+        self.filepathRef = get_current_module_path(__file__, "../testData/TEM_Edax/OVERALL.CSV")
         if not os.path.isfile(self.filepathRef):
             raise SkipTest
 
@@ -79,6 +93,6 @@ class TestTemCsvFile(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
 
-if __name__ == '__main__':    #pragma: no cover
-    logging.getLogger().setLevel(logging.DEBUG)
-    unittest.main()
+if __name__ == '__main__':  # pragma: no cover
+    import nose
+    nose.runmodule()

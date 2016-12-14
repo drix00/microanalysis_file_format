@@ -1,33 +1,54 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2007 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: pySpectrumFileFormat.emmff.test_emsaFormat
+   :synopsis: Tests for the module :py:mod:`pySpectrumFileFormat.emmff.emsaFormat`
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2917 $"
-__svnDate__ = "$Date: 2013-10-13 21:11:56 -0400 (Sun, 13 Oct 2013) $"
-__svnId__ = "$Id: test_emsaFormat.py 2917 2013-10-14 01:11:56Z hdemers $"
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
+Tests for the module :py:mod:`pySpectrumFileFormat.emmff.emsaFormat`.
+"""
+
+###############################################################################
+# Copyright 2007 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
+
+# Standard library modules.
 import unittest
 import logging
 import sys
 import os.path
 
+# Third party modules.
 from nose.plugins.skip import SkipTest
 
+# Local modules.
+
+# Project modules.
 import pySpectrumFileFormat.emmff.emsaFormat as emsaFormat
-import pyHendrixDemersTools.Files as Files
+from pySpectrumFileFormat import get_current_module_path
+
+# Globals and constants variables.
 
 class emsaFormatTestCase(unittest.TestCase):
 
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepath = Files.getCurrentModulePath(__file__, "../emmff/spectra/spectrum1.emsa")
+        self.filepath = get_current_module_path(__file__, "../emmff/spectra/spectrum1.emsa")
         if not os.path.isfile(self.filepath):
             raise SkipTest
 
@@ -524,6 +545,6 @@ class emsaFormatTestCase(unittest.TestCase):
         self.assertEqual(4096, len(emsa.getDataX()))
         self.assertEqual(4096, len(emsa.getDataY()))
 
-if __name__ == '__main__': #pragma: no cover
-    logging.getLogger().setLevel(logging.DEBUG)
-    unittest.main()
+if __name__ == '__main__':  # pragma: no cover
+    import nose
+    nose.runmodule()
