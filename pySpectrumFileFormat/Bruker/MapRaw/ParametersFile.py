@@ -84,9 +84,22 @@ class ParametersFile(object):
             valueFormatters = self._getValueFormatter()
             for keyword in keywords:
                 if keyword.lower() in line:
+                    line = line.strip()
                     value = line.replace(keyword.lower(), '').replace("mlx::", '').replace(":", '')
                     valueFormatter = valueFormatters[keyword]
                     self._parameters[keyword] = valueFormatter(value)
+
+    def write(self, filepath):
+        logging.info("Writing parameters file: %s", filepath)
+
+        with open(filepath, 'w', newline='\n') as output_file:
+            lines = []
+            keywords = self._getKeywords()
+            for keyword in keywords:
+                line = "%12s \t %s\n" % (keyword, self._parameters[keyword])
+                lines.append(line)
+
+            output_file.writelines(lines)
 
     def _getKeywords(self):
         keywords = []
