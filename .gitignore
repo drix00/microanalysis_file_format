@@ -1,3 +1,11 @@
 /.eggs/
 *.egg-info/
 __pycache__
+
+# PyCharm project files
+.idea
+
+# Eclipse PyDev project files
+.settings
+.project
+.pydevproject
