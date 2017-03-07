@@ -46,7 +46,7 @@ class TestTemCsvFile(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepathRef = get_current_module_path(__file__, "../testData/TEM_Edax/OVERALL.CSV")
+        self.filepathRef = get_current_module_path(__file__, "../../test_data/TEM_Edax/OVERALL.CSV")
         if not os.path.isfile(self.filepathRef):
             raise SkipTest
 

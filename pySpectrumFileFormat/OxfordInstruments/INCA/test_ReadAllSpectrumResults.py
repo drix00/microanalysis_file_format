@@ -46,7 +46,7 @@ class TestReadAllSpectrumResults(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepath = get_current_module_path(__file__, "../../testData/AllSpectra.txt")
+        self.filepath = get_current_module_path(__file__, "../../../test_data/AllSpectra.txt")
         if not os.path.isfile(self.filepath):
             raise SkipTest
 
@@ -94,7 +94,7 @@ class TestReadAllSpectrumResults(unittest.TestCase):
         self.assertTrue(True)
 
     def test_isValidFile(self):
-        folderpath = Files.getCurrentModulePath(__file__, "../../testData")
+        folderpath = get_current_module_path(__file__, "../../../test_data")
 
         filepath = os.path.join(folderpath, "SpectrumFullResults 10.txt")
         self.assertEquals(False, ReadAllSpectrumResults.isValidFile(filepath))

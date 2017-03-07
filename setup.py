@@ -64,6 +64,7 @@ setup(name="pySpectrumFileFormat",
       install_requires=['numpy',
                         'matplotlib',
                         'scipy',
+                        'six',
                         ],
       setup_requires=['nose', 'coverage'],
 

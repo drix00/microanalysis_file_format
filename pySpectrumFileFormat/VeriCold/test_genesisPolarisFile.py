@@ -46,7 +46,7 @@ class TestgenesisPolarisFile(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepath = get_current_module_path(__file__, "../testData/k3670_30keV_OFeCalibration.csp")
+        self.filepath = get_current_module_path(__file__, "../../test_data/k3670_30keV_OFeCalibration.csp")
         if not os.path.isfile(self.filepath):
             raise SkipTest
 

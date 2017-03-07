@@ -61,7 +61,7 @@ class emsaFormatTestCase(unittest.TestCase):
         emsaFormat.EmsaFormat()
 
     def testReadFile(self):
-        filename = Files.getCurrentModulePath(__file__, "../emmff/spectra/spectrum1.emsa")
+        filename = get_current_module_path(__file__, "../emmff/spectra/spectrum1.emsa")
 
         self.emsa.open(filename)
 
@@ -69,7 +69,7 @@ class emsaFormatTestCase(unittest.TestCase):
 
         self.assertEqual(1054, len(self.emsa.lines))
 
-        filename = Files.getCurrentModulePath(__file__, "../emmff/spectra/BadFile.emsa")
+        filename = get_current_module_path(__file__, "../emmff/spectra/BadFile.emsa")
 
         self.assertRaises(IOError, self.emsa.open, filename)
 
@@ -348,7 +348,7 @@ class emsaFormatTestCase(unittest.TestCase):
     def testReadlines(self):
         emsa = emsaFormat.EmsaFormat()
 
-        filename = Files.getCurrentModulePath(__file__, "../emmff/spectra/spectrum1.emsa")
+        filename = get_current_module_path(__file__, "../emmff/spectra/spectrum1.emsa")
 
         emsa.open(filename)
 
@@ -527,7 +527,7 @@ class emsaFormatTestCase(unittest.TestCase):
         self.assertAlmostEquals(xDataRef[-10], xData[-10])
 
     def testReadFileTEMBruker(self):
-        filename = Files.getCurrentModulePath(__file__, "../../testData/TEM_Bruker/Gold-pt 2-2.msa")
+        filename = get_current_module_path(__file__, "../../test_data/TEM_Bruker/Gold-pt 2-2.msa")
         if not os.path.isfile(filename):
             raise SkipTest
 

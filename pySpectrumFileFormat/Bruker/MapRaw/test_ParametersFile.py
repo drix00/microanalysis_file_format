@@ -53,7 +53,7 @@ class TestParametersFile(unittest.TestCase):
 
         unittest.TestCase.setUp(self)
 
-        self.path = get_current_module_path(__file__, "../../../testData/Bruker/MapRaw")
+        self.path = get_current_module_path(__file__, "../../../test_data/Bruker/MapRaw")
 
     def tearDown(self):
         """

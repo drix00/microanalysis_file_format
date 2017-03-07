@@ -46,7 +46,7 @@ class TestTraceFile(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepath = get_current_module_path(__file__, "../testData/test01.trc")
+        self.filepath = get_current_module_path(__file__, "../../test_data/test01.trc")
         if not os.path.isfile(self.filepath):
             raise SkipTest
 

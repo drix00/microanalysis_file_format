@@ -53,8 +53,8 @@ class TestParametersFile(unittest.TestCase):
 
         unittest.TestCase.setUp(self)
 
-        self.path = get_current_module_path(__file__, "../../testData/OxfordInstruments/MapRaw")
-        if not os.path.isfile(self.path):
+        self.path = get_current_module_path(__file__, "../../../test_data/OxfordInstruments/MapRaw")
+        if not os.path.isdir(self.path):
             raise SkipTest
 
     def tearDown(self):

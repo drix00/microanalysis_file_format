@@ -29,6 +29,7 @@ Tests for the module :py:mod:`pySpectrumFileFormat.EPMA.JEOL8900McGill`.
 # Standard library modules.
 import unittest
 import os.path
+import warnings
 
 # Third party modules.
 from nose.plugins.skip import SkipTest
@@ -44,11 +45,13 @@ from pySpectrumFileFormat import get_current_module_path
 class TestJEOL8900McGill(unittest.TestCase):
 
     def setUp(self):
+        warnings.simplefilter("ignore")
+
         unittest.TestCase.setUp(self)
 
         projectPath = get_current_module_path(__file__)
 
-        self.filename = os.path.join(projectPath, "../testData/data0407.ful")
+        self.filename = os.path.join(projectPath, "../../test_data/data0407.ful")
         if not os.path.isfile(self.filename):
             raise SkipTest
 
