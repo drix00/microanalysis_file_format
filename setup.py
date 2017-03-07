@@ -27,7 +27,6 @@ Setup script to use with pip for the project pyXraySpectrumFileFormat.
 ###############################################################################
 
 # Standard library modules.
-import os
 
 # Third party modules.
 from setuptools import setup, find_packages
@@ -35,39 +34,60 @@ from setuptools import setup, find_packages
 # Local modules.
 
 # Globals and constants variables.
+with open('README.rst') as readme_file:
+    readme = readme_file.read()
+
+with open('HISTORY.rst') as history_file:
+    history = history_file.read()
+
+requirements = [
+    'numpy',
+                        'matplotlib',
+                        'scipy',
+                        'six'
+]
+
+test_requirements = [
+    'nose', 'coverage'
+]
 
 readme_file_path = os.path.join(os.path.dirname(__file__), 'README.rst')
 long_description = open(readme_file_path).read() + '\n\n'
 
 setup(name="pySpectrumFileFormat",
-      version='0.1',
-      url='',
-      description="Project to read and write various x-ray spectrum file format.",
-      long_description=long_description,
-      author="Hendrix Demers",
-      author_email="hendrix.demers@mail.mcgill.ca",
-      license="Apache License, Version 2.0",
-      classifiers=['Development Status :: 5 - Production/Stable',
-                   'Environment :: Console',
-                   'Intended Audience :: Developers',
-                   'Intended Audience :: Science/Research',
-                   'License :: OSI Approved :: Apache License, Version 2.0',
-                   'Natural Language :: English',
-                   'Programming Language :: Python',
-                   'Operating System :: OS Independent',
-                   'Topic :: Scientific/Engineering',],
+    version='0.1',
+    url='',
+    description="Project to read and write various x-ray spectrum file format.",
+	long_description=readme + '\n\n' + history,
+	author="Hendrix Demers",
+	author_email="hendrix.demers@mail.mcgill.ca",
+	license="Apache License, Version 2.0",
+	classifiers=['Development Status :: 5 - Production/Stable',
+		'Environment :: Console',
+		'Intended Audience :: Developers',
+		'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: Apache Software License',
+		'Natural Language :: English',
+		'Programming Language :: Python',
+		'Operating System :: OS Independent',
+		'Topic :: Scientific/Engineering',],
 
-      packages=find_packages(),
+    packages=find_packages(),
+#    packages=[
+#        'microanalysis_file_format',
+#    ],
+#    package_dir={'microanalysis_file_format':
+#                 'microanalysis_file_format'},
+    install_requires=requirements,
+    zip_safe=False,
+    keywords='microanalysis_file_format',
 
-      include_package_data=False, # Do not include test data
+	include_package_data=False, # Do not include test data
 
-      install_requires=['numpy',
-                        'matplotlib',
-                        'scipy',
-                        'six',
-                        ],
-      setup_requires=['nose', 'coverage'],
+    setup_requires=['nose', 'coverage'],
 
-      test_suite='nose.collector',
+    test_suite='nose.collector',
+    tests_require=test_requirements
+	  
 )
 

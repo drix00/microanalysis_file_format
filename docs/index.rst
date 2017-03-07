@@ -1,12 +1,19 @@
-Welcome to Spectrum File Format Tools' documentation!
+Welcome to Microanalysis File Format's documentation!
 =====================================================
 
 Contents:
 
 .. toctree::
-   :glob:
-   
-   SpectrumFileFormatTools/**
+   :maxdepth: 2
+
+   readme
+   installation
+   usage
+   contributing
+   authors
+   history
+
+..   ../pySpectrumFileFormat/**
 
 Indices and tables
 ==================
