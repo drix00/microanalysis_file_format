@@ -27,6 +27,7 @@ Setup script to use with pip for the project pyXraySpectrumFileFormat.
 ###############################################################################
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
 from setuptools import setup, find_packages
@@ -88,6 +89,6 @@ setup(name="pySpectrumFileFormat",
 
     test_suite='nose.collector',
     tests_require=test_requirements
-	  
+
 )
 
