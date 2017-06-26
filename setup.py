@@ -74,9 +74,6 @@ setup(name="pySpectrumFileFormat",
 		'Topic :: Scientific/Engineering',],
 
     packages=find_packages(),
-#    packages=[
-#        'microanalysis_file_format',
-#    ],
 #    package_dir={'microanalysis_file_format':
 #                 'microanalysis_file_format'},
     install_requires=requirements,
