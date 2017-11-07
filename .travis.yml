@@ -1,31 +1,23 @@
-# Config file for automatic testing at travis-ci.org
-# This file will be regenerated if you run travis_pypi_setup.py
-
 language: python
 python:
-    - 3.3
     - 3.4
     - 3.5
     - 3.6
     - 2.7
-    # PyPy versions
-    - "pypy3"
 
 before_install:
-- echo -e "machine github.com\n  login ed880e956e8dee3515e1794d98314e321d571656" >> ~/.netrc
-- git lfs pull
+    - echo -e "machine github.com\n  login ed880e956e8dee3515e1794d98314e321d571656" >> ~/.netrc
+    - git lfs pull
 
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-  - pip install -r requirements.txt
-  - pip install .
+    - pip install -r requirements.txt
+    - pip install .
 
-# command to run tests, e.g. python setup.py test
 script:
-  - nosetests
+    - nosetests
 
 after_success:
-  - codecov
+    - codecov
 
 notifications:
   email: false
@@ -33,15 +25,13 @@ notifications:
 git:
   lfs_skip_smudge: true
 
-# After you create the Github repo and add it to Travis, run the
-# travis_pypi_setup.py script to finish PyPI deployment setup
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: drix00
   password:
-    secure: PLEASE_REPLACE_ME
+    secure: a+P8rVHnaIX7vJBsyy/FuRNjGte8kYU3/yESPOHuqEvXhJqUVLaiapE9OJ1k1xnj0JX4MAlj8GEJsbKKCpEHhNHLH7TWwTb1zy2FSgB23XUZ7YCgn4z2458+sC4dk0Cc77We9JE6F2TxmwEFwmK3AHlOcRswTO+PvSsLL7lLOWYGN1yVSWNl0E+4G0R2VZKW1NeB5pFCNFvpXGBIWFSsLDvImW48+SnjCViy6DGoBPU1la05qicE6KsmqTqa0mSVjH+3LeNq+KYbsC9ZnVKlWuuSPI2I5VyL++5+HXdRr3ZOctx3dNflO0eCRxcMYXrQsmmhJdCTZCHOLtnyOpgJxn6s1WEmXE7OH+t49eRc6gZrNWUlzU9ytf8pCv83E85ihVntrxafwQhXnsjBjJ9em+aDzokkZDBIWf/kUHYy3YoTCfXElkijSn+tzK7ATuTfWqliuMCsNcgo/m2b0brfNQ+xhZvmZSPT8Rp0xv+0b3YEYRQuJMZWIyVR6CYSkEraGI7ml2ri5pRG1mMtkk8NPXmG7vuqYtFlZGM0lCCLd3hSGCxr5UtkMssLprXPbNSsdDFdbjg1Y6sgmgQZ+teW0nGwLoFijbIEU1k/llvhzt4p/HTFzaFzrfGE+YuuFq22k44rd4rvM1FVR7X8iiMU2UQiXu01iyYE2eKSQbzRTYk=
   on:
     tags: true
     repo: drix00/microanalysis_file_format
-    condition: $TOXENV == py27
+#    condition: "$TOXENV == py27"
