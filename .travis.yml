@@ -11,11 +11,14 @@ python:
     # PyPy versions
     - "pypy3"
 
+before_install:
+- echo -e "machine github.com\n  login ed880e956e8dee3515e1794d98314e321d571656" >> ~/.netrc
+- git lfs pull
+
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - pip install -r requirements.txt
   - pip install .
-
 
 # command to run tests, e.g. python setup.py test
 script:
