@@ -60,14 +60,17 @@ def is_test_data_file(file_path):
         return good_test_data_file
 
     with open(file_path, 'rt') as test_data_file:
-        lines = test_data_file.readlines()
+        try:
+            lines = test_data_file.readlines()
 
-        if len(lines) == 3:
-            if lines[0].strip() == "version https://git-lfs.github.com/spec/v1":
-                good_test_data_file = False
-            if lines[1].startswith("oid"):
-                good_test_data_file = False
-            if lines[2].startswith("size"):
-                good_test_data_file = False
+            if len(lines) == 3:
+                if lines[0].strip() == "version https://git-lfs.github.com/spec/v1":
+                    good_test_data_file = False
+                if lines[1].startswith("oid"):
+                    good_test_data_file = False
+                if lines[2].startswith("size"):
+                    good_test_data_file = False
+        except UnicodeDecodeError:
+            good_test_data_file = True
 
     return good_test_data_file
