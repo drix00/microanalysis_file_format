@@ -37,7 +37,7 @@ from nose.plugins.skip import SkipTest
 
 # Project modules.
 import pySpectrumFileFormat.OxfordInstruments.INCA.ReadAllSpectrumResults as ReadAllSpectrumResults
-from pySpectrumFileFormat import get_current_module_path
+from pySpectrumFileFormat import get_current_module_path, is_test_data_file
 
 # Globals and constants variables.
 
@@ -47,7 +47,7 @@ class TestReadAllSpectrumResults(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
         self.filepath = get_current_module_path(__file__, "../../../test_data/AllSpectra.txt")
-        if not os.path.isfile(self.filepath):
+        if not is_test_data_file(self.filepath):
             raise SkipTest
 
         self.results = ReadAllSpectrumResults.ReadAllSpectrumResults(self.filepath)

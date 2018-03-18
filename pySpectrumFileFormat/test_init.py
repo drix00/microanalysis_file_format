@@ -2,12 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: VeriCold.test_TraceFile
-   :synopsis: Tests for the module :py:mod:`VeriCold.TraceFile`
+.. py:currentmodule:: pySpectrumFileFormat.test_init
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`VeriCold.TraceFile`.
+Tests for the module :py:mod:`pySpectrumFileFormat.__init__`.
 """
 
 ###############################################################################
@@ -36,44 +35,36 @@ from nose.plugins.skip import SkipTest
 # Local modules.
 
 # Project modules.
-import pySpectrumFileFormat.VeriCold.TraceFile as TraceFile
 from pySpectrumFileFormat import get_current_module_path, is_test_data_file
 
 # Globals and constants variables.
 
-class TestTraceFile(unittest.TestCase):
+
+class TestInit(unittest.TestCase):
 
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepath = get_current_module_path(__file__, "../../test_data/test01.trc")
-        if not is_test_data_file(self.filepath):
+        self.file_path = get_current_module_path(__file__, "../test_data/lfs_test_file.txt")
+        if not os.path.isfile(self.file_path):
             raise SkipTest
-
-        self.traceFile = TraceFile.TraceFile(self.filepath)
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
 
     def testSkeleton(self):
-        #self.fail("Test if the TestCase is working.")
+        # self.fail("Test if the TestCase is working.")
         self.assertTrue(True)
 
-    def testConstructor(self):
-        traceFile = TraceFile.TraceFile(self.filepath)
+    def test_is_test_data_file(self):
+        self.assertFalse(is_test_data_file(self.file_path))
 
-        self.assertTrue(os.path.isfile(traceFile.filename))
+        self.assertFalse(is_test_data_file(get_current_module_path(__file__)))
 
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+        self.assertTrue(is_test_data_file(__file__))
 
-    def testGetFileSize(self):
-        self.assertEquals(3253456, self.traceFile.getFileSize())
+        # self.fail("Test if the TestCase is working.")
 
-        #self.traceFile.printFileTime()
-
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
 
 if __name__ == '__main__':  # pragma: no cover
     import nose

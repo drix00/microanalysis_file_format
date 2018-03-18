@@ -30,6 +30,7 @@ Init for the package.
 import os.path
 
 # Third party modules.
+from nose.tools import nottest
 
 # Local modules.
 
@@ -41,10 +42,32 @@ __email__ = 'hendrix.demers@mail.mcgill.ca'
 __version__ = '0.1.0'
 
 
-def get_current_module_path(modulePath, relativePath=""):
-    basepath = os.path.dirname(modulePath)
+def get_current_module_path(module_path, relative_path=""):
+    base_path = os.path.dirname(module_path)
 
-    filepath = os.path.join(basepath, relativePath)
-    filepath = os.path.normpath(filepath)
+    file_path = os.path.join(base_path, relative_path)
+    file_path = os.path.normpath(file_path)
 
-    return filepath
+    return file_path
+
+
+@nottest
+def is_test_data_file(file_path):
+    good_test_data_file = True
+
+    if not os.path.isfile(file_path):
+        good_test_data_file = False
+        return good_test_data_file
+
+    with open(file_path, 'rt') as test_data_file:
+        lines = test_data_file.readlines()
+
+        if len(lines) == 3:
+            if lines[0].strip() == "version https://git-lfs.github.com/spec/v1":
+                good_test_data_file = False
+            if lines[1].startswith("oid"):
+                good_test_data_file = False
+            if lines[2].startswith("size"):
+                good_test_data_file = False
+
+    return good_test_data_file

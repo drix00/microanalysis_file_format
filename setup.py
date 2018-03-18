@@ -45,7 +45,8 @@ requirements = [
     'numpy',
     'matplotlib',
     'scipy',
-    'six'
+    'six',
+    'nose',
 ]
 
 test_requirements = [

@@ -37,7 +37,7 @@ from nose.plugins.skip import SkipTest
 
 # Project modules.
 import pySpectrumFileFormat.Bruker.MapRaw.ParametersFile as ParametersFile
-from pySpectrumFileFormat import get_current_module_path
+from pySpectrumFileFormat import get_current_module_path, is_test_data_file
 
 # Globals and constants variables.
 
@@ -73,7 +73,7 @@ class TestParametersFile(unittest.TestCase):
     def test_read(self):
         filename = "Sample01.rpl"
         filepath = os.path.join(self.path, filename)
-        if not os.path.isfile(filepath):
+        if not is_test_data_file(filepath):
             raise SkipTest
 
         parameters = ParametersFile.ParametersFile()

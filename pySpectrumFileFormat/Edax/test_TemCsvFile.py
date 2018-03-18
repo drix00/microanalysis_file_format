@@ -37,7 +37,7 @@ from nose.plugins.skip import SkipTest
 
 # Project modules.
 import pySpectrumFileFormat.Edax.TemCsvFile as TemCsvFile
-from pySpectrumFileFormat import get_current_module_path
+from pySpectrumFileFormat import get_current_module_path, is_test_data_file
 
 # Globals and constants variables.
 
@@ -47,7 +47,7 @@ class TestTemCsvFile(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
         self.filepathRef = get_current_module_path(__file__, "../../test_data/TEM_Edax/OVERALL.CSV")
-        if not os.path.isfile(self.filepathRef):
+        if not is_test_data_file(self.filepathRef):
             raise SkipTest
 
         self.data = TemCsvFile.TemCsvFile(self.filepathRef)

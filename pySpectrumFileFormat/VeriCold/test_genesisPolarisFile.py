@@ -37,7 +37,7 @@ from nose.plugins.skip import SkipTest
 
 # Project modules.
 import pySpectrumFileFormat.VeriCold.genesisPolarisFile as genesisPolarisFile
-from pySpectrumFileFormat import get_current_module_path
+from pySpectrumFileFormat import get_current_module_path, is_test_data_file
 
 # Globals and constants variables.
 
@@ -47,7 +47,7 @@ class TestgenesisPolarisFile(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
         self.filepath = get_current_module_path(__file__, "../../test_data/k3670_30keV_OFeCalibration.csp")
-        if not os.path.isfile(self.filepath):
+        if not is_test_data_file(self.filepath):
             raise SkipTest
 
         self.gpFile = genesisPolarisFile.GenesisPolarisFile()

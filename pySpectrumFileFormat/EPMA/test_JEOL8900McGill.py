@@ -38,7 +38,7 @@ from nose.plugins.skip import SkipTest
 
 # Project modules.
 import pySpectrumFileFormat.EPMA.JEOL8900McGill as JEOL8900McGill
-from pySpectrumFileFormat import get_current_module_path
+from pySpectrumFileFormat import get_current_module_path, is_test_data_file
 
 # Globals and constants variables.
 
@@ -52,7 +52,7 @@ class TestJEOL8900McGill(unittest.TestCase):
         projectPath = get_current_module_path(__file__)
 
         self.filename = os.path.join(projectPath, "../../test_data/data0407.ful")
-        if not os.path.isfile(self.filename):
+        if not is_test_data_file(self.filename):
             raise SkipTest
 
         self.linescanFile = JEOL8900McGill.JEOL8900McGill(self.filename)
