@@ -8,7 +8,6 @@ python:
     - 3.6
     - 3.7
     - 3.8
-    - 2.7
 matrix:
   include:
     - python: 3.5
@@ -20,6 +19,7 @@ before_install:
     - python --version
     - pip install --upgrade pip
     - pip install --upgrade pytest
+    - pip install --upgrade pytest-cov
     - pip install --upgrade coveralls
 
 install:
