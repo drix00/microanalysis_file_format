@@ -1,0 +1,7 @@
+[run]
+omit = venv/*
+       docs/*
+       setup.py
+       examples/*
+
+source = pySpectrumFileFormat

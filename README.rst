@@ -19,6 +19,10 @@ Microanalysis File Format
     :target: https://codecov.io/gh/drix00/microanalysis_file_format
     :alt: Code coverage Status
 
+.. image:: https://coveralls.io/repos/github/drix00/microanalysis_file_format/badge.svg?branch=master
+    :target: https://coveralls.io/github/drix00/microanalysis_file_format?branch=master
+    :alt: Code coverage Status
+
 .. image:: https://pyup.io/repos/github/drix00/microanalysis_file_format/shield.svg
      :target: https://pyup.io/repos/github/drix00/microanalysis_file_format/
      :alt: Updates

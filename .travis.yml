@@ -21,6 +21,7 @@ before_install:
     - pip install --upgrade pytest
     - pip install --upgrade pytest-cov
     - pip install --upgrade coveralls
+    - pip install --upgrade codecov
 
 install:
     - pip install -r requirements.txt
@@ -33,6 +34,7 @@ script:
 
 after_success:
   - coveralls
+  - codecov
 
 notifications:
   email:
