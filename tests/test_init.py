@@ -26,7 +26,6 @@ Tests for the module :py:mod:`pySpectrumFileFormat.__init__`.
 ###############################################################################
 
 # Standard library modules.
-import unittest
 import os.path
 
 # Third party modules.
@@ -39,27 +38,20 @@ from pySpectrumFileFormat import get_current_module_path, is_test_data_file
 # Globals and constants variables.
 
 
-class TestInit(unittest.TestCase):
+def test_is_test_data_file(tmp_path):
+    file_path = os.path.join(tmp_path, "lfs_test_file.txt")
+    with open(file_path, 'w') as lfs_file:
+        lines = """version https://git-lfs.github.com/spec/v1
+oid sha256:4d7a214614ab2935c943f9e0ff69d22eadbb8f32b1258daaa5e2ca24d17e2393
+size 12345
 
-    def setUp(self):
-        unittest.TestCase.setUp(self)
+"""
+        lfs_file.writelines(lines)
 
-        self.file_path = get_current_module_path(__file__, "../test_data/lfs_test_file.txt")
-        if not os.path.isfile(self.file_path):
-            raise self.skipTest()
+    assert is_test_data_file(file_path) is False
 
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
+    assert is_test_data_file(get_current_module_path(__file__)) is False
 
-    def testSkeleton(self):
-        # self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+    assert is_test_data_file(__file__) is True
 
-    def test_is_test_data_file(self):
-        self.assertFalse(is_test_data_file(self.file_path))
-
-        self.assertFalse(is_test_data_file(get_current_module_path(__file__)))
-
-        self.assertTrue(is_test_data_file(__file__))
-
-        # self.fail("Test if the TestCase is working.")
+    # self.fail("Test if the TestCase is working.")

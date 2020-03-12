@@ -61,7 +61,7 @@ def is_test_data_file(file_path):
         try:
             lines = test_data_file.readlines()
 
-            if len(lines) == 3:
+            if len(lines) >= 3:
                 if lines[0].strip() == "version https://git-lfs.github.com/spec/v1":
                     good_test_data_file = False
                 if lines[1].startswith("oid"):
