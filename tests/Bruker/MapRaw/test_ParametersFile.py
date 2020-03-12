@@ -31,7 +31,6 @@ import unittest
 import os.path
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
 
 # Local modules.
 
@@ -74,7 +73,7 @@ class TestParametersFile(unittest.TestCase):
         filename = "Sample01.rpl"
         filepath = os.path.join(self.path, filename)
         if not is_test_data_file(filepath):
-            raise SkipTest
+            raise self.skipTest()
 
         parameters = ParametersFile.ParametersFile()
         parameters.read(filepath)
@@ -89,7 +88,3 @@ class TestParametersFile(unittest.TestCase):
         self.assertEquals("vector", parameters.recordBy)
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__':  # pragma: no cover
-    import nose
-    nose.runmodule()

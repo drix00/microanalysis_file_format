@@ -30,7 +30,6 @@ Init for the package.
 import os.path
 
 # Third party modules.
-from nose.tools import nottest
 
 # Local modules.
 
@@ -51,7 +50,6 @@ def get_current_module_path(module_path, relative_path=""):
     return file_path
 
 
-@nottest
 def is_test_data_file(file_path):
     good_test_data_file = True
 

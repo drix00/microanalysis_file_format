@@ -3,15 +3,13 @@
 
 """
 .. py:currentmodule:: tests
-   :synopsis: Regression testing for the project.
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Regression testing for the project.
+Test package for the project tests.
 """
 
-###############################################################################
-# Copyright 2007 Hendrix Demers
+# Copyright 2020 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,7 +22,6 @@ Regression testing for the project.
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-###############################################################################
 
 # Standard library modules.
 
@@ -35,7 +32,3 @@ Regression testing for the project.
 # Project modules.
 
 # Globals and constants variables.
-
-if __name__ == "__main__":  # pragma: no cover
-    import nose
-    nose.main()

@@ -32,7 +32,6 @@ import os.path
 import warnings
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
 
 # Local modules.
 
@@ -53,7 +52,7 @@ class TestJEOL8900McGill(unittest.TestCase):
 
         self.filename = os.path.join(projectPath, "../../test_data/data0407.ful")
         if not is_test_data_file(self.filename):
-            raise SkipTest
+            raise self.skipTest()
 
         self.linescanFile = JEOL8900McGill.JEOL8900McGill(self.filename)
 
@@ -203,7 +202,3 @@ Total:  100.48    100.48    100.00    100.00   100.000
 
         #self.fail("Test if the TestCase is working.")
         self.assertTrue(True)
-
-if __name__ == '__main__':  # pragma: no cover
-    import nose
-    nose.runmodule()

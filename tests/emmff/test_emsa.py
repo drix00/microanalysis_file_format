@@ -34,7 +34,6 @@ import os
 from six import PY2, PY3
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
 
 # Local modules.
 from pySpectrumFileFormat import get_current_module_path
@@ -49,9 +48,9 @@ class TestEmsaReader(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        filepath = get_current_module_path(__file__, "spectra/spectrum1.emsa")
+        filepath = get_current_module_path(__file__, "../../test_data/emmff/spectra/spectrum1.emsa")
         if not os.path.isfile(filepath):
-            raise SkipTest
+            raise self.skipTest()
         if PY3:
             with open(filepath, 'r', newline="\r\n") as f:
                 self.emsa = emsa.read(f)
@@ -311,7 +310,3 @@ class TestEmsaWriter(unittest.TestCase):
 
         for expected, actual in zip(self.LINES, lines):
             self.assertEqual(expected, actual)
-
-if __name__ == '__main__':  # pragma: no cover
-    import nose
-    nose.runmodule()

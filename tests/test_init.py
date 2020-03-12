@@ -30,7 +30,6 @@ import unittest
 import os.path
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
 
 # Local modules.
 
@@ -47,7 +46,7 @@ class TestInit(unittest.TestCase):
 
         self.file_path = get_current_module_path(__file__, "../test_data/lfs_test_file.txt")
         if not os.path.isfile(self.file_path):
-            raise SkipTest
+            raise self.skipTest()
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
@@ -64,8 +63,3 @@ class TestInit(unittest.TestCase):
         self.assertTrue(is_test_data_file(__file__))
 
         # self.fail("Test if the TestCase is working.")
-
-
-if __name__ == '__main__':  # pragma: no cover
-    import nose
-    nose.runmodule()

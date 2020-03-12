@@ -33,7 +33,6 @@ import sys
 import os.path
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
 
 # Local modules.
 
@@ -48,9 +47,9 @@ class emsaFormatTestCase(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepath = get_current_module_path(__file__, "../emmff/spectra/spectrum1.emsa")
+        self.filepath = get_current_module_path(__file__, "../../test_data/emmff/spectra/spectrum1.emsa")
         if not os.path.isfile(self.filepath):
-            raise SkipTest
+            raise self.skipTest()
 
         self.emsa = emsaFormat.EmsaFormat(self.filepath)
 
@@ -61,7 +60,7 @@ class emsaFormatTestCase(unittest.TestCase):
         emsaFormat.EmsaFormat()
 
     def testReadFile(self):
-        filename = get_current_module_path(__file__, "../emmff/spectra/spectrum1.emsa")
+        filename = get_current_module_path(__file__, "../../test_data/emmff/spectra/spectrum1.emsa")
 
         self.emsa.open(filename)
 
@@ -69,7 +68,7 @@ class emsaFormatTestCase(unittest.TestCase):
 
         self.assertEqual(1054, len(self.emsa.lines))
 
-        filename = get_current_module_path(__file__, "../emmff/spectra/BadFile.emsa")
+        filename = get_current_module_path(__file__, "../../test_data/emmff/spectra/BadFile.emsa")
 
         self.assertRaises(IOError, self.emsa.open, filename)
 
@@ -348,7 +347,7 @@ class emsaFormatTestCase(unittest.TestCase):
     def testReadlines(self):
         emsa = emsaFormat.EmsaFormat()
 
-        filename = get_current_module_path(__file__, "../emmff/spectra/spectrum1.emsa")
+        filename = get_current_module_path(__file__, "../../test_data/emmff/spectra/spectrum1.emsa")
 
         emsa.open(filename)
 
@@ -529,7 +528,7 @@ class emsaFormatTestCase(unittest.TestCase):
     def testReadFileTEMBruker(self):
         filename = get_current_module_path(__file__, "../../test_data/TEM_Bruker/Gold-pt 2-2.msa")
         if not os.path.isfile(filename):
-            raise SkipTest
+            raise self.skipTest()
 
         emsa = emsaFormat.EmsaFormat()
         emsa.open(filename)
@@ -544,7 +543,3 @@ class emsaFormatTestCase(unittest.TestCase):
         self.assertEqual(1024, len(emsa.values))
         self.assertEqual(4096, len(emsa.getDataX()))
         self.assertEqual(4096, len(emsa.getDataY()))
-
-if __name__ == '__main__':  # pragma: no cover
-    import nose
-    nose.runmodule()

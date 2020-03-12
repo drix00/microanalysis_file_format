@@ -31,7 +31,6 @@ import unittest
 import os.path
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
 
 # Local modules.
 
@@ -55,7 +54,7 @@ class TestParametersFile(unittest.TestCase):
 
         self.path = get_current_module_path(__file__, "../../../test_data/OxfordInstruments/MapRaw")
         if not os.path.isdir(self.path):
-            raise SkipTest
+            raise self.skipTest()
 
     def tearDown(self):
         """
@@ -76,7 +75,7 @@ class TestParametersFile(unittest.TestCase):
         filename = "Map30kV.rpl"
         filepath = os.path.join(self.path, filename)
         if not is_test_data_file(filepath):
-            raise SkipTest
+            raise self.skipTest()
 
         parameters = ParametersFile.ParametersFile()
         parameters.read(filepath)
@@ -136,7 +135,3 @@ class TestParametersFile(unittest.TestCase):
         self.assertEquals("IMAGE \"Site of Interest 14\"", parameters.recordBy)
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__':  # pragma: no cover
-    import nose
-    nose.runmodule()

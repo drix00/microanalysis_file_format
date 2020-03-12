@@ -31,7 +31,6 @@ import unittest
 import os.path
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
 
 # Local modules.
 
@@ -48,7 +47,7 @@ class TestTraceFile(unittest.TestCase):
 
         self.filepath = get_current_module_path(__file__, "../../test_data/test01.trc")
         if not is_test_data_file(self.filepath):
-            raise SkipTest
+            raise self.skipTest()
 
         self.traceFile = TraceFile.TraceFile(self.filepath)
 
@@ -74,7 +73,3 @@ class TestTraceFile(unittest.TestCase):
 
         #self.fail("Test if the TestCase is working.")
         self.assertTrue(True)
-
-if __name__ == '__main__':  # pragma: no cover
-    import nose
-    nose.runmodule()

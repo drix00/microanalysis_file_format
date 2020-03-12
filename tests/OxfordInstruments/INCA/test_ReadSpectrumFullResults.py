@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: pySpectrumFileFormat.OxfordInstruments.INCA.test_ReadAllSpectrumResults
-   :synopsis: Tests for the module :py:mod:`pySpectrumFileFormat.OxfordInstruments.INCA.ReadAllSpectrumResults`
+.. py:currentmodule:: pySpectrumFileFormat.OxfordInstruments.INCA.test_ReadSpectrumFullResults
+   :synopsis: Tests for the module :py:mod:`pySpectrumFileFormat.OxfordInstruments.INCA.ReadSpectrumFullResults`
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`pySpectrumFileFormat.OxfordInstruments.INCA.ReadAllSpectrumResults`.
+Tests for the module :py:mod:`pySpectrumFileFormat.OxfordInstruments.INCA.ReadSpectrumFullResults`.
 """
 
 ###############################################################################
@@ -31,26 +31,25 @@ import unittest
 import os.path
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
 
 # Local modules.
 
 # Project modules.
-import pySpectrumFileFormat.OxfordInstruments.INCA.ReadAllSpectrumResults as ReadAllSpectrumResults
+import pySpectrumFileFormat.OxfordInstruments.INCA.ReadSpectrumFullResults as ReadSpectrumFullResults
 from pySpectrumFileFormat import get_current_module_path, is_test_data_file
 
 # Globals and constants variables.
 
-class TestReadAllSpectrumResults(unittest.TestCase):
+class TestReadSpectrumFullResults(unittest.TestCase):
 
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepath = get_current_module_path(__file__, "../../../test_data/AllSpectra.txt")
+        self.filepath = get_current_module_path(__file__, "../../../test_data/SpectrumFullResults 10.txt")
         if not is_test_data_file(self.filepath):
-            raise SkipTest
+            raise self.skipTest()
 
-        self.results = ReadAllSpectrumResults.ReadAllSpectrumResults(self.filepath)
+        self.results = ReadSpectrumFullResults.ReadSpectrumFullResults(self.filepath)
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
@@ -60,7 +59,7 @@ class TestReadAllSpectrumResults(unittest.TestCase):
         self.assertTrue(True)
 
     def testConstructor(self):
-        results = ReadAllSpectrumResults.ReadAllSpectrumResults(self.filepath)
+        results = ReadSpectrumFullResults.ReadSpectrumFullResults(self.filepath)
 
         #self.fail("Test if the TestCase is working.")
         self.assertTrue(True)
@@ -70,25 +69,11 @@ class TestReadAllSpectrumResults(unittest.TestCase):
 
         data = self.results.data
 
-        self.assertAlmostEquals(0.853, data["Spectrum 5"][1], 3)
+        self.assertAlmostEquals(0.0088, data["O"][2], 4)
 
-        self.assertAlmostEquals(100.000, data["Spectrum 5"][-1], 3)
+        self.assertAlmostEquals(0.28664, data["Zr"][2], 5)
 
-        self.assertAlmostEquals(0.520, data["Minimum"][1], 3)
-
-        self.assertAlmostEquals(15.128, data["Minimum"][-1], 3)
-
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
-
-    def test_extractMinData(self):
-        #line = "Min.    19.086    0.520    4.404    0.598    40.670    14.894    15.128     "
-        line = "Min.\t19.086\t0.520\t4.404\t0.598\t40.670\t14.894\t15.128\t"
-        results = self.results._extractLineData(line)
-
-        self.assertAlmostEquals(0.520, results[1], 3)
-
-        self.assertAlmostEquals(15.128, results[-1], 3)
+        self.assertAlmostEquals(100.00, data["Totals"], 2)
 
         #self.fail("Test if the TestCase is working.")
         self.assertTrue(True)
@@ -97,17 +82,13 @@ class TestReadAllSpectrumResults(unittest.TestCase):
         folderpath = get_current_module_path(__file__, "../../../test_data")
 
         filepath = os.path.join(folderpath, "SpectrumFullResults 10.txt")
-        self.assertEquals(False, ReadAllSpectrumResults.isValidFile(filepath))
+        self.assertEquals(True, ReadSpectrumFullResults.isValidFile(filepath))
 
         filepath = os.path.join(folderpath, "SpectrumProcessing 10.txt")
-        self.assertEquals(False, ReadAllSpectrumResults.isValidFile(filepath))
+        self.assertEquals(False, ReadSpectrumFullResults.isValidFile(filepath))
 
         filepath = os.path.join(folderpath, "AllSpectra.txt")
-        self.assertEquals(True, ReadAllSpectrumResults.isValidFile(filepath))
+        self.assertEquals(False, ReadSpectrumFullResults.isValidFile(filepath))
 
         #self.fail("Test if the TestCase is working.")
         self.assertTrue(True)
-
-if __name__ == '__main__':  # pragma: no cover
-    import nose
-    nose.runmodule()

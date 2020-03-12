@@ -31,7 +31,6 @@ import unittest
 import os.path
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
 
 # Local modules.
 
@@ -48,7 +47,7 @@ class TestTemCsvFile(unittest.TestCase):
 
         self.filepathRef = get_current_module_path(__file__, "../../test_data/TEM_Edax/OVERALL.CSV")
         if not is_test_data_file(self.filepathRef):
-            raise SkipTest
+            raise self.skipTest()
 
         self.data = TemCsvFile.TemCsvFile(self.filepathRef)
 
@@ -92,7 +91,3 @@ class TestTemCsvFile(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
-
-if __name__ == '__main__':  # pragma: no cover
-    import nose
-    nose.runmodule()

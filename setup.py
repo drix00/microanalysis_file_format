@@ -49,7 +49,7 @@ requirements = [
 ]
 
 test_requirements = [
-    'nose', 'coverage', 'pytest', 'pytest-cov'
+    'coverage', 'pytest', 'pytest-cov'
 ]
 
 readme_file_path = os.path.join(os.path.dirname(__file__), 'README.rst')
@@ -77,6 +77,6 @@ setup(name="pySpectrumFileFormat",
       zip_safe=False,
       keywords='microanalysis_file_format',
       include_package_data=False,  # Do not include test data
-      test_suite='nose.collector',
+      test_suite='tests',
       tests_require=test_requirements
       )
