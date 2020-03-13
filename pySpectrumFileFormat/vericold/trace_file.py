@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: VeriCold.TraceFile
-   :synopsis: Read a trace file from VeriCold/EDAX microcalorimeter x-ray detector.
-
+.. py:currentmodule:: pySpectrumFileFormat.vericold.trace_file
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 TraceFile header
@@ -102,11 +100,11 @@ import time
 import struct
 
 # Third party modules.
-import pylab
 
 # Project modules.
 
 # Globals and constants variables.
+
 
 class TraceFile(object):
     def __init__(self, filename):
@@ -114,72 +112,72 @@ class TraceFile(object):
 
         self.headerFormat = "<2i 260s 260s 260s 260s iH2h2x 9i 4i 4x 8d"
 
-        #print "headerFormat size: %i" % (struct.calcsize(self.headerFormat))
+        # print "header_format size: %i" % (struct.calcsize(self.header_format))
 
         self.traceHeaderSize = 148
 
         self.traceHeaderFormat = "4i ii 3d i d i 3d 2i d 2i d 2i 2d 4x"
 
-        #print "traceHeaderFormat size: %i" % (struct.calcsize("<"+self.traceHeaderFormat))
+        # print "traceHeaderFormat size: %i" % (struct.calcsize("<"+self.traceHeaderFormat))
 
         self.traceDataSize = 1024*2
 
         self.traceDataFormat = "1024h"
 
-        #print "traceDataFormat size: %i" % (struct.calcsize("<"+self.traceDataFormat))
+        # print "traceDataFormat size: %i" % (struct.calcsize("<"+self.traceDataFormat))
 
         self.traceFormat = "<" + self.traceHeaderFormat + self.traceDataFormat
 
-        #print "traceFormat size: %i" % (struct.calcsize(self.traceFormat))
+        # print "traceFormat size: %i" % (struct.calcsize(self.traceFormat))
 
         self.traceSize = self.traceHeaderSize + self.traceDataSize
 
-        #print "Trace size: %i" % (self.traceSize)
+        # print "Trace size: %i" % (self.traceSize)
 
         self.filename = filename
 
         self.header = {}
 
-    def getFileSize(self):
+    def get_file_size(self):
         return os.stat(self.filename).st_size
 
-    def printFileTime(self):
-        timeLastAccess = time.localtime(os.stat(self.filename).st_atime)
+    def print_file_time(self):  # pragma: no cover
+        time_last_access = time.localtime(os.stat(self.filename).st_atime)
 
-        timeLastAccess = time.asctime(timeLastAccess)
+        time_last_access = time.asctime(time_last_access)
 
-        timeLastModification = time.localtime(os.stat(self.filename).st_mtime)
+        time_last_modification = time.localtime(os.stat(self.filename).st_mtime)
 
-        timeLastModification = time.asctime(timeLastModification)
+        time_last_modification = time.asctime(time_last_modification)
 
-        timeLastChange = time.localtime(os.stat(self.filename).st_ctime)
+        time_last_change = time.localtime(os.stat(self.filename).st_ctime)
 
-        timeLastChange = time.asctime(timeLastChange)
+        time_last_change = time.asctime(time_last_change)
 
-        print("Time of the last access: %s" % (timeLastAccess))
+        print("Time of the last access: {}}".format(time_last_access))
 
-        print("Time of the last modification: %s" % (timeLastModification))
+        print("Time of the last modification: {}}".format(time_last_modification))
 
-        print("Time of the last status change: %s" % (timeLastChange))
+        print("Time of the last status change: {}}".format(time_last_change))
 
-    def readTrace(self, traceID):
-        if traceID > 0:
-            traceFile = open(self.filename, "rb")
+    def read_trace(self, trace_id):
+        if trace_id > 0:
+            trace_file = open(self.filename, "rb")
 
-            filePosition = self.headerSize + (traceID - 1)*self.traceSize
+            file_position = self.headerSize + (trace_id - 1) * self.traceSize
 
-            #print traceID, filePosition
+            # print trace_id, filePosition
 
-            traceFile.seek(filePosition)
+            trace_file.seek(file_position)
 
-            traceStr = traceFile.read(self.traceSize)
+            trace_str = trace_file.read(self.traceSize)
 
-            values = struct.unpack(self.traceFormat, traceStr)
+            values = struct.unpack(self.traceFormat, trace_str)
 
-            #print len(values)
+            # print len(values)
 
-            #for index,value in enumerate(values):
-            #    print "%2i: >>%s<<" % (index, value)
+            # for index,value in enumerate(values):
+            #     print "%2i: >>%s<<" % (index, value)
 
             header = {}
 
@@ -224,36 +222,33 @@ class TraceFile(object):
             for index in range(25, 1025, 1):
                 data.append(float(values[index]))
 
-            headerKeys = header.keys()
-            headerKeys.sort()
+            # header_keys = sorted(header.keys())
+            # for key in headerKeys:
+            #     print "%s: >>%s<<" % (key, header[key])
 
-#            for key in headerKeys:
-#                print "%s: >>%s<<" % (key, header[key])
-
-
-            timeStep_ms = 1.0E3/header["SampleRate"]
+            time_step_ms = 1.0E3 / header["SampleRate"]
 
             times_ms = []
             for index, dummy_value in enumerate(data):
-                time_ms = timeStep_ms*index
+                time_ms = time_step_ms * index
 
                 times_ms.append(time_ms)
 
-                #print "%0.4f\t%0.4f" % (time_ms, value)
+                # print "%0.4f\t%0.4f" % (time_ms, value)
 
             return header, times_ms, data
 
-    def readHeader(self):
-        traceFile = open(self.filename, "rb")
+    def read_header(self):
+        trace_file = open(self.filename, "rb")
 
-        headerStr = traceFile.read(self.headerSize)
+        header_str = trace_file.read(self.headerSize)
 
-        values = struct.unpack(self.headerFormat, headerStr)
+        values = struct.unpack(self.headerFormat, header_str)
 
-        #print len(values)
+        # print len(values)
 
-#        for index,value in enumerate(values):
-#            print "%2i: >>%s<<" % (index, value)
+        # for index,value in enumerate(values):
+        #     print "%2i: >>%s<<" % (index, value)
 
         self.header["Size"] = int(values[0])
 
@@ -301,7 +296,7 @@ class TraceFile(object):
         self.header["WDistance"] = float(values[29])
         self.header["PixelSize"] = float(values[30])
 
-    def printHeader(self):
+    def print_header(self):  # pragma: no cover
         print("Size: ", self.header["Size"])
         print("Version: ", self.header["Version"])
 
@@ -341,93 +336,29 @@ class TraceFile(object):
         print("WDistance", self.header["WDistance"])
         print("PixelSize", self.header["PixelSize"])
 
-    def computeBaseLine(self, times_ms, data):
-        endIndex = 0
+    @staticmethod
+    def compute_baseline(times_ms, data):
+        end_index = 0
 
-        for index,time_ms in enumerate(times_ms):
+        for index, time_ms in enumerate(times_ms):
             if time_ms >= 0.2:
-                endIndex = index
+                end_index = index
                 break
 
-        #print endIndex
+        # print end_index
 
-        total = sum(data[:endIndex])
-        number = len(data[:endIndex])
+        total = sum(data[:end_index])
+        number = len(data[:end_index])
 
         baseline = total/number
 
         return baseline
 
-    def getPulse(self, pulseID, gain=1.0/5.0E3):
-        dummy_header, times_ms, data = self.readTrace(pulseID)
+    def get_pulse(self, pulse_id, gain=1.0 / 5.0E3):
+        dummy_header, times_ms, data = self.read_trace(pulse_id)
 
-        baseline = self.computeBaseLine(times_ms, data)
+        baseline = self.compute_baseline(times_ms, data)
 
-        pulseData = [(xx - baseline)*gain for xx in data]
+        pulse_data = [(xx - baseline)*gain for xx in data]
 
-        return times_ms, pulseData
-
-def run():
-    filepath = os.path.expanduser("~/works/prgrms/pythondev/pySpectrumFileFormat/testData/test01.trc")
-
-    traceFile = TraceFile(filepath)
-
-#    for pulseID in range(1,1450,1):
-#        header, times_ms, data = traceFile.readTrace(pulseID)
-#
-#        maximum = max(data)
-#
-#        if maximum > 1000.0:
-#            print pulseID
-
-    #traceFile.readHeader()
-
-    #traceFile.printHeader()
-
-    pulseID = 1
-
-    # First plot.
-
-    dummy_header, times_ms, data = traceFile.readTrace(pulseID)
-
-    dummy_line, = pylab.plot(times_ms, data)
-
-    pylab.title("pulseID: %i" % (pulseID))
-
-    pylab.xlabel(r"Time (ms)")
-
-    pylab.ylabel(r"Pulse height (mV)")
-
-    def click(event):
-        global pulseID
-
-        if event.button == 1:
-            pulseID += 1
-        elif event.button == 3:
-            pulseID -= 1
-
-            if pulseID < 1:
-                pulseID = 1
-
-        dummy_header, times_ms, data = traceFile.readTrace(pulseID)
-
-        pylab.plot(times_ms, data, hold=False)
-#        # update the data.
-#        line.set_xdata(times_ms)
-#
-#        line.set_ydata(data)
-#
-        # redraw the canvas
-        pylab.title("pulseID: %i" % (pulseID))
-
-        pylab.draw()
-
-    #register this function with the event handler.
-    pylab.connect('button_press_event', click)
-
-    pylab.show()
-
-    #traceFile.printHeader()
-
-if __name__ == '__main__':  # pragma: no cover
-    run()
+        return times_ms, pulse_data

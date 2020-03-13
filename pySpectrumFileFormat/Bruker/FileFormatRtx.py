@@ -190,7 +190,7 @@ def runRTX():
 
     fileFormatRtx.readFile(filepath)
 
-    #fileFormatRtx.printHeader()
+    #fileFormatRtx.print_header()
     #fileFormatRtx.printProjectHeader()
     fileFormatRtx.printCompression()
     fileFormatRtx.printDate()

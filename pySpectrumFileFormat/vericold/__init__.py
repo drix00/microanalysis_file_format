@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: tests.VeriCold
-
+.. py:currentmodule:: pySpectrumFileFormat.vericold
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-
+Package for file of microcalorimeter x-ray detector from VeriCold and EDAX.
 """
 
-# Copyright 2020 Hendrix Demers
+###############################################################################
+# Copyright 2007 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+###############################################################################
 
 # Standard library modules.
 

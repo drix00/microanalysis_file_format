@@ -69,9 +69,9 @@ class TestReadSpectrumProcessingResults(unittest.TestCase):
 
         data = self.results.data
 
-        self.assertEquals("", data["Element"][1])
+        self.assertEqual("", data["Element"][1])
 
-        self.assertEquals("Zr", data["Element"][-1])
+        self.assertEqual("Zr", data["Element"][-1])
 
         self.assertAlmostEquals(-34864.3, data["Area"][1], 1)
 
@@ -84,13 +84,13 @@ class TestReadSpectrumProcessingResults(unittest.TestCase):
         folderpath = get_current_module_path(__file__, "../../../test_data")
 
         filepath = os.path.join(folderpath, "SpectrumFullResults 10.txt")
-        self.assertEquals(False, ReadSpectrumProcessingResults.isValidFile(filepath))
+        self.assertEqual(False, ReadSpectrumProcessingResults.isValidFile(filepath))
 
         filepath = os.path.join(folderpath, "SpectrumProcessing 10.txt")
-        self.assertEquals(True, ReadSpectrumProcessingResults.isValidFile(filepath))
+        self.assertEqual(True, ReadSpectrumProcessingResults.isValidFile(filepath))
 
         filepath = os.path.join(folderpath, "AllSpectra.txt")
-        self.assertEquals(False, ReadSpectrumProcessingResults.isValidFile(filepath))
+        self.assertEqual(False, ReadSpectrumProcessingResults.isValidFile(filepath))
 
         #self.fail("Test if the TestCase is working.")
         self.assertTrue(True)

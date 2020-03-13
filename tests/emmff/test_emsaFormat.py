@@ -237,112 +237,112 @@ class emsaFormatTestCase(unittest.TestCase):
     def testReadKeywordLine(self):
         line = r"#FORMAT      : EMSA/MAS Spectral Data File"
         keyword, keywordComment, data = self.emsa.readKeywordLine(line)
-        self.assertEquals("FORMAT", keyword)
-        self.assertEquals("", keywordComment)
-        self.assertEquals("EMSA/MAS Spectral Data File", data)
+        self.assertEqual("FORMAT", keyword)
+        self.assertEqual("", keywordComment)
+        self.assertEqual("EMSA/MAS Spectral Data File", data)
 
         line = r"#VERSION     : 1.0"
         keyword, keywordComment, data = self.emsa.readKeywordLine(line)
-        self.assertEquals("VERSION", keyword)
-        self.assertEquals("", keywordComment)
-        self.assertEquals("1.0", data)
+        self.assertEqual("VERSION", keyword)
+        self.assertEqual("", keywordComment)
+        self.assertEqual("1.0", data)
 
         line = r"#TITLE       : Spectrum 1"
         keyword, keywordComment, data = self.emsa.readKeywordLine(line)
-        self.assertEquals("TITLE", keyword)
-        self.assertEquals("", keywordComment)
-        self.assertEquals("Spectrum 1", data)
+        self.assertEqual("TITLE", keyword)
+        self.assertEqual("", keywordComment)
+        self.assertEqual("Spectrum 1", data)
 
         line = r"#DATE        : 20-NOV-2006"
         keyword, keywordComment, data = self.emsa.readKeywordLine(line)
-        self.assertEquals("DATE", keyword)
-        self.assertEquals("", keywordComment)
-        self.assertEquals("20-NOV-2006", data)
+        self.assertEqual("DATE", keyword)
+        self.assertEqual("", keywordComment)
+        self.assertEqual("20-NOV-2006", data)
 
         line = r"#TIME        : 16:03"
         keyword, keywordComment, data = self.emsa.readKeywordLine(line)
-        self.assertEquals("TIME", keyword)
-        self.assertEquals("", keywordComment)
-        self.assertEquals("16:03", data)
+        self.assertEqual("TIME", keyword)
+        self.assertEqual("", keywordComment)
+        self.assertEqual("16:03", data)
 
         line = r"#XPOSITION mm: 0.0000"
         keyword, keywordComment, data = self.emsa.readKeywordLine(line)
-        self.assertEquals("XPOSITION", keyword)
-        self.assertEquals("mm", keywordComment)
-        self.assertEquals("0.0000", data)
+        self.assertEqual("XPOSITION", keyword)
+        self.assertEqual("mm", keywordComment)
+        self.assertEqual("0.0000", data)
 
         line = r"##OXINSTELEMS: 6,8,12"
         keyword, keywordComment, data = self.emsa.readKeywordLine(line)
-        self.assertEquals("OXINSTELEMS", keyword)
-        self.assertEquals("", keywordComment)
-        self.assertEquals("6,8,12", data)
+        self.assertEqual("OXINSTELEMS", keyword)
+        self.assertEqual("", keywordComment)
+        self.assertEqual("6,8,12", data)
 
         line = r"-0.200, 0."
         keyword, keywordComment, data = self.emsa.readKeywordLine(line)
-        self.assertEquals(None, keyword)
-        self.assertEquals(None, keywordComment)
-        self.assertEquals(None, data)
+        self.assertEqual(None, keyword)
+        self.assertEqual(None, keywordComment)
+        self.assertEqual(None, data)
 
     def testReadDataLine(self):
         line = r"-0.200, 0."
         values = self.emsa.readDataLine(line)
-        self.assertEquals(2, len(values))
-        self.assertEquals(-0.2, values[0])
-        self.assertEquals(0.0, values[1])
+        self.assertEqual(2, len(values))
+        self.assertEqual(-0.2, values[0])
+        self.assertEqual(0.0, values[1])
 
         line = r"-0.200 0."
         values = self.emsa.readDataLine(line)
-        self.assertEquals(2, len(values))
-        self.assertEquals(-0.2, values[0])
-        self.assertEquals(0.0, values[1])
+        self.assertEqual(2, len(values))
+        self.assertEqual(-0.2, values[0])
+        self.assertEqual(0.0, values[1])
 
         line = r"-0.200"
         values = self.emsa.readDataLine(line)
-        self.assertEquals(1, len(values))
-        self.assertEquals(-0.2, values[0])
+        self.assertEqual(1, len(values))
+        self.assertEqual(-0.2, values[0])
 
         line = r"1.0, 2.0, 3.0, 4.0, 5.0"
         values = self.emsa.readDataLine(line)
-        self.assertEquals(5, len(values))
-        self.assertEquals(1.0, values[0])
-        self.assertEquals(5.0, values[-1])
+        self.assertEqual(5, len(values))
+        self.assertEqual(1.0, values[0])
+        self.assertEqual(5.0, values[-1])
 
         line = r"1.0, 2.0, 3.0, 4.0, 5.0, 6.0"
         values = self.emsa.readDataLine(line)
-        self.assertEquals(6, len(values))
-        self.assertEquals(1.0, values[0])
-        self.assertEquals(6.0, values[-1])
+        self.assertEqual(6, len(values))
+        self.assertEqual(1.0, values[0])
+        self.assertEqual(6.0, values[-1])
 
         line = r"#VERSION         : 1.0"
         values = self.emsa.readDataLine(line)
-        self.assertEquals(None, values)
+        self.assertEqual(None, values)
 
     def testReadLine(self):
         emsa = emsaFormat.EmsaFormat()
 
         line = r"-0.200, 0."
         emsa.readLine(line)
-        self.assertEquals(1, len(emsa.values))
-        self.assertEquals(-0.2, emsa.values[0][0])
-        self.assertEquals(0.0, emsa.values[0][1])
+        self.assertEqual(1, len(emsa.values))
+        self.assertEqual(-0.2, emsa.values[0][0])
+        self.assertEqual(0.0, emsa.values[0][1])
 
         line = r"#FORMAT            : EMSA/MAS Spectral Data File"
         emsa.readLine(line)
-        self.assertEquals(1, len(emsa.keywords))
-        self.assertEquals("FORMAT", emsa.keywords[0]["keyword"])
-        self.assertEquals(1, emsa.keywords[0]["order"])
+        self.assertEqual(1, len(emsa.keywords))
+        self.assertEqual("FORMAT", emsa.keywords[0]["keyword"])
+        self.assertEqual(1, emsa.keywords[0]["order"])
 
         line = r"#VERSION         : 1.0"
         emsa.readLine(line)
-        self.assertEquals(2, len(emsa.keywords))
-        self.assertEquals("VERSION", emsa.keywords[1]["keyword"])
-        self.assertEquals(2, emsa.keywords[1]["order"])
+        self.assertEqual(2, len(emsa.keywords))
+        self.assertEqual("VERSION", emsa.keywords[1]["keyword"])
+        self.assertEqual(2, emsa.keywords[1]["order"])
 
         line = r"#TITLE             : Spectrum 1"
         emsa.readLine(line)
-        self.assertEquals(3, len(emsa.keywords))
-        self.assertEquals("TITLE", emsa.keywords[2]["keyword"])
-        self.assertEquals(3, emsa.keywords[2]["order"])
+        self.assertEqual(3, len(emsa.keywords))
+        self.assertEqual("TITLE", emsa.keywords[2]["keyword"])
+        self.assertEqual(3, emsa.keywords[2]["order"])
 
     def testReadlines(self):
         emsa = emsaFormat.EmsaFormat()
@@ -353,172 +353,172 @@ class emsaFormatTestCase(unittest.TestCase):
 
         emsa.readLines()
 
-        self.assertEquals(30, len(emsa.keywords))
+        self.assertEqual(30, len(emsa.keywords))
 
-        self.assertEquals(1024, len(emsa.values))
+        self.assertEqual(1024, len(emsa.values))
 
     def testSetGetFormat(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getFormat())
+        self.assertEqual(None, emsa.getFormat())
 
-        self.assertEquals("EMSA/MAS Spectral Data File", self.emsa.getFormat())
+        self.assertEqual("EMSA/MAS Spectral Data File", self.emsa.getFormat())
 
     def testIsFileValid(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.isFileValid)
+        self.assertEqual(None, emsa.isFileValid)
 
-        self.assertEquals(True, self.emsa.isFileValid)
+        self.assertEqual(True, self.emsa.isFileValid)
 
     def testSetGetVersion(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getVersion())
+        self.assertEqual(None, emsa.getVersion())
 
-        self.assertEquals("1.0", self.emsa.getVersion())
+        self.assertEqual("1.0", self.emsa.getVersion())
 
     def testSetGetTitle(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getTitle())
+        self.assertEqual(None, emsa.getTitle())
 
-        self.assertEquals("Spectrum 1", self.emsa.getTitle())
+        self.assertEqual("Spectrum 1", self.emsa.getTitle())
 
     def testSetGetDate(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getDate())
+        self.assertEqual(None, emsa.getDate())
 
-        self.assertEquals("20-NOV-2006", self.emsa.getDate())
+        self.assertEqual("20-NOV-2006", self.emsa.getDate())
 
     def testSetGetTime(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getTime())
+        self.assertEqual(None, emsa.getTime())
 
-        self.assertEquals("16:03", self.emsa.getTime())
+        self.assertEqual("16:03", self.emsa.getTime())
 
     def testSetGetOwner(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getOwner())
+        self.assertEqual(None, emsa.getOwner())
 
-        self.assertEquals("helen", self.emsa.getOwner())
+        self.assertEqual("helen", self.emsa.getOwner())
 
     def testSetGetNumberPoints(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getNumberPoints())
+        self.assertEqual(None, emsa.getNumberPoints())
 
-        self.assertEquals(1024.0, self.emsa.getNumberPoints())
+        self.assertEqual(1024.0, self.emsa.getNumberPoints())
 
     def testSetGetNumberColumns(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getNumberColumns())
+        self.assertEqual(None, emsa.getNumberColumns())
 
-        self.assertEquals(1.0, self.emsa.getNumberColumns())
+        self.assertEqual(1.0, self.emsa.getNumberColumns())
 
     def testSetGetXUnits(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getXUnits())
+        self.assertEqual(None, emsa.getXUnits())
 
-        self.assertEquals("keV", self.emsa.getXUnits())
+        self.assertEqual("keV", self.emsa.getXUnits())
 
     def testSetGetYUnits(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getYUnits())
+        self.assertEqual(None, emsa.getYUnits())
 
-        self.assertEquals("counts", self.emsa.getYUnits())
+        self.assertEqual("counts", self.emsa.getYUnits())
 
     def testSetGetDataType(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getDataType())
+        self.assertEqual(None, emsa.getDataType())
 
-        self.assertEquals("XY", self.emsa.getDataType())
+        self.assertEqual("XY", self.emsa.getDataType())
 
     def testSetGetXPerChannel(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getXPerChannel())
+        self.assertEqual(None, emsa.getXPerChannel())
 
-        self.assertEquals(0.02, self.emsa.getXPerChannel())
+        self.assertEqual(0.02, self.emsa.getXPerChannel())
 
     def testSetGetOffset(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getOffset())
+        self.assertEqual(None, emsa.getOffset())
 
-        self.assertEquals(-0.2, self.emsa.getOffset())
+        self.assertEqual(-0.2, self.emsa.getOffset())
 
     def testSetGetSignalType(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getSignalType())
+        self.assertEqual(None, emsa.getSignalType())
 
-        self.assertEquals("EDS", self.emsa.getSignalType())
+        self.assertEqual("EDS", self.emsa.getSignalType())
 
     def testSetGetChannelOffset(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getChannelOffset())
+        self.assertEqual(None, emsa.getChannelOffset())
 
-        self.assertEquals(10.0, self.emsa.getChannelOffset())
+        self.assertEqual(10.0, self.emsa.getChannelOffset())
 
     def testSetGetLiveTime(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getLiveTime())
+        self.assertEqual(None, emsa.getLiveTime())
 
-        self.assertEquals(0.34635, self.emsa.getLiveTime())
+        self.assertEqual(0.34635, self.emsa.getLiveTime())
 
     def testSetGetRealTime(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getRealTime())
+        self.assertEqual(None, emsa.getRealTime())
 
-        self.assertEquals(0.453241, self.emsa.getRealTime())
+        self.assertEqual(0.453241, self.emsa.getRealTime())
 
     def testSetGetBeamEnergy(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getBeamEnergy())
+        self.assertEqual(None, emsa.getBeamEnergy())
 
-        self.assertEquals(5.0, self.emsa.getBeamEnergy())
+        self.assertEqual(5.0, self.emsa.getBeamEnergy())
 
     def testSetGetProbeCurrent(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getProbeCurrent())
+        self.assertEqual(None, emsa.getProbeCurrent())
 
-        self.assertEquals(0.0, self.emsa.getProbeCurrent())
+        self.assertEqual(0.0, self.emsa.getProbeCurrent())
 
     def testSetGetMagnification(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getMagnification())
+        self.assertEqual(None, emsa.getMagnification())
 
-        self.assertEquals(250.0, self.emsa.getMagnification())
+        self.assertEqual(250.0, self.emsa.getMagnification())
 
     def testSetGetXPosition(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getXPosition())
+        self.assertEqual(None, emsa.getXPosition())
 
-        self.assertEquals(0.0, self.emsa.getXPosition())
+        self.assertEqual(0.0, self.emsa.getXPosition())
 
     def testSetGetYPosition(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getYPosition())
+        self.assertEqual(None, emsa.getYPosition())
 
-        self.assertEquals(0.0, self.emsa.getYPosition())
+        self.assertEqual(0.0, self.emsa.getYPosition())
 
     def testSetGetZPosition(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getZPosition())
+        self.assertEqual(None, emsa.getZPosition())
 
-        self.assertEquals(0.0, self.emsa.getZPosition())
+        self.assertEqual(0.0, self.emsa.getZPosition())
 
     def testSetGetOxfordInstrumentsElement(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getOxfordInstrumentsElement())
+        self.assertEqual(None, emsa.getOxfordInstrumentsElement())
 
-        self.assertEquals("6,8,12", self.emsa.getOxfordInstrumentsElement())
+        self.assertEqual("6,8,12", self.emsa.getOxfordInstrumentsElement())
 
     def testSetGetOxfordInstrumentsLabel(self):
         emsa = emsaFormat.EmsaFormat()
-        self.assertEquals(None, emsa.getOxfordInstrumentsLabel())
+        self.assertEqual(None, emsa.getOxfordInstrumentsLabel())
 
-        self.assertEquals("8, 0.525, O", self.emsa.getOxfordInstrumentsLabel())
+        self.assertEqual("8, 0.525, O", self.emsa.getOxfordInstrumentsLabel())
 
     def testCreateXData(self):
         xData = self.emsa.createXData(1024, -0.2, 0.02)
-        self.assertEquals(1024, len(xData))
+        self.assertEqual(1024, len(xData))
 
         xDataRef = self.emsa.getDataX()
-        self.assertEquals(1024, len(xDataRef))
+        self.assertEqual(1024, len(xDataRef))
 
         self.assertAlmostEquals(xDataRef[0], xData[0])
         self.assertAlmostEquals(xDataRef[10], xData[10])

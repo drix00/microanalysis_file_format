@@ -61,7 +61,7 @@ class TestTemCsvFile(unittest.TestCase):
         self.assert_(True)
 
     def test_Constructor(self):
-        self.assertEquals(self.filepathRef, self.data._filepath)
+        self.assertEqual(self.filepathRef, self.data._filepath)
 
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
@@ -71,11 +71,11 @@ class TestTemCsvFile(unittest.TestCase):
 
         channels = data[TemCsvFile.CHANNEL]
         counts = data[TemCsvFile.COUNTS]
-        self.assertEquals(self.numberPoints, len(channels))
-        self.assertEquals(self.numberPoints, len(counts))
+        self.assertEqual(self.numberPoints, len(channels))
+        self.assertEqual(self.numberPoints, len(counts))
 
-        self.assertEquals(1024, channels[-1])
-        self.assertEquals(775, counts[-1])
+        self.assertEqual(1024, channels[-1])
+        self.assertEqual(775, counts[-1])
 
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
@@ -83,11 +83,11 @@ class TestTemCsvFile(unittest.TestCase):
     def test_getData(self):
         energies_eV, counts = self.data.getData()
 
-        self.assertEquals(self.numberPoints, len(energies_eV))
-        self.assertEquals(self.numberPoints, len(counts))
+        self.assertEqual(self.numberPoints, len(energies_eV))
+        self.assertEqual(self.numberPoints, len(counts))
 
-        self.assertEquals(10240.0, energies_eV[-1])
-        self.assertEquals(775, counts[-1])
+        self.assertEqual(10240.0, energies_eV[-1])
+        self.assertEqual(775, counts[-1])
 
         #self.fail("Test if the testcase is working.")
         self.assert_(True)

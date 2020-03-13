@@ -96,143 +96,143 @@ class TestEmsaReader(unittest.TestCase):
 
         line = r"#FORMAT      : EMSA/MAS Spectral Data File"
         keyword, comment, value = reader._parse_keyword_line(line)
-        self.assertEquals("FORMAT", keyword)
-        self.assertEquals("", comment)
-        self.assertEquals("EMSA/MAS Spectral Data File", value)
+        self.assertEqual("FORMAT", keyword)
+        self.assertEqual("", comment)
+        self.assertEqual("EMSA/MAS Spectral Data File", value)
 
         line = r"#VERSION     : 1.0"
         keyword, comment, value = reader._parse_keyword_line(line)
-        self.assertEquals("VERSION", keyword)
-        self.assertEquals("", comment)
-        self.assertEquals('1.0', value)
+        self.assertEqual("VERSION", keyword)
+        self.assertEqual("", comment)
+        self.assertEqual('1.0', value)
 
         line = r"#TITLE       : Spectrum 1"
         keyword, comment, value = reader._parse_keyword_line(line)
-        self.assertEquals("TITLE", keyword)
-        self.assertEquals("", comment)
-        self.assertEquals("Spectrum 1", value)
+        self.assertEqual("TITLE", keyword)
+        self.assertEqual("", comment)
+        self.assertEqual("Spectrum 1", value)
 
         line = r"#DATE        : 20-NOV-2006"
         keyword, comment, value = reader._parse_keyword_line(line)
-        self.assertEquals("DATE", keyword)
-        self.assertEquals("", comment)
-        self.assertEquals("20-NOV-2006", value)
+        self.assertEqual("DATE", keyword)
+        self.assertEqual("", comment)
+        self.assertEqual("20-NOV-2006", value)
 
         line = r"#TIME        : 16:03"
         keyword, comment, value = reader._parse_keyword_line(line)
-        self.assertEquals("TIME", keyword)
-        self.assertEquals("", comment)
-        self.assertEquals("16:03", value)
+        self.assertEqual("TIME", keyword)
+        self.assertEqual("", comment)
+        self.assertEqual("16:03", value)
 
         line = r"#XPOSITION mm: 0.0000"
         keyword, comment, value = reader._parse_keyword_line(line)
-        self.assertEquals("XPOSITION", keyword)
-        self.assertEquals("mm", comment)
-        self.assertEquals('0.0000', value)
+        self.assertEqual("XPOSITION", keyword)
+        self.assertEqual("mm", comment)
+        self.assertEqual('0.0000', value)
 
     def test_parse_data_line(self):
         reader = emsa.EmsaReader()
 
         line = r"-0.200, 0."
         values = reader._parse_data_line(line)
-        self.assertEquals(2, len(values))
-        self.assertEquals(-0.2, values[0])
-        self.assertEquals(0.0, values[1])
+        self.assertEqual(2, len(values))
+        self.assertEqual(-0.2, values[0])
+        self.assertEqual(0.0, values[1])
 
         line = r"-0.200 0."
         values = reader._parse_data_line(line)
-        self.assertEquals(2, len(values))
-        self.assertEquals(-0.2, values[0])
-        self.assertEquals(0.0, values[1])
+        self.assertEqual(2, len(values))
+        self.assertEqual(-0.2, values[0])
+        self.assertEqual(0.0, values[1])
 
         line = r"-0.200"
         values = reader._parse_data_line(line)
-        self.assertEquals(1, len(values))
-        self.assertEquals(-0.2, values[0])
+        self.assertEqual(1, len(values))
+        self.assertEqual(-0.2, values[0])
 
         line = r"1.0, 2.0, 3.0, 4.0, 5.0"
         values = reader._parse_data_line(line)
-        self.assertEquals(5, len(values))
-        self.assertEquals(1.0, values[0])
-        self.assertEquals(5.0, values[-1])
+        self.assertEqual(5, len(values))
+        self.assertEqual(1.0, values[0])
+        self.assertEqual(5.0, values[-1])
 
         line = r"1.0, 2.0, 3.0, 4.0, 5.0, 6.0"
         values = reader._parse_data_line(line)
-        self.assertEquals(6, len(values))
-        self.assertEquals(1.0, values[0])
-        self.assertEquals(6.0, values[-1])
+        self.assertEqual(6, len(values))
+        self.assertEqual(1.0, values[0])
+        self.assertEqual(6.0, values[-1])
 
     def testformat(self):
-        self.assertEquals("EMSA/MAS Spectral Data File", self.emsa.header.format)
+        self.assertEqual("EMSA/MAS Spectral Data File", self.emsa.header.format)
 
     def testversion(self):
-        self.assertEquals(1.0, self.emsa.header.version)
+        self.assertEqual(1.0, self.emsa.header.version)
 
     def testtitle(self):
-        self.assertEquals("Spectrum 1", self.emsa.header.title)
+        self.assertEqual("Spectrum 1", self.emsa.header.title)
 
     def testdate(self):
-        self.assertEquals("20-NOV-2006", self.emsa.header.date)
+        self.assertEqual("20-NOV-2006", self.emsa.header.date)
 
     def testtime(self):
-        self.assertEquals("16:03", self.emsa.header.time)
+        self.assertEqual("16:03", self.emsa.header.time)
 
     def testowner(self):
-        self.assertEquals("helen", self.emsa.header.owner)
+        self.assertEqual("helen", self.emsa.header.owner)
 
     def testnumber_points(self):
-        self.assertEquals(1024.0, self.emsa.header.npoints)
+        self.assertEqual(1024.0, self.emsa.header.npoints)
 
     def testnumber_columns(self):
-        self.assertEquals(1.0, self.emsa.header.ncolumns)
+        self.assertEqual(1.0, self.emsa.header.ncolumns)
 
     def testxunits(self):
-        self.assertEquals("keV", self.emsa.header.xunits)
+        self.assertEqual("keV", self.emsa.header.xunits)
 
     def testyunits(self):
-        self.assertEquals("counts", self.emsa.header.yunits)
+        self.assertEqual("counts", self.emsa.header.yunits)
 
     def testdata_type(self):
-        self.assertEquals("XY", self.emsa.header.datatype)
+        self.assertEqual("XY", self.emsa.header.datatype)
 
     def testx_per_channel(self):
-        self.assertEquals(0.02, self.emsa.header.xperchan)
+        self.assertEqual(0.02, self.emsa.header.xperchan)
 
     def testoffset(self):
-        self.assertEquals(-0.2, self.emsa.header.offset)
+        self.assertEqual(-0.2, self.emsa.header.offset)
 
     def testsignal_type(self):
-        self.assertEquals("EDS", self.emsa.header.signaltype)
+        self.assertEqual("EDS", self.emsa.header.signaltype)
 
     def testchannel_offset(self):
-        self.assertEquals(10.0, self.emsa.header.choffset)
+        self.assertEqual(10.0, self.emsa.header.choffset)
 
     def testlive_time(self):
-        self.assertEquals(0.34635, self.emsa.header.livetime)
+        self.assertEqual(0.34635, self.emsa.header.livetime)
 
     def testreal_time(self):
-        self.assertEquals(0.453241, self.emsa.header.realtime)
+        self.assertEqual(0.453241, self.emsa.header.realtime)
 
     def testbeam_energy(self):
-        self.assertEquals(5.0, self.emsa.header.beamkv)
+        self.assertEqual(5.0, self.emsa.header.beamkv)
 
     def testprobe_current(self):
-        self.assertEquals(0.0, self.emsa.header.probecur)
+        self.assertEqual(0.0, self.emsa.header.probecur)
 
     def testmagnification(self):
-        self.assertEquals(250.0, self.emsa.header.magcam)
+        self.assertEqual(250.0, self.emsa.header.magcam)
 
     def testxposition(self):
-        self.assertEquals(0.0, self.emsa.header.xposition[0])
-        self.assertEquals('mm', self.emsa.header.xposition[1])
+        self.assertEqual(0.0, self.emsa.header.xposition[0])
+        self.assertEqual('mm', self.emsa.header.xposition[1])
 
     def testyposition(self):
-        self.assertEquals(0.0, self.emsa.header.yposition[0])
-        self.assertEquals('mm', self.emsa.header.yposition[1])
+        self.assertEqual(0.0, self.emsa.header.yposition[0])
+        self.assertEqual('mm', self.emsa.header.yposition[1])
 
     def testzposition(self):
-        self.assertEquals(0.0, self.emsa.header.zposition[0])
-        self.assertEquals('mm', self.emsa.header.zposition[1])
+        self.assertEqual(0.0, self.emsa.header.zposition[0])
+        self.assertEqual('mm', self.emsa.header.zposition[1])
 
 class TestEmsaWriter(unittest.TestCase):
     LINES = ['#FORMAT      : EMSA/MAS Spectral Data File',

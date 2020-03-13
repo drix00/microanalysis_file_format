@@ -82,13 +82,13 @@ class TestReadSpectrumFullResults(unittest.TestCase):
         folderpath = get_current_module_path(__file__, "../../../test_data")
 
         filepath = os.path.join(folderpath, "SpectrumFullResults 10.txt")
-        self.assertEquals(True, ReadSpectrumFullResults.isValidFile(filepath))
+        self.assertEqual(True, ReadSpectrumFullResults.isValidFile(filepath))
 
         filepath = os.path.join(folderpath, "SpectrumProcessing 10.txt")
-        self.assertEquals(False, ReadSpectrumFullResults.isValidFile(filepath))
+        self.assertEqual(False, ReadSpectrumFullResults.isValidFile(filepath))
 
         filepath = os.path.join(folderpath, "AllSpectra.txt")
-        self.assertEquals(False, ReadSpectrumFullResults.isValidFile(filepath))
+        self.assertEqual(False, ReadSpectrumFullResults.isValidFile(filepath))
 
         #self.fail("Test if the TestCase is working.")
         self.assertTrue(True)

@@ -68,7 +68,7 @@ class TestJEOL8900McGill(unittest.TestCase):
 
         numberLines = linescanFile.readResultsFile(self.filename)
 
-        self.assertEquals(5276, numberLines)
+        self.assertEqual(5276, numberLines)
 
         #self.fail("Test if the TestCase is working.")
         self.assertTrue(True)
@@ -78,7 +78,7 @@ class TestJEOL8900McGill(unittest.TestCase):
 
         self.linescanFile.readMasterHeader(line)
 
-        self.assertEquals(self.linescanFile.masterHeader, {})
+        self.assertEqual(self.linescanFile.masterHeader, {})
 
         #self.fail("Test if the TestCase is working.")
         self.assertTrue(True)
@@ -135,70 +135,70 @@ Total:  100.48    100.48    100.00    100.00   100.000
         current_A = 1.999E-08
 
         # Test experimental condition.
-        self.assertEquals(spectrumID, self.linescanFile.points[1178].spectrumID)
+        self.assertEqual(spectrumID, self.linescanFile.points[1178].spectrumID)
 
-        self.assertEquals(group, self.linescanFile.points[1178].group)
+        self.assertEqual(group, self.linescanFile.points[1178].group)
 
-        self.assertEquals(sample, self.linescanFile.points[1178].sample)
+        self.assertEqual(sample, self.linescanFile.points[1178].sample)
 
-        self.assertEquals(number, self.linescanFile.points[1178].number)
+        self.assertEqual(number, self.linescanFile.points[1178].number)
 
-        self.assertEquals(comment, self.linescanFile.points[1178].comment)
+        self.assertEqual(comment, self.linescanFile.points[1178].comment)
 
-        self.assertEquals(stageX, self.linescanFile.points[1178].stageX)
+        self.assertEqual(stageX, self.linescanFile.points[1178].stageX)
 
-        self.assertEquals(stageY, self.linescanFile.points[1178].stageY)
+        self.assertEqual(stageY, self.linescanFile.points[1178].stageY)
 
-        self.assertEquals(stageZ, self.linescanFile.points[1178].stageZ)
+        self.assertEqual(stageZ, self.linescanFile.points[1178].stageZ)
 
-        self.assertEquals(incidentEnergy_keV, self.linescanFile.points[1178].incidentEnergy_keV)
+        self.assertEqual(incidentEnergy_keV, self.linescanFile.points[1178].incidentEnergy_keV)
 
-        self.assertEquals(probeDiameter, self.linescanFile.points[1178].probeDiameter)
+        self.assertEqual(probeDiameter, self.linescanFile.points[1178].probeDiameter)
 
-        self.assertEquals(scanOn, self.linescanFile.points[1178].scanOn)
+        self.assertEqual(scanOn, self.linescanFile.points[1178].scanOn)
 
-        self.assertEquals(date, self.linescanFile.points[1178].date)
+        self.assertEqual(date, self.linescanFile.points[1178].date)
 
-        self.assertEquals(detectorType, self.linescanFile.points[1178].detectorType)
+        self.assertEqual(detectorType, self.linescanFile.points[1178].detectorType)
 
-        self.assertEquals(numberAccumulation, self.linescanFile.points[1178].numberAccumulation)
+        self.assertEqual(numberAccumulation, self.linescanFile.points[1178].numberAccumulation)
 
-        self.assertEquals(current_A, self.linescanFile.points[1178].current_A)
+        self.assertEqual(current_A, self.linescanFile.points[1178].current_A)
 
         # Test intensities lines.
-        self.assertEquals(300.0, self.linescanFile.points[1178].elementData['Al']['sd_%%'])
+        self.assertEqual(300.0, self.linescanFile.points[1178].elementData['Al']['sd_%%'])
 
-        self.assertEquals(86.0, self.linescanFile.points[1178].elementData['Al']['dl_ppm'])
+        self.assertEqual(86.0, self.linescanFile.points[1178].elementData['Al']['dl_ppm'])
 
-        self.assertEquals(30962.1, self.linescanFile.points[1178].elementData['Mg']['net_cps'])
+        self.assertEqual(30962.1, self.linescanFile.points[1178].elementData['Mg']['net_cps'])
 
-        self.assertEquals(3, self.linescanFile.points[1178].elementData['Zn']['id'])
+        self.assertEqual(3, self.linescanFile.points[1178].elementData['Zn']['id'])
 
-        self.assertEquals(507.0, self.linescanFile.points[1178].elementData['Zn']['dl_ppm'])
+        self.assertEqual(507.0, self.linescanFile.points[1178].elementData['Zn']['dl_ppm'])
 
         # Test correction lines.
-        self.assertEquals(0.0000, self.linescanFile.points[1178].elementData['Mg']['If/Ip'])
+        self.assertEqual(0.0000, self.linescanFile.points[1178].elementData['Mg']['If/Ip'])
 
-        self.assertEquals(1.1033, self.linescanFile.points[1178].elementData['Mg']['c/k-el'])
+        self.assertEqual(1.1033, self.linescanFile.points[1178].elementData['Mg']['c/k-el'])
 
-        self.assertEquals(0.7657, self.linescanFile.points[1178].elementData['Zn']['f(chi)'])
+        self.assertEqual(0.7657, self.linescanFile.points[1178].elementData['Zn']['f(chi)'])
 
-        self.assertEquals(0.9752, self.linescanFile.points[1178].elementData['Zn']['c/k-std'])
+        self.assertEqual(0.9752, self.linescanFile.points[1178].elementData['Zn']['c/k-std'])
 
         # Test concentration lines.
-        self.assertEquals(-0.00001, self.linescanFile.points[1178].elementData['Al']['k-std'])
+        self.assertEqual(-0.00001, self.linescanFile.points[1178].elementData['Al']['k-std'])
 
-        self.assertEquals(98.451, self.linescanFile.points[1178].elementData['Mg']['Atomic'])
+        self.assertEqual(98.451, self.linescanFile.points[1178].elementData['Mg']['Atomic'])
 
-        self.assertEquals(4.08, self.linescanFile.points[1178].elementData['Zn']['El fw'])
+        self.assertEqual(4.08, self.linescanFile.points[1178].elementData['Zn']['El fw'])
 
-        self.assertEquals(0.04183, self.linescanFile.points[1178].elementData['Zn']['k-value'])
+        self.assertEqual(0.04183, self.linescanFile.points[1178].elementData['Zn']['k-value'])
 
 
         # Test total line.
-        self.assertEquals(100.48, self.linescanFile.points[1178].elementData['total']['El fw'])
+        self.assertEqual(100.48, self.linescanFile.points[1178].elementData['total']['El fw'])
 
-        self.assertEquals(100.0, self.linescanFile.points[1178].elementData['total']['Atomic'])
+        self.assertEqual(100.0, self.linescanFile.points[1178].elementData['total']['Atomic'])
 
         #self.fail("Test if the TestCase is working.")
         self.assertTrue(True)
