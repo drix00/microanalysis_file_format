@@ -1,6 +1,6 @@
 numpy==1.18.5
 matplotlib==3.2.2
-scipy
+scipy==1.4.1
 six
 coverage
 nose
