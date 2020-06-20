@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: microanalysis_file_format.oxford.INCA.ReadSpectrumFullResults
-   :synopsis: Read Oxford Instrument spectrum full result file from INCA.
+.. py:currentmodule:: microanalysis_file_format.oxford.inca.ReadSpectrumFullResults
+   :synopsis: Read Oxford Instrument spectrum full result file from inca.
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Read Oxford Instrument spectrum full result file from INCA.
+Read Oxford Instrument spectrum full result file from inca.
 """
 
 ###############################################################################
@@ -36,8 +36,9 @@ Read Oxford Instrument spectrum full result file from INCA.
 
 # Globals and constants variables.
 
+
 class ReadSpectrumFullResults(object):
-    _KEYWORD_SEPERATOR = ":"
+    _KEYWORD_SEPARATOR = ":"
 
     _SAMPLE_POLISHED_COMMENT = "Sample is polished"
 
@@ -61,10 +62,10 @@ class ReadSpectrumFullResults(object):
     def read(self, filepath):
         lines = open(filepath, 'r').readlines()
 
-        self._extractData(lines)
+        self._extract_data(lines)
 
-    def _extractData(self, lines):
-        readElementsState = False
+    def _extract_data(self, lines):
+        read_elements_state = False
 
         data = {}
         for line in lines:
@@ -73,43 +74,40 @@ class ReadSpectrumFullResults(object):
             if len(line) == 0:
                 continue
 
-            if self._KEYWORD_SEPERATOR in line and not readElementsState:
-                self._extractKeywordValue(line)
-                readElementsState = False
+            if self._KEYWORD_SEPARATOR in line and not read_elements_state:
+                self._extract_keyword_value(line)
+                read_elements_state = False
             elif self._SAMPLE_POLISHED_COMMENT in line:
-                self._addComment(line)
-                readElementsState = False
+                self._add_comment(line)
+                read_elements_state = False
             elif self._SAMPLE_UNCOATED_COMMENT in line:
-                self._addComment(line)
-                readElementsState = False
+                self._add_comment(line)
+                read_elements_state = False
             elif self._ELEMENT_OPTIMIZATION_COMMENT in line:
-                self._addComment(line)
-                readElementsState = False
+                self._add_comment(line)
+                read_elements_state = False
             elif self._ELEMENT in line:
-                headers = self._extractHeader(line)
+                headers = self._extract_header(line)
                 self.headers = headers
-                readElementsState = True
+                read_elements_state = True
             elif self._TOTALS in line:
-                data["Totals"] = self._extractTotalsData(line)
-                readElementsState = False
-            elif readElementsState:
-                label, newData = self._extractSpectrumData(line)
-                data[label] = newData
+                data["Totals"] = self._extract_totals_data(line)
+                read_elements_state = False
+            elif read_elements_state:
+                label, new_data = self._extract_spectrum_data(line)
+                data[label] = new_data
             else:
-                #print line
                 pass
 
         self.data = data
 
-    def _extractSpectrumData(self, line):
+    @staticmethod
+    def _extract_spectrum_data(line):
         items = line.split("\t")
 
         label = items[0]
 
-        values = []
-
-        # Line.
-        values.append(items[1])
+        values = [items[1]]
 
         # Skip label.
         for item in items[2:8]:
@@ -125,7 +123,8 @@ class ReadSpectrumFullResults(object):
 
         return label, values
 
-    def _extractHeader(self, line):
+    @staticmethod
+    def _extract_header(line):
         items = line.split("\t")
 
         values = []
@@ -140,14 +139,16 @@ class ReadSpectrumFullResults(object):
 
         return values
 
-    def _extractTotalsData(self, line):
+    @staticmethod
+    def _extract_totals_data(line):
         items = line.split("\t")
 
         totals = float(items[-1])
 
         return totals
 
-    def _extractLineData(self, line):
+    @staticmethod
+    def _extract_line_data(line):
         items = line.split("\t")
 
         values = []
@@ -163,21 +164,20 @@ class ReadSpectrumFullResults(object):
 
         return values
 
-    def _extractKeywordValue(self, line):
+    def _extract_keyword_value(self, line):
         # TODO: Implement
         pass
 
-    def _addComment(self, line):
+    def _add_comment(self, line):
         self.comments.append(line)
 
-def isValidFile(filepath):
-    isValid = False
 
+def is_valid_file(filepath):
     try:
         ReadSpectrumFullResults(filepath)
 
-        isValid = True
+        is_valid = True
     except ValueError:
-        isValid = False
+        is_valid = False
 
-    return isValid
+    return is_valid

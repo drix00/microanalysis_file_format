@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: microanalysis_file_format.oxford.INCA.test_ReadSpectrumProcessingResults
-   :synopsis: Tests for the module :py:mod:`microanalysis_file_format.oxford.INCA.ReadSpectrumProcessingResults`
+.. py:currentmodule:: microanalysis_file_format.oxford.inca.test_ReadSpectrumProcessingResults
+   :synopsis: Tests for the module :py:mod:`microanalysis_file_format.oxford.inca.ReadSpectrumProcessingResults`
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`microanalysis_file_format.oxford.INCA.ReadSpectrumProcessingResults`.
+Tests for the module :py:mod:`microanalysis_file_format.oxford.inca.ReadSpectrumProcessingResults`.
 """
 
 ###############################################################################
@@ -35,7 +35,8 @@ import os.path
 # Local modules.
 
 # Project modules.
-import microanalysis_file_format.oxford.INCA.ReadSpectrumProcessingResults as ReadSpectrumProcessingResults
+from microanalysis_file_format.oxford.inca.read_spectrum_processing_results import ReadSpectrumProcessingResults, \
+    is_valid_file
 from microanalysis_file_format import get_current_module_path
 from tests import is_test_data_file
 
@@ -49,22 +50,21 @@ class TestReadSpectrumProcessingResults(unittest.TestCase):
 
         self.filepath = get_current_module_path(__file__, "../../../test_data/SpectrumProcessing 10.txt")
         if not is_test_data_file(self.filepath):
-            raise self.skipTest()
+            raise self.skipTest("File path is not a valid test data file")
 
-        self.results = ReadSpectrumProcessingResults.ReadSpectrumProcessingResults(self.filepath)
+        self.results = ReadSpectrumProcessingResults(self.filepath)
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
 
     def testSkeleton(self):
-        #self.fail("Test if the TestCase is working.")
+        # self.fail("Test if the TestCase is working.")
         self.assertTrue(True)
 
     def testConstructor(self):
-        results = ReadSpectrumProcessingResults.ReadSpectrumProcessingResults(self.filepath)
+        results = ReadSpectrumProcessingResults(self.filepath)
 
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+        assert len(results.data) > 0
 
     def test_read(self):
         self.results.read(self.filepath)
@@ -79,20 +79,18 @@ class TestReadSpectrumProcessingResults(unittest.TestCase):
 
         self.assertAlmostEquals(23655.6, data["Area"][-1], 1)
 
-        #self.fail("Test if the TestCase is working.")
         self.assertTrue(True)
 
     def test_isValidFile(self):
-        folderpath = get_current_module_path(__file__, "../../../test_data")
+        folder_path = get_current_module_path(__file__, "../../../test_data")
 
-        filepath = os.path.join(folderpath, "SpectrumFullResults 10.txt")
-        self.assertEqual(False, ReadSpectrumProcessingResults.isValidFile(filepath))
+        filepath = os.path.join(folder_path, "SpectrumFullResults 10.txt")
+        self.assertEqual(False, is_valid_file(filepath))
 
-        filepath = os.path.join(folderpath, "SpectrumProcessing 10.txt")
-        self.assertEqual(True, ReadSpectrumProcessingResults.isValidFile(filepath))
+        filepath = os.path.join(folder_path, "SpectrumProcessing 10.txt")
+        self.assertEqual(True, is_valid_file(filepath))
 
-        filepath = os.path.join(folderpath, "AllSpectra.txt")
-        self.assertEqual(False, ReadSpectrumProcessingResults.isValidFile(filepath))
+        filepath = os.path.join(folder_path, "AllSpectra.txt")
+        self.assertEqual(False, is_valid_file(filepath))
 
-        #self.fail("Test if the TestCase is working.")
         self.assertTrue(True)

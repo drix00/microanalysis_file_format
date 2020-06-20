@@ -2,14 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: tests.oxford.INCA
+.. py:currentmodule:: __init__
+   :synopsis: Init for the package.
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-
+Init for the package.
 """
 
-# Copyright 2020 Hendrix Demers
+###############################################################################
+# Copyright 2012 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,6 +24,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+###############################################################################
 
 # Standard library modules.
 

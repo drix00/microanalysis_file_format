@@ -11,7 +11,7 @@ Init for the package.
 """
 
 ###############################################################################
-# Copyright 2012 Hendrix Demers
+# Copyright 2007 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

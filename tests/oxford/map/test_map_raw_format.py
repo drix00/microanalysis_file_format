@@ -28,16 +28,15 @@ Tests for module `oxford.map.MapRawFormat`.
 
 # Standard library modules.
 import unittest
-import logging
 
 # Third party modules.
 
 # Local modules.
 
 # Project modules.
-import microanalysis_file_format.oxford.MapRaw.MapRawFormat as MapRawFormat
 
 # Globals and constants variables.
+
 
 class TestMapRawFormat(unittest.TestCase):
     """
@@ -63,5 +62,5 @@ class TestMapRawFormat(unittest.TestCase):
         First test to check if the testcase is working with the testing framework.
         """
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
         self.assert_(True)

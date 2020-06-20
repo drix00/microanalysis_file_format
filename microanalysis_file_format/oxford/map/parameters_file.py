@@ -49,7 +49,8 @@ KEY_OFFSET = "MLX::OFFSET"
 KEY_DATA_LENGTH_B = "MLX::DATA-LENGTH"
 KEY_DATA_TYPE = "MLX::DATA-TYPE :"
 KEY_BYTE_ORDER = "MLX::BYTE-ORDER :"
-KEY_RECORED_BY = "MLX::RECORD-BY :"
+KEY_RECORDED_BY = "MLX::RECORD-BY :"
+
 
 class ParametersFile(object):
     def __init__(self):
@@ -59,10 +60,10 @@ class ParametersFile(object):
         self.height = None
         self.depth = None
         self.offset = None
-        self.dataLength_B = None
-        self.dataType = None
-        self.byteOrder = None
-        self.recordBy = ""
+        self.data_length_B = None
+        self.data_type = None
+        self.byte_order = None
+        self.record_by = ""
 
     def read(self, filepath):
         logging.info("Reading parameters file: %s", filepath)
@@ -72,15 +73,16 @@ class ParametersFile(object):
         for line in lines:
             line = line.replace('(', '').replace(')', '')
 
-            keywords = self._getKeywords()
-            valueFormatters = self._getValueFormatter()
+            keywords = self._get_keywords()
+            value_formatters = self._get_value_formatter()
             for keyword in keywords:
                 if keyword in line:
                     value = line.replace(keyword, '')
-                    valueFormatter = valueFormatters[keyword]
-                    self._parameters[keyword] = valueFormatter(value)
+                    value_formatter = value_formatters[keyword]
+                    self._parameters[keyword] = value_formatter(value)
 
-    def _getKeywords(self):
+    @staticmethod
+    def _get_keywords():
         keywords = []
 
         keywords.append(KEY_WIDTH)
@@ -90,46 +92,50 @@ class ParametersFile(object):
         keywords.append(KEY_DATA_LENGTH_B)
         keywords.append(KEY_DATA_TYPE)
         keywords.append(KEY_BYTE_ORDER)
-        keywords.append(KEY_RECORED_BY)
+        keywords.append(KEY_RECORDED_BY)
 
         return keywords
 
-    def _getValueFormatter(self):
-        valueFormatters = {}
+    def _get_value_formatter(self):
+        value_formatters = {}
 
-        valueFormatters[KEY_WIDTH] = int
-        valueFormatters[KEY_HEIGHT] = int
-        valueFormatters[KEY_DEPTH] = int
-        valueFormatters[KEY_OFFSET] = int
-        valueFormatters[KEY_DATA_LENGTH_B] = int
-        valueFormatters[KEY_DATA_TYPE] = self._extractDataType
-        valueFormatters[KEY_BYTE_ORDER] = self._extractByteOrder
-        valueFormatters[KEY_RECORED_BY] = self._extractString
+        value_formatters[KEY_WIDTH] = int
+        value_formatters[KEY_HEIGHT] = int
+        value_formatters[KEY_DEPTH] = int
+        value_formatters[KEY_OFFSET] = int
+        value_formatters[KEY_DATA_LENGTH_B] = int
+        value_formatters[KEY_DATA_TYPE] = self._extract_data_type
+        value_formatters[KEY_BYTE_ORDER] = self._extract_byte_order
+        value_formatters[KEY_RECORDED_BY] = self._extract_string
 
-        return valueFormatters
+        return value_formatters
 
-    def _extractDataType(self, valueStr):
-        valueStr = valueStr.strip().upper()
+    @staticmethod
+    def _extract_data_type(value_str):
+        value_str = value_str.strip().upper()
 
-        if valueStr == DATA_TYPE_UNSIGNED:
+        if value_str == DATA_TYPE_UNSIGNED:
             return DATA_TYPE_UNSIGNED
-        elif valueStr == DATA_TYPE_SIGNED:
+        elif value_str == DATA_TYPE_SIGNED:
             return DATA_TYPE_SIGNED
 
-    def _extractByteOrder(self, valueStr):
-        valueStr = valueStr.strip().upper()
+    @staticmethod
+    def _extract_byte_order(value_str):
+        value_str = value_str.strip().upper()
 
-        if valueStr == BYTE_ORDER_DONT_CARE:
+        if value_str == BYTE_ORDER_DONT_CARE:
             return BYTE_ORDER_DONT_CARE
-        elif valueStr == BYTE_ORDER_LITTLE_ENDIAN:
+        elif value_str == BYTE_ORDER_LITTLE_ENDIAN:
             return BYTE_ORDER_LITTLE_ENDIAN
 
-    def _extractString(self, valueStr):
-        return valueStr.strip()
+    @staticmethod
+    def _extract_string(value_str):
+        return value_str.strip()
 
     @property
     def width(self):
         return self._parameters[KEY_WIDTH]
+
     @width.setter
     def width(self, width):
         self._parameters[KEY_WIDTH] = width
@@ -137,6 +143,7 @@ class ParametersFile(object):
     @property
     def height(self):
         return self._parameters[KEY_HEIGHT]
+
     @height.setter
     def height(self, height):
         self._parameters[KEY_HEIGHT] = height
@@ -144,6 +151,7 @@ class ParametersFile(object):
     @property
     def depth(self):
         return self._parameters[KEY_DEPTH]
+
     @depth.setter
     def depth(self, depth):
         self._parameters[KEY_DEPTH] = depth
@@ -151,34 +159,39 @@ class ParametersFile(object):
     @property
     def offset(self):
         return self._parameters[KEY_OFFSET]
+
     @offset.setter
     def offset(self, offset):
         self._parameters[KEY_OFFSET] = offset
 
     @property
-    def dataLength_B(self):
+    def data_length_B(self):
         return self._parameters[KEY_DATA_LENGTH_B]
-    @dataLength_B.setter
-    def dataLength_B(self, dataLength_B):
-        self._parameters[KEY_DATA_LENGTH_B] = dataLength_B
+
+    @data_length_B.setter
+    def data_length_B(self, data_length_B):
+        self._parameters[KEY_DATA_LENGTH_B] = data_length_B
 
     @property
-    def dataType(self):
+    def data_type(self):
         return self._parameters[KEY_DATA_TYPE]
-    @dataType.setter
-    def dataType(self, dataType):
-        self._parameters[KEY_DATA_TYPE] = dataType
+
+    @data_type.setter
+    def data_type(self, data_type):
+        self._parameters[KEY_DATA_TYPE] = data_type
 
     @property
-    def byteOrder(self):
+    def byte_order(self):
         return self._parameters[KEY_BYTE_ORDER]
-    @byteOrder.setter
-    def byteOrder(self, byteOrder):
-        self._parameters[KEY_BYTE_ORDER] = byteOrder
+
+    @byte_order.setter
+    def byte_order(self, byte_order):
+        self._parameters[KEY_BYTE_ORDER] = byte_order
 
     @property
-    def recordBy(self):
-        return self._parameters[KEY_RECORED_BY]
-    @recordBy.setter
-    def recordBy(self, recordBy):
-        self._parameters[KEY_RECORED_BY] = recordBy
+    def record_by(self):
+        return self._parameters[KEY_RECORDED_BY]
+
+    @record_by.setter
+    def record_by(self, record_by):
+        self._parameters[KEY_RECORDED_BY] = record_by

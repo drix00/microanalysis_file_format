@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: microanalysis_file_format.oxford.INCA.ReadSpectrumProcessingResults
-   :synopsis: Read Oxford Instrument spectrum processing result file from INCA.
+.. py:currentmodule:: microanalysis_file_format.oxford.inca.ReadSpectrumProcessingResults
+   :synopsis: Read Oxford Instrument spectrum processing result file from inca.
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Read Oxford Instrument spectrum processing result file from INCA.
+Read Oxford Instrument spectrum processing result file from inca.
 """
 
 ###############################################################################
@@ -36,8 +36,9 @@ Read Oxford Instrument spectrum processing result file from INCA.
 
 # Globals and constants variables.
 
+
 class ReadSpectrumProcessingResults(object):
-    _HEADERSTRING = "Fit index"
+    _HEADER_STRING = "Fit index"
 
     def __init__(self, filepath):
         self.data = {}
@@ -50,10 +51,10 @@ class ReadSpectrumProcessingResults(object):
     def read(self, filepath):
         lines = open(filepath, 'r').readlines()
 
-        self._extractData(lines)
+        self._extract_data(lines)
 
-    def _extractData(self, lines):
-        if self._HEADERSTRING not in lines[0]:
+    def _extract_data(self, lines):
+        if self._HEADER_STRING not in lines[0]:
             raise ValueError
 
         data = {}
@@ -70,10 +71,10 @@ class ReadSpectrumProcessingResults(object):
             items = line.split("\t")
 
             if len(items) == 6:
-                for index,item in enumerate(items[:3]):
+                for index, item in enumerate(items[:3]):
                     data.setdefault(headers[index], []).append(item)
 
-                for index,item in enumerate(items[3:]):
+                for index, item in enumerate(items[3:]):
                     try:
                         data.setdefault(headers[index+3], []).append(float(item))
                     except ValueError:
@@ -82,10 +83,10 @@ class ReadSpectrumProcessingResults(object):
             elif len(items) == 5:
                 data.setdefault(headers[0], []).append("")
 
-                for index,item in enumerate(items[:2]):
+                for index, item in enumerate(items[:2]):
                     data.setdefault(headers[index+1], []).append(item)
 
-                for index,item in enumerate(items[2:]):
+                for index, item in enumerate(items[2:]):
                     try:
                         data.setdefault(headers[index+3], []).append(float(item))
                     except ValueError:
@@ -94,14 +95,13 @@ class ReadSpectrumProcessingResults(object):
         self.data = data
         self.headers = headers
 
-def isValidFile(filepath):
-    isValid = False
 
+def is_valid_file(filepath):
     try:
         ReadSpectrumProcessingResults(filepath)
 
-        isValid = True
+        is_valid = True
     except ValueError:
-        isValid = False
+        is_valid = False
 
-    return isValid
+    return is_valid

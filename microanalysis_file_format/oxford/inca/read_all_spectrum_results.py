@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: microanalysis_file_format.oxford.INCA.ReadAllSpectrumResults
-   :synopsis: Read Oxford Instrument all spectrum result file from INCA.
+.. py:currentmodule:: microanalysis_file_format.oxford.inca.ReadAllSpectrumResults
+   :synopsis: Read Oxford Instrument all spectrum result file from inca.
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Read Oxford Instrument all spectrum result file from INCA.
+Read Oxford Instrument all spectrum result file from inca.
 """
 
 ###############################################################################
@@ -36,8 +36,9 @@ Read Oxford Instrument all spectrum result file from INCA.
 
 # Globals and constants variables.
 
+
 class ReadAllSpectrumResults(object):
-    _KEYWORD_SEPERATOR = ":"
+    _KEYWORD_SEPARATOR = ":"
 
     _NORMALISED_COMMENT = "All elements analyzed (Normalised)"
 
@@ -62,10 +63,10 @@ class ReadAllSpectrumResults(object):
     def read(self, filepath):
         lines = open(filepath, 'r').readlines()
 
-        self._extractData(lines)
+        self._extract_data(lines)
 
-    def _extractData(self, lines):
-        readSpectraState = False
+    def _extract_data(self, lines):
+        read_spectra_state = False
 
         data = {}
         for line in lines:
@@ -74,41 +75,41 @@ class ReadAllSpectrumResults(object):
             if len(line) == 0:
                 continue
 
-            if self._KEYWORD_SEPERATOR in line:
-                self._extractKeywordValue(line)
-                readSpectraState = False
+            if self._KEYWORD_SEPARATOR in line:
+                self._extract_keyword_value(line)
+                read_spectra_state = False
             elif self._NORMALISED_COMMENT in line:
-                self._addComment(line)
-                readSpectraState = False
+                self._add_comment(line)
+                read_spectra_state = False
             elif self._RESULTS_WEIGHT_PERCENT in line:
-                self._addComment(line)
-                readSpectraState = False
+                self._add_comment(line)
+                read_spectra_state = False
             elif self._MEAN in line:
-                data["Mean"] = self._extractLineData(line)
-                readSpectraState = False
+                data["Mean"] = self._extract_line_data(line)
+                read_spectra_state = False
             elif self._STD_DEV in line:
-                data["StdDev"] = self._extractLineData(line)
-                readSpectraState = False
+                data["StdDev"] = self._extract_line_data(line)
+                read_spectra_state = False
             elif self._MAX in line:
-                data["Maximum"] = self._extractLineData(line)
-                readSpectraState = False
+                data["Maximum"] = self._extract_line_data(line)
+                read_spectra_state = False
             elif self._MIN in line:
-                data["Minimum"] = self._extractLineData(line)
-                readSpectraState = False
+                data["Minimum"] = self._extract_line_data(line)
+                read_spectra_state = False
             elif self._SPECTRUM in line:
-                headers = self._extractSpectrumHeader(line)
+                headers = self._extract_spectrum_header(line)
                 self.headers = headers
-                readSpectraState = True
-            elif readSpectraState:
-                label, newData = self._extractSpectrumData(line)
-                data[label] = newData
+                read_spectra_state = True
+            elif read_spectra_state:
+                label, new_data = self._extract_spectrum_data(line)
+                data[label] = new_data
             else:
-                #print line
                 pass
 
         self.data = data
 
-    def _extractSpectrumData(self, line):
+    @staticmethod
+    def _extract_spectrum_data(line):
         items = line.split("\t")
 
         label = items[0]
@@ -126,7 +127,8 @@ class ReadAllSpectrumResults(object):
 
         return label, values
 
-    def _extractSpectrumHeader(self, line):
+    @staticmethod
+    def _extract_spectrum_header(line):
         items = line.split("\t")
 
         values = []
@@ -142,7 +144,8 @@ class ReadAllSpectrumResults(object):
 
         return values
 
-    def _extractLineData(self, line):
+    @staticmethod
+    def _extract_line_data(line):
         items = line.split("\t")
 
         values = []
@@ -158,21 +161,20 @@ class ReadAllSpectrumResults(object):
 
         return values
 
-    def _extractKeywordValue(self, line):
+    def _extract_keyword_value(self, line):
         # TODO: Implement
         pass
 
-    def _addComment(self, line):
+    def _add_comment(self, line):
         self.comments.append(line)
 
-def isValidFile(filepath):
-    isValid = False
 
+def is_valid_file(filepath):
     try:
         ReadAllSpectrumResults(filepath)
 
-        isValid = True
+        is_valid = True
     except ValueError:
-        isValid = False
+        is_valid = False
 
-    return isValid
+    return is_valid
