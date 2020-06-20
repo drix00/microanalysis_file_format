@@ -10,4 +10,4 @@ Development Lead
 Contributors
 ------------
 
-None yet. Why not be the first?
+Philippe T. Pinard <philippe.pinard@gmail.com> contribute the emsa implementation.

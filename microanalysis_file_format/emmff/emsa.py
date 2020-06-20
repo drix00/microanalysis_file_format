@@ -6,13 +6,13 @@
 :mod:`emsa` -- Reader/writer of EMSA/MAS file format
 ================================================================================
 
-.. module:: emsa
-   :synopsis: Reader/writer of EMSA/MAS file format.
+.. module:: microanalysis_file_format.emmff.emsa
 
 .. moduleauthor:: Philippe T. Pinard <philippe.pinard@gmail.com>
 
 .. inheritance-diagram:: microanalysis_file_format.emmff.emsa
 
+Reader/writer of EMSA/MAS file format.
 """
 
 ###############################################################################
@@ -52,23 +52,23 @@ TITLE = "TITLE"
 DATE = "DATE"
 TIME = "TIME"
 OWNER = "OWNER"
-NPOINTS = "NPOINTS"
-NCOLUMNS = "NCOLUMNS"
-XUNITS = "XUNITS"
-YUNITS = "YUNITS"
+NUMBER_POINTS = "NPOINTS"
+NUMBER_COLUMNS = "NCOLUMNS"
+X_UNITS = "XUNITS"
+Y_UNITS = "YUNITS"
 DATATYPE = "DATATYPE"
-XPERCHAN = "XPERCHAN"
+X_PER_CHANNEL = "XPERCHAN"
 OFFSET = "OFFSET"
 
 # Spectrum data
 SPECTRUM = "SPECTRUM"
-ENDOFDATA = "ENDOFDATA"
+END_OF_DATA = "ENDOFDATA"
 
 # Optional keywords relating mainly to spectrum characteristics.
-SIGNALTYPE = "SIGNALTYPE"
-XLABEL = "XLABEL"
-YLABEL = "YLABEL"
-CHOFFSET = "CHOFFSET"
+SIGNAL_TYPE = "SIGNALTYPE"
+X_LABEL = "XLABEL"
+Y_LABEL = "YLABEL"
+CHANNEL_OFFSET = "CHOFFSET"
 COMMENT = "COMMENT"
 
 # Optional keywords relating mainly to microscope/instrument.
@@ -82,11 +82,11 @@ OPERATING_MODE = "OPERMODE"
 
 # Optional keywords relating mainly to specimen.
 THICKNESS = "THICKNESS"
-XSTAGE_TILT = "XTILTSTGE"
-YSTAGE_TILT = "YTILTSTGE"
-XPOSITION = "XPOSITION"
-YPOSITION = "YPOSITION"
-ZPOSITION = "ZPOSITION"
+X_STAGE_TILT = "XTILTSTGE"
+Y_STAGE_TILT = "YTILTSTGE"
+X_POSITION = "XPOSITION"
+Y_POSITION = "YPOSITION"
+Z_POSITION = "ZPOSITION"
 
 # Keywords relating mainly to ELS.
 DWELL_TIME = "DWELLTIME"
@@ -113,39 +113,39 @@ EDS_DETECTOR_TYPE = "EDSDET"
 CHECKSUM = "CHECKSUM"
 
 # Oxford instruments
-OXINSTELEMS = "OXINSTELEMS"
-OXINSTLABEL = "OXINSTLABEL"
+OXFORD_INSTRUMENTS_ELEMENTS = "OXINSTELEMS"
+OXFORD_INSTRUMENTS_LABEL = "OXINSTLABEL"
 
 # Default values
 DATA_TYPE_Y = "Y"
 DATA_TYPE_XY = "XY"
 
-SIGNAL_TYPE_EDS = 'EDS' # Energy Dispersive Spectroscopy
+SIGNAL_TYPE_EDS = 'EDS'  # Energy Dispersive Spectroscopy
 SIGNAL_TYPE_WDS = 'WDS'  # Wavelength Dispersive Spectroscopy
-SIGNAL_TYPE_ELS = 'ELS' # Energy Loss Spectroscopy
-SIGNAL_TYPE_AES = 'AES' # Auger Electron Spectroscopy
-SIGNAL_TYPE_PES = 'PES' # Photo Electron Spectroscopy
-SIGNAL_TYPE_XRF = 'XRF' # X-ray Fluorescence Spectroscopy
-SIGNAL_TYPE_CLS = 'CLS' # Cathodoluminescence Spectroscopy
-SIGNAL_TYPE_GAM = 'GAM' # Gamma Ray Spectroscopy
+SIGNAL_TYPE_ELS = 'ELS'  # Energy Loss Spectroscopy
+SIGNAL_TYPE_AES = 'AES'  # Auger Electron Spectroscopy
+SIGNAL_TYPE_PES = 'PES'  # Photo Electron Spectroscopy
+SIGNAL_TYPE_XRF = 'XRF'  # X-ray Fluorescence Spectroscopy
+SIGNAL_TYPE_CLS = 'CLS'  # Cathodoluminescence Spectroscopy
+SIGNAL_TYPE_GAM = 'GAM'  # Gamma Ray Spectroscopy
 
-OPERATING_MODE_IMAGE = "IMAGE" # Imaging Mode
-OPERATING_MODE_DIFFR = "DIFFR" # Diffraction Mode
-OPERATING_MODE_SCIMG = "SCIMG" # Scanning Imaging Mode
-OPERATING_MODE_SCDIF = "SCDIF" # Scanning Diffraction Mode
+OPERATING_MODE_IMAGE = "IMAGE"  # Imaging Mode
+OPERATING_MODE_DIFFRACTION = "DIFFR"  # Diffraction Mode
+OPERATING_MODE_SCANNING_IMAGE = "SCIMG"  # Scanning Imaging Mode
+OPERATING_MODE_SCANNING_DIFFRACTION = "SCDIF"  # Scanning Diffraction Mode
 
-ELS_DETECTOR_SERIAL = "SERIAL" # Serial ELS Detector
-ELS_DETECTOR_PARALL = "PARALL" # Parallel ELS Detector
+ELS_DETECTOR_SERIAL = "SERIAL"  # Serial ELS Detector
+ELS_DETECTOR_PARALLEL = "PARALL"  # Parallel ELS Detector
 
-EDS_DETECTOR_SIBEW = 'SIBEW' # Si(Li) with Be Window
-EDS_DETECTOR_SIUTW = 'SIUTW' # Si(Li) with Ultra Thin Window
-EDS_DETECTOR_SIWLS = 'SIWLS' # Si(Li) Windowless
-EDS_DETECTOR_GEBEW = 'GEBEW' # Ge with Be Window
-EDS_DETECTOR_GEUTW = 'GEUTW' # Ge with Ultra Thin Window
-EDS_DETECTOR_GEWLS = 'GEWLS' # Ge Windowless
+EDS_DETECTOR_SI_BE_WINDOW = 'SIBEW'  # Si(Li) with Be Window
+EDS_DETECTOR_SI_UT_WINDOW = 'SIUTW'  # Si(Li) with Ultra Thin Window
+EDS_DETECTOR_SI_WINDOW_LESS = 'SIWLS'  # Si(Li) Windowless
+EDS_DETECTOR_GE_BE_WINDOW = 'GEBEW'  # Ge with Be Window
+EDS_DETECTOR_GE_UT_WINDOW = 'GEUTW'  # Ge with Ultra Thin Window
+EDS_DETECTOR_GE_WINDOW_LESS = 'GEWLS'  # Ge Windowless
 
-_REQUIRED_KEYWORDS = [FORMAT, VERSION, TITLE, DATE, TIME, OWNER, NPOINTS,
-                      NCOLUMNS, XUNITS, YUNITS, DATATYPE, XPERCHAN, OFFSET]
+_REQUIRED_KEYWORDS = [FORMAT, VERSION, TITLE, DATE, TIME, OWNER, NUMBER_POINTS,
+                      NUMBER_COLUMNS, X_UNITS, Y_UNITS, DATATYPE, X_PER_CHANNEL, OFFSET]
 
 _DOC = {
     FORMAT: 'Character string identifies this format',
@@ -154,19 +154,19 @@ _DOC = {
     DATE: 'The calendar day-month-year in which the spectra was recorded, DD-MMM-YYYY',
     TIME: 'The time of day at which the spectrum was recorded, in 24-hour format, HH:MM',
     OWNER: 'The name of the persion that recorded the spectrum',
-    NPOINTS: 'total number of data points in X&Y data arrays',
-    NCOLUMNS: 'Number of columns of data',
-    XUNITS: 'Units for x-axis data, for example: eV.',
-    YUNITS: 'Units for y-axis data, for example: counts.',
+    NUMBER_POINTS: 'total number of data points in X&Y data arrays',
+    NUMBER_COLUMNS: 'Number of columns of data',
+    X_UNITS: 'Units for x-axis data, for example: eV.',
+    Y_UNITS: 'Units for y-axis data, for example: counts.',
     DATATYPE: 'Method in which the data values are stored as Y Axis only values or X,Y data pairs.',
-    XPERCHAN: 'The number of x-axis units  per channel.',
+    X_PER_CHANNEL: 'The number of x-axis units  per channel.',
     OFFSET: 'A real (but possibly negative) number representing  value of channel one in xunits.',
 
     # Optional keywords relating mainly to spectrum characteristics.
-    SIGNALTYPE: 'Type of Spectroscopy',
-    XLABEL: 'X-Axis Data label',
-    YLABEL: 'Y-Axis Data label',
-    CHOFFSET: 'A real (but possibly negative) number  representing the channel number whose value corresponds to zero units on the x-axis scale.',
+    SIGNAL_TYPE: 'Type of Spectroscopy',
+    X_LABEL: 'X-Axis Data label',
+    Y_LABEL: 'Y-Axis Data label',
+    CHANNEL_OFFSET: 'A real (but possibly negative) number  representing the channel number whose value corresponds to zero units on the x-axis scale.',
     COMMENT: 'Comment line',
 
     # Optional keywords relating mainly to microscope/instrument.
@@ -180,11 +180,11 @@ _DOC = {
 
     # Optional keywords relating mainly to specimen.
     THICKNESS: 'Specimen thickness in nanometers',
-    XSTAGE_TILT: 'Specimen stage tilt X-axis in degrees',
-    YSTAGE_TILT: 'Specimen stage tilt Y-axis in degrees',
-    XPOSITION: 'Specimen/Beam position along the X axis',
-    YPOSITION: 'Specimen/Beam position along the Y axis',
-    ZPOSITION: 'Specimen/Beam position along the Z axis',
+    X_STAGE_TILT: 'Specimen stage tilt X-axis in degrees',
+    Y_STAGE_TILT: 'Specimen stage tilt Y-axis in degrees',
+    X_POSITION: 'Specimen/Beam position along the X axis',
+    Y_POSITION: 'Specimen/Beam position along the Y axis',
+    Z_POSITION: 'Specimen/Beam position along the Z axis',
 
     # Keywords relating mainly to ELS.
     DWELL_TIME: 'Dwell time/channel for serial data collection in msec',
@@ -209,6 +209,7 @@ _DOC = {
     HYDRO_CARBON_WINDOW_THICKNESS: 'Thickness of HydroCarbon Window in cm',
     EDS_DETECTOR_TYPE: 'Type of X-ray Detector'
     }
+
 
 class EmsaHeader(MutableMapping):
     def __init__(self):
@@ -245,12 +246,14 @@ class EmsaHeader(MutableMapping):
         if not name.startswith('_'):
             del self[name]
 
-    def help(self, key):
+    @staticmethod
+    def help(key):
         """
         Returns the definition/documentation of a keyword.
         Return an empty string if the keyword is unknown.
         """
         return _DOC.get(key, '')
+
 
 class Emsa(object):
     def __init__(self):
@@ -261,28 +264,28 @@ class Emsa(object):
 
         The data of the spectrum can be accessed from the attributes:
 
-          * :attr:`xdata`: x values (typically energy)
-          * :attr:`ydata`: y values (typically counts)
-          * :meth:`get_data <.Emsa.get_data>`: list of tuples
+          * :attr:`x_data`: x values (typically energy)
+          * :attr:`y_data`: y values (typically counts)
+          * :method:`get_data <.Emsa.get_data>`: list of tuples
 
         The header's keywords can be accessed from the attribute :attr:`header`
         as follows::
 
           >>> spectrum1 = emsa.Emsa()
           >>> spectrum1.header.beamkv = 15.0
-          >>> print(spectrum.header.beamkv)
+          >>> print(spectrum1.header.beamkv)
           >>> 15.0
 
           >>> spectrum1.header[BEAM_ENERGY] = 15.0
-          >>> print(spectrum.header[BEAM_ENERGY])
+          >>> print(spectrum1.header[BEAM_ENERGY])
           >>> 15.0
         """
         self._header = EmsaHeader()
         self._header.format = "EMSA/MAS Spectral Data File"
         self._header.version = 1.0
 
-        self.xdata = []
-        self.ydata = []
+        self.x_data = []
+        self.y_data = []
 
     @property
     def header(self):
@@ -295,11 +298,11 @@ class Emsa(object):
 
           >>> spectrum1 = emsa.Emsa()
           >>> spectrum1.header.title = "Spectrum 1"
-          >>> print(spectrum.header.title)
+          >>> print(spectrum1.header.title)
           >>> Spectrum 1
 
           >>> spectrum1.header[TITLE] = "Spectrum 1"
-          >>> print(spectrum.header[TITLE])
+          >>> print(spectrum1.header[TITLE])
           >>> Spectrum 1
         """
         return self._header
@@ -314,20 +317,21 @@ class Emsa(object):
             if keyword not in self.header:
                 raise ValueError("Missing required keyword: %s" % keyword)
 
-        if len(self.xdata) != len(self.ydata):
-            raise ValueError("Number of x points (%i) != number of y points (%i)" % \
-                (len(self.xdata), len(self.ydata)))
+        if len(self.x_data) != len(self.y_data):
+            raise ValueError("Number of x points (%i) != number of y points (%i)" %
+                             (len(self.x_data), len(self.y_data)))
 
-        if self.header.npoints != len(self.ydata):
-            raise ValueError("Keyword NPOINTS (%i) != number of points in the data (%i)" % \
-                (self.header.npoints, len(self.ydata)))
+        if self.header.npoints != len(self.y_data):
+            raise ValueError("Keyword NPOINTS (%i) != number of points in the data (%i)" %
+                             (self.header.npoints, len(self.y_data)))
 
     def get_data(self):
         """
         Returns the data as a list of tuples: ``[(x0,y0), (x1,y1), ...]``.
         """
-        assert(len(self.xdata) == len(self.ydata))
-        return zip(self.xdata, self.ydata)
+        assert(len(self.x_data) == len(self.y_data))
+        return zip(self.x_data, self.y_data)
+
 
 def _calculate_checksum(lines):
     checksum = 0
@@ -340,20 +344,21 @@ def _calculate_checksum(lines):
 
     return checksum
 
+
 class EmsaReader(object):
     """
     Class to read EMSA spectrum.
     The wrapper function :func:`.read` should be used instead of this class.
     """
 
-    def read(self, fileobj):
+    def read(self, file_object):
         """
         Reads an EMSA spectrum from the specified file-object and returns
         a :class:`.Emsa`
 
         :return: :class:`.Emsa`
         """
-        return self._read_lines(fileobj.readlines())
+        return self._read_lines(file_object.readlines())
 
     def _read_lines(self, lines):
         emsa = Emsa()
@@ -364,19 +369,18 @@ class EmsaReader(object):
             self._parse_line(emsa, line)
 
         # Validate
-        if self._checksum > 0: # only check if a checksum is in the input file
+        if self._checksum > 0:  # only check if a checksum is in the input file
             checksum = _calculate_checksum(lines)
             if checksum != self._checksum:
-                raise IOError("The checksums don't match: %i != %i " % \
-                    (checksum, self._checksum))
+                raise IOError("The checksums don't match: %i != %i " % (checksum, self._checksum))
 
-        # Create xdata for DATA_TYPE == Y
-        emsa.header.npoints = len(emsa.ydata)
-        if not emsa.xdata:
-            npoints = len(emsa.ydata)
+        # Create x_data for DATA_TYPE == Y
+        emsa.header.number_points = len(emsa.y_data)
+        if not emsa.x_data:
+            number_points = len(emsa.y_data)
             offset = emsa.header.offset
-            xperchan = emsa.header.xperchan
-            emsa.xdata = self._create_xdata(npoints, offset, xperchan)
+            x_per_channel = emsa.header.xperchan
+            emsa.x_data = self._create_x_data(number_points, offset, x_per_channel)
 
         emsa.validate()
 
@@ -386,7 +390,7 @@ class EmsaReader(object):
         if self._is_line_keyword(line):
             keyword, comment, value = self._parse_keyword_line(line)
 
-            if keyword in [SPECTRUM, ENDOFDATA]:
+            if keyword in [SPECTRUM, END_OF_DATA]:
                 return
             elif keyword == CHECKSUM:
                 self._checksum = int(value)
@@ -396,27 +400,29 @@ class EmsaReader(object):
                 emsa.header[keyword] = (value, comment)
             else:
                 emsa.header[keyword] = value
-        else: # data line
+        else:  # data line
             row = self._parse_data_line(line)
 
-            if DATATYPE in emsa.header and NCOLUMNS in emsa.header:
+            if DATATYPE in emsa.header and NUMBER_COLUMNS in emsa.header:
                 if emsa.header[DATATYPE] == DATA_TYPE_XY:
-                    emsa.xdata.append(row[0])
-                    emsa.ydata.append(row[1])
+                    emsa.x_data.append(row[0])
+                    emsa.y_data.append(row[1])
                 elif emsa.header[DATATYPE] == DATA_TYPE_Y:
-                    emsa.ydata.extend(row)
+                    emsa.y_data.extend(row)
 
-    def _is_line_keyword(self, line):
+    @staticmethod
+    def _is_line_keyword(line):
         try:
             if line.strip()[0] == '#':
                 return True
-        except:
+        except (ValueError, IndexError, AttributeError):
             pass
 
         return False
 
-    def _parse_keyword_line(self, line):
-        line = line.strip("#") # Strip keyword character
+    @staticmethod
+    def _parse_keyword_line(line):
+        line = line.strip("#")  # Strip keyword character
 
         keyword, value = line.split(":", 1)
 
@@ -425,21 +431,22 @@ class EmsaReader(object):
 
         try:
             keyword, comment = keyword.split()
-        except:
+        except ValueError:
             comment = ""
 
         keyword = keyword.upper()
         comment = comment.strip("-")
 
-        return (keyword, comment, value)
+        return keyword, comment, value
 
-    def _parse_data_line(self, line):
+    @staticmethod
+    def _parse_data_line(line):
         # Split values separated by a comma
-        tmprow = [value.strip() for value in line.split(',')]
+        tmp_row = [value.strip() for value in line.split(',')]
 
         # Split values separated by a space
         row = []
-        for value in tmprow:
+        for value in tmp_row:
             row.extend(value.split())
 
         # Convert to float
@@ -447,10 +454,12 @@ class EmsaReader(object):
 
         return row
 
-    def _create_xdata(self, npoints, offset, xperchan):
-        return [offset + xperchan * i for i in range(npoints)]
+    @staticmethod
+    def _create_x_data(number_points, offset, x_per_channel):
+        return [offset + x_per_channel * i for i in range(number_points)]
 
-def read(fileobj):
+
+def read(file_object):
     """
     Reads a file-object containing a EMSA spectrum.
 
@@ -464,7 +473,8 @@ def read(fileobj):
 
     :return: :class:`.Emsa`
     """
-    return EmsaReader().read(fileobj)
+    return EmsaReader().read(file_object)
+
 
 class EmsaWriter(object):
     """
@@ -472,7 +482,7 @@ class EmsaWriter(object):
     The wrapper function :func:`.write` should be used instead of this class.
     """
 
-    def write(self, emsa, fileobj):
+    def write(self, emsa, file_object):
         """
         Writes the specified :class:`.Emsa` spectrum in the file-object.
         The method will raise :exc:`ValueError` if the :class:`.Emsa` is not
@@ -483,13 +493,13 @@ class EmsaWriter(object):
         lines = self._create_lines(emsa)
 
         for line in lines:
-            fileobj.write(line + os.linesep)
+            file_object.write(line + os.linesep)
 
     def _create_lines(self, emsa):
         lines = []
 
-        ## Keywords
-        header = copy.deepcopy(emsa.header) # copy of header
+        # Keywords
+        header = copy.deepcopy(emsa.header)  # copy of header
 
         # Required keywords
         for keyword in _REQUIRED_KEYWORDS:
@@ -501,10 +511,9 @@ class EmsaWriter(object):
             lines.append(self._create_keyword_line(keyword, value))
 
         # Data lines
-        lines.append(self._create_keyword_line(SPECTRUM,
-                                               'Spectral Data Starts Here'))
+        lines.append(self._create_keyword_line(SPECTRUM, 'Spectral Data Starts Here'))
         lines.extend(self._create_data_lines(emsa))
-        lines.append(self._create_keyword_line(ENDOFDATA, ''))
+        lines.append(self._create_keyword_line(END_OF_DATA, ''))
 
         # Checksum
         checksum = _calculate_checksum(lines)
@@ -512,7 +521,8 @@ class EmsaWriter(object):
 
         return lines
 
-    def _create_keyword_line(self, keyword, value):
+    @staticmethod
+    def _create_keyword_line(keyword, value):
         if isinstance(value, (tuple, list)):
             assert len(value) == 2
             value, comment = value
@@ -525,21 +535,23 @@ class EmsaWriter(object):
 
         return "#%s: %s" % (tag, formatter.to_string(value))
 
-    def _create_data_lines(self, emsa):
+    @staticmethod
+    def _create_data_lines(emsa):
         lines = []
 
         if emsa.header.datatype == DATA_TYPE_XY:
             for datum in emsa.get_data():
                 lines.append("%s, %s" % datum)
         elif emsa.header.datatype == DATA_TYPE_Y:
-            ncolumns = emsa.header.ncolumns
-            for i in range(0, len(emsa.ydata), ncolumns):
-                values = ['%s' % datum for datum in emsa.ydata[i:i + ncolumns]]
+            number_columns = emsa.header.ncolumns
+            for i in range(0, len(emsa.y_data), number_columns):
+                values = ['%s' % datum for datum in emsa.y_data[i:i + number_columns]]
                 lines.append(', '.join(values))
 
         return lines
 
-def write(emsa, fileobj):
+
+def write(emsa, file_object):
     """
     Writes an :class:`.Emsa` object into a file-object.
 
@@ -553,4 +565,4 @@ def write(emsa, fileobj):
       with open('spectrum1.emsa', 'w') as f:
           emsa.write(spectrum1, f)
     """
-    EmsaWriter().write(emsa, fileobj)
+    EmsaWriter().write(emsa, file_object)

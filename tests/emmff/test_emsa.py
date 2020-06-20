@@ -28,7 +28,6 @@ Tests for the module :py:mod:`microanalysis_file_format.emmff.emsa`.
 
 # Standard library modules.
 import unittest
-import logging
 import tempfile
 import os
 from six import PY2, PY3
@@ -43,6 +42,7 @@ import microanalysis_file_format.emmff.emsa as emsa
 
 # Globals and constants variables.
 
+
 class TestEmsaReader(unittest.TestCase):
 
     def setUp(self):
@@ -50,7 +50,7 @@ class TestEmsaReader(unittest.TestCase):
 
         filepath = get_current_module_path(__file__, "../../test_data/emmff/spectra/spectrum1.emsa")
         if not os.path.isfile(filepath):
-            raise self.skipTest()
+            raise self.skipTest("File path is not a valid test data file")
         if PY3:
             with open(filepath, 'r', newline="\r\n") as f:
                 self.emsa = emsa.read(f)
@@ -61,8 +61,8 @@ class TestEmsaReader(unittest.TestCase):
     def tearDown(self):
         unittest.TestCase.tearDown(self)
 
-    def testskeleton(self):
-        self.assertEqual(1024, len(self.emsa.ydata))
+    def test_skeleton(self):
+        self.assertEqual(1024, len(self.emsa.y_data))
 
     def test_is_line_keyword(self):
         reader = emsa.EmsaReader()
@@ -124,9 +124,9 @@ class TestEmsaReader(unittest.TestCase):
         self.assertEqual("", comment)
         self.assertEqual("16:03", value)
 
-        line = r"#XPOSITION mm: 0.0000"
+        line = r"#X_POSITION mm: 0.0000"
         keyword, comment, value = reader._parse_keyword_line(line)
-        self.assertEqual("XPOSITION", keyword)
+        self.assertEqual("X_POSITION", keyword)
         self.assertEqual("mm", comment)
         self.assertEqual('0.0000', value)
 
@@ -162,77 +162,78 @@ class TestEmsaReader(unittest.TestCase):
         self.assertEqual(1.0, values[0])
         self.assertEqual(6.0, values[-1])
 
-    def testformat(self):
+    def test_format(self):
         self.assertEqual("EMSA/MAS Spectral Data File", self.emsa.header.format)
 
-    def testversion(self):
+    def test_version(self):
         self.assertEqual(1.0, self.emsa.header.version)
 
-    def testtitle(self):
+    def test_title(self):
         self.assertEqual("Spectrum 1", self.emsa.header.title)
 
-    def testdate(self):
+    def test_date(self):
         self.assertEqual("20-NOV-2006", self.emsa.header.date)
 
-    def testtime(self):
+    def test_time(self):
         self.assertEqual("16:03", self.emsa.header.time)
 
-    def testowner(self):
+    def test_owner(self):
         self.assertEqual("helen", self.emsa.header.owner)
 
-    def testnumber_points(self):
-        self.assertEqual(1024.0, self.emsa.header.npoints)
+    def test_number_points(self):
+        self.assertEqual(1024.0, self.emsa.header.number_points)
 
-    def testnumber_columns(self):
+    def test_number_columns(self):
         self.assertEqual(1.0, self.emsa.header.ncolumns)
 
-    def testxunits(self):
+    def test_x_units(self):
         self.assertEqual("keV", self.emsa.header.xunits)
 
-    def testyunits(self):
+    def test_y_units(self):
         self.assertEqual("counts", self.emsa.header.yunits)
 
-    def testdata_type(self):
+    def test_data_type(self):
         self.assertEqual("XY", self.emsa.header.datatype)
 
-    def testx_per_channel(self):
+    def test_x_per_channel(self):
         self.assertEqual(0.02, self.emsa.header.xperchan)
 
-    def testoffset(self):
+    def test_offset(self):
         self.assertEqual(-0.2, self.emsa.header.offset)
 
-    def testsignal_type(self):
+    def test_signal_type(self):
         self.assertEqual("EDS", self.emsa.header.signaltype)
 
-    def testchannel_offset(self):
+    def test_channel_offset(self):
         self.assertEqual(10.0, self.emsa.header.choffset)
 
-    def testlive_time(self):
+    def test_live_time(self):
         self.assertEqual(0.34635, self.emsa.header.livetime)
 
-    def testreal_time(self):
+    def test_real_time(self):
         self.assertEqual(0.453241, self.emsa.header.realtime)
 
-    def testbeam_energy(self):
+    def test_beam_energy(self):
         self.assertEqual(5.0, self.emsa.header.beamkv)
 
-    def testprobe_current(self):
+    def test_probe_current(self):
         self.assertEqual(0.0, self.emsa.header.probecur)
 
-    def testmagnification(self):
+    def test_magnification(self):
         self.assertEqual(250.0, self.emsa.header.magcam)
 
-    def testxposition(self):
+    def test_x_position(self):
         self.assertEqual(0.0, self.emsa.header.xposition[0])
         self.assertEqual('mm', self.emsa.header.xposition[1])
 
-    def testyposition(self):
+    def test_y_position(self):
         self.assertEqual(0.0, self.emsa.header.yposition[0])
         self.assertEqual('mm', self.emsa.header.yposition[1])
 
-    def testzposition(self):
+    def test_z_position(self):
         self.assertEqual(0.0, self.emsa.header.zposition[0])
         self.assertEqual('mm', self.emsa.header.zposition[1])
+
 
 class TestEmsaWriter(unittest.TestCase):
     LINES = ['#FORMAT      : EMSA/MAS Spectral Data File',
@@ -269,10 +270,11 @@ class TestEmsaWriter(unittest.TestCase):
         emsa.write(spectrum, self.f)
         self.f.close()
 
-    def _create_emsa(self):
+    @staticmethod
+    def _create_emsa():
         spectrum = emsa.Emsa()
-        spectrum.xdata = [0, 1, 2, 3, 4]
-        spectrum.ydata = [10, 20, 30, 40, 50]
+        spectrum.x_data = [0, 1, 2, 3, 4]
+        spectrum.y_data = [10, 20, 30, 40, 50]
 
         spectrum.header.title = 'Test EMSA file'
         spectrum.header.date = '14-MAY-2011'
@@ -295,10 +297,10 @@ class TestEmsaWriter(unittest.TestCase):
 
         os.remove(self.f.name)
 
-    def testskeleton(self):
+    def test_skeleton(self):
         self.assertTrue(True)
 
-    def testlines(self):
+    def test_lines(self):
         if PY3:
             with open(self.f.name, 'r', newline="\r\n") as f:
                 lines = [line.strip() for line in f.readlines()]

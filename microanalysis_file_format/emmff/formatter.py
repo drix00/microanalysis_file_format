@@ -6,11 +6,11 @@
 :mod:`formatter` -- Parse values from XML string
 ================================================================================
 
-.. module:: formatter
-   :synopsis: Parse values from XML string
+.. module:: microanalysis_file_format.emmff.formatter
 
 .. moduleauthor:: Philippe T. Pinard <philippe.pinard@gmail.com>
 
+Parse values from XML string.
 """
 
 ###############################################################################
@@ -40,8 +40,10 @@ import numbers
 
 # Globals and constants variables.
 
+
 class NoMatch(Exception):
     pass
+
 
 class _Condition:
     def __str__(self):
@@ -59,16 +61,17 @@ class _Condition:
     def to_string(self, value):
         raise NoMatch
 
+
 class TrueFalseCondition(_Condition):
     def from_string(self, value):
         trues = ['true', 'yes']
         falses = ['false', 'no']
 
-        tmpvalue = value.strip().lower()
+        tmp_value = value.strip().lower()
 
-        if tmpvalue in trues:
+        if tmp_value in trues:
             return True
-        elif tmpvalue in falses:
+        elif tmp_value in falses:
             return False
         else:
             raise NoMatch
@@ -82,6 +85,7 @@ class TrueFalseCondition(_Condition):
         else:
             raise NoMatch
 
+
 class NoneCondition(_Condition):
     def from_string(self, value):
         if value.strip().lower() == 'none':
@@ -94,6 +98,7 @@ class NoneCondition(_Condition):
             return "none"
         else:
             raise NoMatch
+
 
 class NumberCondition(_Condition):
     def from_string(self, value):
@@ -116,12 +121,13 @@ class NumberCondition(_Condition):
         else:
             raise NoMatch
 
+
 class Formatter:
     def __init__(self):
         self._conditions = []
 
     def register(self, condition):
-        if not condition in self._conditions:
+        if condition not in self._conditions:
             self._conditions.append(condition)
 
     def deregister(self, condition):
@@ -130,13 +136,13 @@ class Formatter:
         else:
             raise ValueError("Condition (%s) is not registered.")
 
-    def _run(self, value, meth):
+    def _run(self, value, method):
         matches = []
 
         # Loop through the condition
         for condition in self._conditions:
             try:
-                result = getattr(condition, meth)(value)
+                result = getattr(condition, method)(value)
             except NoMatch:
                 continue
 
@@ -157,6 +163,7 @@ class Formatter:
 
     def to_string(self, value):
         return self._run(value, "to_string")
+
 
 formatter = Formatter()
 formatter.register(TrueFalseCondition())

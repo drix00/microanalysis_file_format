@@ -254,7 +254,7 @@ class GenesisPolarisFile(object):
         header["analysisMode"] = values[11]
 
         header["preset"] = float(values[12])
-        header["liveTime"] = float(values[13])
+        header["live_time"] = float(values[13])
         header["tilt"] = float(values[14])
         header["takeoff"] = float(values[15])
         header["XRayInc"] = float(values[16])
