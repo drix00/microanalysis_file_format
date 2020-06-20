@@ -32,7 +32,7 @@ install:
 
 # command to run tests
 script:
-  - pytest --cov=pySpectrumFileFormat --cov-branch --cov-report xml
+  - pytest --cov=microanalysis_file_format --cov-branch --cov-report xml
 
 after_success:
   - coveralls

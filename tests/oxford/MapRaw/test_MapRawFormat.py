@@ -2,14 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: tests.test_pySpectrumFileFormat
-.. moduleauthor:: Hendrix Demers <Demers.Hendrix@hydro.qc.ca>
+.. py:currentmodule:: oxford.MapRaw.test_MapRawFormat
+   :synopsis: Tests for module `oxford.MapRaw.MapRawFormat`.
 
-Tests for the :py:mod:`microanalysis_file_format` module.
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Tests for module `oxford.MapRaw.MapRawFormat`.
 """
 
 ###############################################################################
-# Copyright 2020 Hendrix Demers
+# Copyright 2012 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,20 +27,41 @@ Tests for the :py:mod:`microanalysis_file_format` module.
 ###############################################################################
 
 # Standard library modules.
+import unittest
+import logging
 
 # Third party modules.
 
 # Local modules.
 
 # Project modules.
+import microanalysis_file_format.oxford.MapRaw.MapRawFormat as MapRawFormat
 
 # Globals and constants variables.
 
+class TestMapRawFormat(unittest.TestCase):
+    """
+    TestCase class for the module `MapRawFormat`.
+    """
 
-def test_is_discovered():
-    """
-    Test used to validate the file is included in the tests
-    by the test framework.
-    """
-    # assert False
-    assert True
+    def setUp(self):
+        """
+        Setup method.
+        """
+
+        unittest.TestCase.setUp(self)
+
+    def tearDown(self):
+        """
+        Teardown method.
+        """
+
+        unittest.TestCase.tearDown(self)
+
+    def testSkeleton(self):
+        """
+        First test to check if the testcase is working with the testing framework.
+        """
+
+        #self.fail("Test if the testcase is working.")
+        self.assert_(True)

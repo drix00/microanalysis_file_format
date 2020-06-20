@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: microanalysis_file_format.test_init
+.. py:currentmodule:: oxford.MapRaw.test_MapRawFormat
+   :synopsis: Tests for the module :py:mod:`microanalysis_file_format.bruker.MapRaw.MapRawFormat`
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`microanalysis_file_format.__init__`.
+Tests for the module :py:mod:`microanalysis_file_format.bruker.MapRaw.MapRawFormat`.
 """
 
 ###############################################################################
-# Copyright 2007 Hendrix Demers
+# Copyright 2012 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,34 +27,40 @@ Tests for the module :py:mod:`microanalysis_file_format.__init__`.
 ###############################################################################
 
 # Standard library modules.
-import os.path
+import unittest
 
 # Third party modules.
 
 # Local modules.
 
 # Project modules.
-from microanalysis_file_format import get_current_module_path
-from tests import is_test_data_file
-
+import microanalysis_file_format.bruker.MapRaw.MapRawFormat as MapRawFormat
 
 # Globals and constants variables.
 
+class TestMapRawFormat(unittest.TestCase):
+    """
+    TestCase class for the module `MapRawFormat`.
+    """
 
-def test_is_test_data_file(tmp_path):
-    file_path = os.path.join(tmp_path, "lfs_test_file.txt")
-    with open(file_path, 'w') as lfs_file:
-        lines = """version https://git-lfs.github.com/spec/v1
-oid sha256:4d7a214614ab2935c943f9e0ff69d22eadbb8f32b1258daaa5e2ca24d17e2393
-size 12345
+    def setUp(self):
+        """
+        Setup method.
+        """
 
-"""
-        lfs_file.writelines(lines)
+        unittest.TestCase.setUp(self)
 
-    assert is_test_data_file(file_path) is False
+    def tearDown(self):
+        """
+        Teardown method.
+        """
 
-    assert is_test_data_file(get_current_module_path(__file__)) is False
+        unittest.TestCase.tearDown(self)
 
-    assert is_test_data_file(__file__) is True
+    def testSkeleton(self):
+        """
+        First test to check if the testcase is working with the testing framework.
+        """
 
-    # self.fail("Test if the TestCase is working.")
+        #self.fail("Test if the testcase is working.")
+        self.assert_(True)

@@ -33,8 +33,10 @@ import os.path
 # Local modules.
 
 # Project modules.
-from pySpectrumFileFormat.vericold.trace_file import TraceFile
-from pySpectrumFileFormat import get_current_module_path, is_test_data_file
+from microanalysis_file_format.vericold.trace_file import TraceFile
+from microanalysis_file_format import get_current_module_path
+from tests import is_test_data_file
+
 
 # Globals and constants variables.
 

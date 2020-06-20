@@ -3,11 +3,11 @@
 
 """
 .. py:currentmodule:: tests.vericold.test_genesisPolarisFile
-   :synopsis: Tests for the module :py:mod:`pySpectrumFileFormat.vericold.genesisPolarisFile`
+   :synopsis: Tests for the module :py:mod:`microanalysis_file_format.vericold.genesisPolarisFile`
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`pySpectrumFileFormat.vericold.genesisPolarisFile`.
+Tests for the module :py:mod:`microanalysis_file_format.vericold.genesisPolarisFile`.
 """
 
 ###############################################################################
@@ -34,8 +34,10 @@ import unittest
 # Local modules.
 
 # Project modules.
-from pySpectrumFileFormat.vericold.genesis_polaris_file import GenesisPolarisFile
-from pySpectrumFileFormat import get_current_module_path, is_test_data_file
+from microanalysis_file_format.vericold.genesis_polaris_file import GenesisPolarisFile
+from microanalysis_file_format import get_current_module_path
+from tests import is_test_data_file
+
 
 # Globals and constants variables.
 

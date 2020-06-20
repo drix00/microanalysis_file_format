@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: pySpectrumFileFormat.emmff.test_emsaFormat
-   :synopsis: Tests for the module :py:mod:`pySpectrumFileFormat.emmff.emsaFormat`
+.. py:currentmodule:: microanalysis_file_format.emmff.test_emsaFormat
+   :synopsis: Tests for the module :py:mod:`microanalysis_file_format.emmff.emsaFormat`
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`pySpectrumFileFormat.emmff.emsaFormat`.
+Tests for the module :py:mod:`microanalysis_file_format.emmff.emsaFormat`.
 """
 
 ###############################################################################
@@ -37,8 +37,8 @@ import os.path
 # Local modules.
 
 # Project modules.
-import pySpectrumFileFormat.emmff.emsaFormat as emsaFormat
-from pySpectrumFileFormat import get_current_module_path
+import microanalysis_file_format.emmff.emsaFormat as emsaFormat
+from microanalysis_file_format import get_current_module_path
 
 # Globals and constants variables.
 

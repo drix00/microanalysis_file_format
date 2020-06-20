@@ -2,14 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: tests.test_pySpectrumFileFormat
-.. moduleauthor:: Hendrix Demers <Demers.Hendrix@hydro.qc.ca>
+.. py:currentmodule:: __init__
+   :synopsis: Init for the package.
 
-Tests for the :py:mod:`microanalysis_file_format` module.
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Init for the package.
 """
 
 ###############################################################################
-# Copyright 2020 Hendrix Demers
+# Copyright 2007 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,6 +27,7 @@ Tests for the :py:mod:`microanalysis_file_format` module.
 ###############################################################################
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
 
@@ -33,12 +36,16 @@ Tests for the :py:mod:`microanalysis_file_format` module.
 # Project modules.
 
 # Globals and constants variables.
+__author__ = """Hendrix Demers"""
+__email__ = 'hendrix.demers@mail.mcgill.ca'
+__version__ = '0.1.0'
+__project_name__ = "microanalysis_file_format"
 
 
-def test_is_discovered():
-    """
-    Test used to validate the file is included in the tests
-    by the test framework.
-    """
-    # assert False
-    assert True
+def get_current_module_path(module_path, relative_path=""):
+    base_path = os.path.dirname(module_path)
+
+    file_path = os.path.join(base_path, relative_path)
+    file_path = os.path.normpath(file_path)
+
+    return file_path

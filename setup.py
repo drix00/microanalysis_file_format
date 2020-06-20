@@ -3,11 +3,9 @@
 
 """
 .. py:currentmodule:: setup
-   :synopsis: Setup script to use with pip for the project pyXraySpectrumFileFormat.
-
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Setup script to use with pip for the project pyXraySpectrumFileFormat.
+Setup script to use with pip for the project microanalysis_file_format.
 """
 
 ###############################################################################
@@ -27,12 +25,14 @@ Setup script to use with pip for the project pyXraySpectrumFileFormat.
 ###############################################################################
 
 # Standard library modules.
-import os.path
 
 # Third party modules.
 from setuptools import setup, find_packages
 
 # Local modules.
+
+# Project modules.
+from microanalysis_file_format import __author__, __email__, __version__, __project_name__
 
 # Globals and constants variables.
 with open('README.rst') as readme_file:
@@ -41,28 +41,31 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [
-    'numpy',
-    'matplotlib',
-    'scipy',
-    'six',
-]
+with open('requirements.txt') as requirements_file:
+    requirements = []
+    for line in requirements_file:
+        line = line.strip()
+        if len(line) > 0:
+            requirements.append(line)
 
-test_requirements = [
-    'coverage', 'pytest', 'pytest-cov'
-]
 
-readme_file_path = os.path.join(os.path.dirname(__file__), 'README.rst')
-long_description = open(readme_file_path).read() + '\n\n'
-
-setup(name="pySpectrumFileFormat",
-      version='0.1',
-      url='',
+setup(name=__project_name__,
+      version=__version__,
+      url='https://github.com/drix00/microanalysis_file_format',
+      project_urls={
+          "Bug Tracker": "https://github.com/drix00/microanalysis_file_format/issues",
+          "Documentation": "https://microanalysis_file_format.readthedocs.io/",
+          "Source Code": "https://github.com/drix00/microanalysis_file_format",
+      },
       description="Project to read and write various x-ray spectrum file format.",
       long_description=readme + '\n\n' + history,
-      author="Hendrix Demers",
-      author_email="hendrix.demers@mail.mcgill.ca",
+      author=__author__,
+      author_email=__email__,
+      maintainer=__author__,
+      maintainer_email=__email__,
+      keywords="python science physics",
       license="Apache License, Version 2.0",
+      license_file="LICENSE",
       classifiers=['Development Status :: 5 - Production/Stable',
                    'Environment :: Console',
                    'Intended Audience :: Developers',
@@ -71,12 +74,17 @@ setup(name="pySpectrumFileFormat",
                    'Natural Language :: English',
                    'Programming Language :: Python',
                    'Operating System :: OS Independent',
-                   'Topic :: Scientific/Engineering', ],
+                   'Topic :: Scientific/Engineering',
+                   ],
       packages=find_packages(),
+      platforms='any',
       install_requires=requirements,
       zip_safe=False,
-      keywords='microanalysis_file_format',
       include_package_data=False,  # Do not include test data
       test_suite='tests',
-      tests_require=test_requirements
-      )
+      tests_require=['pytest', 'coverage', 'pytest-cov'],
+      extras_require={
+          'testing': ['pytest', 'coverage', 'pytest-cov'],
+          'develop': ['setuptools', 'Sphinx', 'sphinx-rtd-theme', 'pytest', 'coverage', 'pytest-cov']
+      },
+)
