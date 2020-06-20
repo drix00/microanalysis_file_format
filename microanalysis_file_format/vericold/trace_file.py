@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# noinspection SpellCheckingInspection
 """
 .. py:currentmodule:: microanalysis_file_format.vericold.trace_file
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
@@ -238,6 +239,7 @@ class TraceFile(object):
 
             return header, times_ms, data
 
+    # noinspection SpellCheckingInspection
     def read_header(self):
         trace_file = open(self.filename, "rb")
 
@@ -296,6 +298,7 @@ class TraceFile(object):
         self.header["WDistance"] = float(values[29])
         self.header["PixelSize"] = float(values[30])
 
+    # noinspection SpellCheckingInspection
     def print_header(self):  # pragma: no cover
         print("Size: ", self.header["Size"])
         print("Version: ", self.header["Version"])
