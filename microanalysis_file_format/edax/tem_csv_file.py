@@ -39,13 +39,15 @@ import csv
 CHANNEL = "Channel"
 COUNTS = "Counts"
 
+
 class TemCsvFile(object):
     def __init__(self, filepath):
         self._filepath = filepath
 
-        self._data = self._readData(self._filepath)
+        self._data = self._read_data(self._filepath)
 
-    def _readData(self, filepath):
+    @staticmethod
+    def _read_data(filepath):
         reader = csv.reader(open(filepath, 'rU'))
 
         data = {}
@@ -61,15 +63,14 @@ class TemCsvFile(object):
 
         return data
 
-    def getChannels(self):
+    def get_channels(self):
         return self._data[CHANNEL]
 
-    def getEnergies_eV(self, eVChannel_eV=10.0):
-        return [xx*eVChannel_eV for xx in self._data[CHANNEL]]
+    def get_energies_eV(self, eV_channel_eV=10.0):
+        return [xx * eV_channel_eV for xx in self._data[CHANNEL]]
 
-    def getCounts(self):
+    def get_counts(self):
         return self._data[COUNTS]
 
-    def getData(self, eVChannel_eV=10.0):
-        return self.getEnergies_eV(eVChannel_eV), self.getCounts()
-
+    def get_data(self, eV_channel_eV=10.0):
+        return self.get_energies_eV(eV_channel_eV), self.get_counts()
