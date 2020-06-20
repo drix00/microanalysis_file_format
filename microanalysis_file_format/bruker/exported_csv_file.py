@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: bruker.ExportedCsvFile
+.. py:currentmodule:: microanalysis_file_format.bruker.exported_csv_file
    :synopsis: Read exported bruker csv file.
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
@@ -43,40 +43,45 @@ KEY_LIFETIME = "Life time: "
 KEY_SPECTRUM = "Spectrum: "
 KEY_CHANNEL = "Channel"
 
+
 class Spectrum(object):
     def __init__(self):
-        self.spectrumName = ""
-        self.primaryEnergy_keV = 0.0
-        self.lifeTime_s = 0.0
+        self.spectrum_name = ""
+        self.primary_energy_keV = 0.0
+        self.life_time_s = 0.0
 
         self.channels = []
         self.energies_keV = []
-        self.countsList = []
+        self.counts_list = []
 
     @property
-    def spectrumName(self):
-        return self._spectrumName
-    @spectrumName.setter
-    def spectrumName(self, spectrumName):
-        self._spectrumName = spectrumName
+    def spectrum_name(self):
+        return self._spectrum_name
+
+    @spectrum_name.setter
+    def spectrum_name(self, spectrum_name):
+        self._spectrum_name = spectrum_name
 
     @property
-    def primaryEnergy_keV(self):
-        return self._primaryEnergy_keV
-    @primaryEnergy_keV.setter
-    def primaryEnergy_keV(self, primaryEnergy_keV):
-        self._primaryEnergy_keV = primaryEnergy_keV
+    def primary_energy_keV(self):
+        return self._primary_energy_keV
+
+    @primary_energy_keV.setter
+    def primary_energy_keV(self, primary_energy_keV):
+        self._primary_energy_keV = primary_energy_keV
 
     @property
-    def lifeTime_s(self):
-        return self._lifeTime_s
-    @lifeTime_s.setter
-    def lifeTime_s(self, lifeTime_s):
-        self._lifeTime_s = lifeTime_s
+    def life_time_s(self):
+        return self._life_time_s
+
+    @life_time_s.setter
+    def life_time_s(self, life_time_s):
+        self._life_time_s = life_time_s
 
     @property
     def channels(self):
         return self._channels
+
     @channels.setter
     def channels(self, channels):
         self._channels = channels
@@ -84,18 +89,21 @@ class Spectrum(object):
     @property
     def energies_keV(self):
         return self._energies_keV
+
     @energies_keV.setter
     def energies_keV(self, energies_keV):
         self._energies_keV = energies_keV
 
     @property
-    def countsList(self):
-        return self._countsList
-    @countsList.setter
-    def countsList(self, countsList):
-        self._countsList = countsList
+    def counts_list(self):
+        return self._counts_list
 
-def readSpectrum(filepath):
+    @counts_list.setter
+    def counts_list(self, counts_list):
+        self._counts_list = counts_list
+
+
+def read_spectrum(filepath):
     logging.info("Reading spectrum: %s", filepath)
 
     reader = csv.reader(open(filepath, 'rb'))
@@ -104,7 +112,7 @@ def readSpectrum(filepath):
 
     for row in reader:
         if row[0] == KEY_SPECTRUM:
-            spectrum.spectrumName = row[1].strip()
+            spectrum.spectrum_name = row[1].strip()
 
         if row[0] == KEY_ENERGY:
             spectrum.primaryEnergy_keV = float(row[2])
@@ -123,13 +131,13 @@ def readSpectrum(filepath):
 
         spectrum.channels.append(channel)
         spectrum.energies_keV.append(energy_keV)
-        spectrum.countsList.append(counts)
+        spectrum.counts_list.append(counts)
 
     assert len(spectrum.channels) == len(spectrum.energies_keV)
-    assert len(spectrum.channels) == len(spectrum.countsList)
+    assert len(spectrum.channels) == len(spectrum.counts_list)
 
-    logging.info(spectrum.spectrumName)
-    logging.info(spectrum.primaryEnergy_keV)
+    logging.info(spectrum.spectrum_name)
+    logging.info(spectrum.primary_energy_keV)
     logging.info(spectrum.lifeTime_s)
     logging.info(len(spectrum.channels))
 

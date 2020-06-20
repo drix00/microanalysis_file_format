@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: oxford.MapRaw.test_MapRawFormat
-   :synopsis: Tests for the module :py:mod:`microanalysis_file_format.bruker.MapRaw.MapRawFormat`
+.. py:currentmodule:: microanalysis_file_format.bruker.map
+   :synopsis: Init for the package.
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`microanalysis_file_format.bruker.MapRaw.MapRawFormat`.
+Init for the package.
 """
 
 ###############################################################################
@@ -27,40 +27,11 @@ Tests for the module :py:mod:`microanalysis_file_format.bruker.MapRaw.MapRawForm
 ###############################################################################
 
 # Standard library modules.
-import unittest
 
 # Third party modules.
 
 # Local modules.
 
 # Project modules.
-import microanalysis_file_format.bruker.MapRaw.MapRawFormat as MapRawFormat
 
 # Globals and constants variables.
-
-class TestMapRawFormat(unittest.TestCase):
-    """
-    TestCase class for the module `MapRawFormat`.
-    """
-
-    def setUp(self):
-        """
-        Setup method.
-        """
-
-        unittest.TestCase.setUp(self)
-
-    def tearDown(self):
-        """
-        Teardown method.
-        """
-
-        unittest.TestCase.tearDown(self)
-
-    def testSkeleton(self):
-        """
-        First test to check if the testcase is working with the testing framework.
-        """
-
-        #self.fail("Test if the testcase is working.")
-        self.assert_(True)

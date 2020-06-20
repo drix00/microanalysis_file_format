@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: __init__
+.. py:currentmodule:: microanalysis_file_format.bruker
    :synopsis: Init for the package.
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>

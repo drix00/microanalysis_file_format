@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: oxford.MapRaw.test_MapRawFormat
-   :synopsis: Tests for module `oxford.MapRaw.MapRawFormat`.
+.. py:currentmodule:: oxford.map.test_MapRawFormat
+   :synopsis: Tests for module `oxford.map.MapRawFormat`.
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for module `oxford.MapRaw.MapRawFormat`.
+Tests for module `oxford.map.MapRawFormat`.
 """
 
 ###############################################################################

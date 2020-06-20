@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: oxford.MapRaw.test_ParametersFile
-   :synopsis: Tests for module `oxford.MapRaw.ParametersFile`.
+.. py:currentmodule:: oxford.map.test_ParametersFile
+   :synopsis: Tests for module `oxford.map.ParametersFile`.
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for module `oxford.MapRaw.ParametersFile`.
+Tests for module `oxford.map.ParametersFile`.
 """
 
 ###############################################################################

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: oxford.MapRaw.MapRawFormat
+.. py:currentmodule:: oxford.map.MapRawFormat
    :synopsis: Read Oxford Instruments map in the raw format.
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
@@ -56,23 +56,23 @@ class MapRawFormat(object):
 
     def _generateFormat(self, parameters):
         spectrumFormat = ""
-        if parameters.byteOrder == ParametersFile.BYTE_ORDER_LITTLE_ENDIAN:
+        if parameters.byte_order == ParametersFile.BYTE_ORDER_LITTLE_ENDIAN:
             spectrumFormat += '<'
 
-        if parameters.dataLength_B == 1:
-            if parameters.dataType == ParametersFile.DATA_TYPE_SIGNED:
+        if parameters.data_length_B == 1:
+            if parameters.data_type == ParametersFile.DATA_TYPE_SIGNED:
                 spectrumFormat += "b"
-            elif parameters.dataType == ParametersFile.DATA_TYPE_UNSIGNED:
+            elif parameters.data_type == ParametersFile.DATA_TYPE_UNSIGNED:
                 spectrumFormat += "B"
-        elif parameters.dataLength_B == 2:
-            if parameters.dataType == ParametersFile.DATA_TYPE_SIGNED:
+        elif parameters.data_length_B == 2:
+            if parameters.data_type == ParametersFile.DATA_TYPE_SIGNED:
                 spectrumFormat += "h"
-            elif parameters.dataType == ParametersFile.DATA_TYPE_UNSIGNED:
+            elif parameters.data_type == ParametersFile.DATA_TYPE_UNSIGNED:
                 spectrumFormat += "H"
-        elif parameters.dataLength_B == 4:
-            if parameters.dataType == ParametersFile.DATA_TYPE_SIGNED:
+        elif parameters.data_length_B == 4:
+            if parameters.data_type == ParametersFile.DATA_TYPE_SIGNED:
                 spectrumFormat += "i"
-            elif parameters.dataType == ParametersFile.DATA_TYPE_UNSIGNED:
+            elif parameters.data_type == ParametersFile.DATA_TYPE_UNSIGNED:
                 spectrumFormat += "I"
 
         logging.info("Format: %s", spectrumFormat)
@@ -81,25 +81,25 @@ class MapRawFormat(object):
 
     def _generateSumSpectraFormat(self, parameters):
         spectrumFormat = ""
-        if parameters.byteOrder == ParametersFile.BYTE_ORDER_LITTLE_ENDIAN:
+        if parameters.byte_order == ParametersFile.BYTE_ORDER_LITTLE_ENDIAN:
             spectrumFormat += '<'
 
         spectrumFormat += '%i' % (parameters.width*parameters.height)
 
-        if parameters.dataLength_B == 1:
-            if parameters.dataType == ParametersFile.DATA_TYPE_SIGNED:
+        if parameters.data_length_B == 1:
+            if parameters.data_type == ParametersFile.DATA_TYPE_SIGNED:
                 spectrumFormat += "b"
-            elif parameters.dataType == ParametersFile.DATA_TYPE_UNSIGNED:
+            elif parameters.data_type == ParametersFile.DATA_TYPE_UNSIGNED:
                 spectrumFormat += "B"
-        elif parameters.dataLength_B == 2:
-            if parameters.dataType == ParametersFile.DATA_TYPE_SIGNED:
+        elif parameters.data_length_B == 2:
+            if parameters.data_type == ParametersFile.DATA_TYPE_SIGNED:
                 spectrumFormat += "h"
-            elif parameters.dataType == ParametersFile.DATA_TYPE_UNSIGNED:
+            elif parameters.data_type == ParametersFile.DATA_TYPE_UNSIGNED:
                 spectrumFormat += "H"
-        elif parameters.dataLength_B == 4:
-            if parameters.dataType == ParametersFile.DATA_TYPE_SIGNED:
+        elif parameters.data_length_B == 4:
+            if parameters.data_type == ParametersFile.DATA_TYPE_SIGNED:
                 spectrumFormat += "i"
-            elif parameters.dataType == ParametersFile.DATA_TYPE_UNSIGNED:
+            elif parameters.data_type == ParametersFile.DATA_TYPE_UNSIGNED:
                 spectrumFormat += "I"
 
         logging.info("Format: %s", spectrumFormat)

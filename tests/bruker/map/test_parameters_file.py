@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: oxford.MapRaw.test_ParametersFile
-   :synopsis: Tests for the module :py:mod:`microanalysis_file_format.bruker.MapRaw.ParametersFile`
+.. py:currentmodule:: oxford.map.test_ParametersFile
+   :synopsis: Tests for the module :py:mod:`microanalysis_file_format.bruker.map.ParametersFile`
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`microanalysis_file_format.bruker.MapRaw.ParametersFile`.
+Tests for the module :py:mod:`microanalysis_file_format.bruker.map.ParametersFile`.
 """
 
 ###############################################################################
@@ -35,7 +35,8 @@ import os.path
 # Local modules.
 
 # Project modules.
-import microanalysis_file_format.bruker.MapRaw.ParametersFile as ParametersFile
+from microanalysis_file_format.bruker.map.parameters_file import ParametersFile, DATA_TYPE_UNSIGNED, \
+    BYTE_ORDER_DONT_CARE
 from microanalysis_file_format import get_current_module_path
 from tests import is_test_data_file
 
@@ -68,25 +69,25 @@ class TestParametersFile(unittest.TestCase):
         First test to check if the testcase is working with the testing framework.
         """
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
         self.assert_(True)
 
     def test_read(self):
         filename = "Sample01.rpl"
         filepath = os.path.join(self.path, filename)
         if not is_test_data_file(filepath):
-            raise self.skipTest()
+            raise self.skipTest("File path is not a valid test data file")
 
-        parameters = ParametersFile.ParametersFile()
+        parameters = ParametersFile()
         parameters.read(filepath)
 
         self.assertEqual(1024, parameters.width)
         self.assertEqual(768, parameters.height)
         self.assertEqual(2048, parameters.depth)
         self.assertEqual(0, parameters.offset)
-        self.assertEqual(1, parameters.dataLength_B)
-        self.assertEqual(ParametersFile.DATA_TYPE_UNSIGNED, parameters.dataType)
-        self.assertEqual(ParametersFile.BYTE_ORDER_DONT_CARE, parameters.byteOrder)
-        self.assertEqual("vector", parameters.recordBy)
+        self.assertEqual(1, parameters.data_length_B)
+        self.assertEqual(DATA_TYPE_UNSIGNED, parameters.data_type)
+        self.assertEqual(BYTE_ORDER_DONT_CARE, parameters.byte_order)
+        self.assertEqual("vector", parameters.record_by)
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")

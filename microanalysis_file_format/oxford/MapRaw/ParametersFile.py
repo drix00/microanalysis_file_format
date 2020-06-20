@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: oxford.MapRaw.ParametersFile
+.. py:currentmodule:: oxford.map.ParametersFile
    :synopsis: Parameters of the raw map file.
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
