@@ -155,11 +155,11 @@ class TraceFile(object):
 
         time_last_change = time.asctime(time_last_change)
 
-        print("Time of the last access: {}}".format(time_last_access))
+        print("Time of the last access: {}".format(time_last_access))
 
-        print("Time of the last modification: {}}".format(time_last_modification))
+        print("Time of the last modification: {}".format(time_last_modification))
 
-        print("Time of the last status change: {}}".format(time_last_change))
+        print("Time of the last status change: {}".format(time_last_change))
 
     def read_trace(self, trace_id):
         if trace_id > 0:

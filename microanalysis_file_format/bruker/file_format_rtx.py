@@ -86,7 +86,7 @@ class FileFormatRtx(object):
             self._print_element(element)
 
     def get_project_header_elements(self):
-        parent_element =  self._etree.find("*//"+TAG_PROJECT_HEADER)
+        parent_element = self._etree.find("*//"+TAG_PROJECT_HEADER)
         elements = parent_element.getchildren()
 
         return elements

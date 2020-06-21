@@ -179,7 +179,7 @@ class EmsaFormat:
         if data_type == 'Y':
             # Y with 1 column
             try:
-                _y_value = float(line)
+                _ = float(line)
 
                 return True, 'Y', 1
             except ValueError:
@@ -208,7 +208,7 @@ class EmsaFormat:
 
                 if 1 < len(y_value_list) <= 5:
                     for y_value in y_value_list:
-                        _y_value = float(y_value)
+                        _ = float(y_value)
 
                     return True, 'Y', len(y_value_list)
             except ValueError:
@@ -216,10 +216,10 @@ class EmsaFormat:
         elif data_type == 'XY':
             # XY with comma
             try:
-                (x_value, y_value) = line.split(',')
+                x_value, y_value = line.split(',')
 
-                _x_value = float(x_value)
-                _y_value = float(y_value)
+                _ = float(x_value)
+                _ = float(y_value)
 
                 return True, 'XY', 2
             except ValueError:
@@ -229,8 +229,8 @@ class EmsaFormat:
             try:
                 x_value, y_value, dummy = line.split(',')
 
-                _x_value = float(x_value)
-                _y_value = float(y_value)
+                _ = float(x_value)
+                _ = float(y_value)
 
                 return True, 'XY', 2
             except ValueError:
@@ -238,10 +238,10 @@ class EmsaFormat:
 
             # XY with space
             try:
-                (x_value, y_value) = line.split()
+                x_value, y_value = line.split()
 
-                _x_value = float(x_value)
-                _y_value = float(y_value)
+                _ = float(x_value)
+                _ = float(y_value)
 
                 return True, 'XY', 2
             except ValueError:
@@ -249,7 +249,7 @@ class EmsaFormat:
         else:
             # Y with 1 column
             try:
-                _y_value = float(line)
+                _ = float(line)
 
                 return True, 'Y', 1
             except ValueError:
@@ -263,7 +263,7 @@ class EmsaFormat:
                     number_values = 0
                     for y_value in y_value_list:
                         try:
-                            _y_value = float(y_value)
+                            _ = float(y_value)
                             number_values += 1
                         except ValueError:
                             pass
@@ -278,7 +278,7 @@ class EmsaFormat:
 
                 if 1 < len(y_value_list) <= 5:
                     for y_value in y_value_list:
-                        _y_value = float(y_value)
+                        _ = float(y_value)
 
                     return True, 'Y', len(y_value_list)
             except ValueError:
@@ -286,10 +286,10 @@ class EmsaFormat:
 
             # XY with comma
             try:
-                (x_value, y_value) = line.split(',')
+                x_value, y_value = line.split(',')
 
-                _x_value = float(x_value)
-                _y_value = float(y_value)
+                _ = float(x_value)
+                _ = float(y_value)
 
                 return True, 'XY', 2
             except ValueError:
@@ -299,8 +299,8 @@ class EmsaFormat:
             try:
                 x_value, y_value, dummy = line.split(',')
 
-                _x_value = float(x_value)
-                _y_value = float(y_value)
+                _ = float(x_value)
+                _ = float(y_value)
 
                 return True, 'XY', 2
             except ValueError:
@@ -308,10 +308,10 @@ class EmsaFormat:
 
             # XY with space
             try:
-                (x_value, y_value) = line.split()
+                x_value, y_value = line.split()
 
-                _x_value = float(x_value)
-                _y_value = float(y_value)
+                _ = float(x_value)
+                _ = float(y_value)
 
                 return True, 'XY', 2
             except ValueError:
@@ -426,7 +426,8 @@ class EmsaFormat:
             for variable in RequiredKeyword.__dict__.keys():
                 if RequiredKeyword.__dict__.get(variable, None) == keyword["keyword"]:
                     if RequiredKeyword.__dict__[variable] in self.set_function:
-                        EmsaFormat.__dict__[self.set_function[RequiredKeyword.__dict__[variable]]](self, keyword["data"])
+                        function = EmsaFormat.__dict__[self.set_function[RequiredKeyword.__dict__[variable]]]
+                        function(self, keyword["data"])
                         if check_order != keyword["order"]:
                             print("Warning keyword in the wrong order.")
                             self.is_file_valid = False
@@ -434,7 +435,8 @@ class EmsaFormat:
             for variable in OptionalKeyword.__dict__.keys():
                 if OptionalKeyword.__dict__.get(variable, None) == keyword["keyword"]:
                     if OptionalKeyword.__dict__[variable] in self.set_function:
-                        EmsaFormat.__dict__[self.set_function[OptionalKeyword.__dict__[variable]]](self, keyword["data"])
+                        function = EmsaFormat.__dict__[self.set_function[OptionalKeyword.__dict__[variable]]]
+                        function(self, keyword["data"])
                         if check_order != keyword["order"]:
                             print("Warning keyword in the wrong order.")
                             self.is_file_valid = False
@@ -442,7 +444,9 @@ class EmsaFormat:
             for variable in OptionalUserDefinedKeyword.OxfordInstruments.__dict__.keys():
                 if OptionalUserDefinedKeyword.OxfordInstruments.__dict__.get(variable, None) == keyword["keyword"]:
                     if OptionalUserDefinedKeyword.OxfordInstruments.__dict__[variable] in self.set_function:
-                        EmsaFormat.__dict__[self.set_function[OptionalUserDefinedKeyword.OxfordInstruments.__dict__[variable]]](self, keyword["data"])
+                        function = EmsaFormat.__dict__[self.set_function[
+                            OptionalUserDefinedKeyword.OxfordInstruments.__dict__[variable]]]
+                        function(self, keyword["data"])
                         if check_order != keyword["order"]:
                             print("Warning keyword in the wrong order.")
                             self.is_file_valid = False

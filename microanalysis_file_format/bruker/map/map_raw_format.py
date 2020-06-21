@@ -261,10 +261,10 @@ class MapRawFormat(object):
         self._read_data()
 
         if self._parameters.record_by == RECORDED_BY_IMAGE:
-            spectrum = np.amax(self._data, axis=(1,2))
+            spectrum = np.amax(self._data, axis=(1, 2))
 
         elif self._parameters.record_by == RECORDED_BY_VECTOR:
-            spectrum = np.amax(self._data, axis=(0,1))
+            spectrum = np.amax(self._data, axis=(0, 1))
 
         channels = np.arange(0, self._parameters.depth)
 
@@ -280,7 +280,7 @@ class MapRawFormat(object):
 
         elif self._parameters.record_by == RECORDED_BY_VECTOR:
             for channel in np.arange(0, self._parameters.depth):
-                flat_pixels[channel] = np.argmax(self._data[:,:,channel])
+                flat_pixels[channel] = np.argmax(self._data[:, :, channel])
 
         pixels = []
         for pixel in flat_pixels:

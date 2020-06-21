@@ -166,7 +166,8 @@ _DOC = {
     SIGNAL_TYPE: 'Type of Spectroscopy',
     X_LABEL: 'X-Axis Data label',
     Y_LABEL: 'Y-Axis Data label',
-    CHANNEL_OFFSET: 'A real (but possibly negative) number  representing the channel number whose value corresponds to zero units on the x-axis scale.',
+    CHANNEL_OFFSET: 'A real (but possibly negative) number  representing the channel number whose value corresponds '
+                    'to zero units on the x-axis scale.',
     COMMENT: 'Comment line',
 
     # Optional keywords relating mainly to microscope/instrument.
