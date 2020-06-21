@@ -37,7 +37,7 @@ Go in the project folder and install it with pip in developer mode:
 .. code-block:: console
 
     $ cd microanalysis_file_format
-    $ pip install -e .
+    $ pip install -e .[develop]
 
 .. note::
 
@@ -70,3 +70,34 @@ Once you have a copy of the source, you can install it with:
 
 .. _Github repo: https://github.com/drix00/microanalysis_file_format
 .. _tarball: https://github.com/drix00/microanalysis_file_format/tarball/master
+
+Run tests and check coding style
+--------------------------------
+
+In the project folder run pytest:
+
+.. code-block:: console
+
+    $ cd microanalysis_file_format
+    $ pytest -v
+
+Flake8:
+
+.. code-block:: console
+
+    $ cd microanalysis_file_format
+    $ flake8 .
+
+pycodestyle:
+
+.. code-block:: console
+
+    $ cd microanalysis_file_format
+    $ pycodestyle .
+
+pyflakes:
+
+.. code-block:: console
+
+    $ cd microanalysis_file_format
+    $ pyflakes microanalysis_file_format tests
