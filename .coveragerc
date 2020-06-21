@@ -3,3 +3,4 @@ omit = venv/*
        docs/*
        setup.py
        examples/*
+branch = on

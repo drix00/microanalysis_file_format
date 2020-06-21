@@ -30,6 +30,7 @@ Tests for the module :py:mod:`microanalysis_file_format.vericold.genesisPolarisF
 import unittest
 
 # Third party modules.
+import pytest
 
 # Local modules.
 
@@ -42,66 +43,107 @@ from tests import is_test_data_file
 # Globals and constants variables.
 
 
-class TestGenesisPolarisFile(unittest.TestCase):
+@pytest.fixture
+def spectrum_csp():
+    file_path = get_current_module_path(__file__, "../../test_data/vericold/k3670_30keV_OFeCalibration.csp")
+    if not is_test_data_file(file_path):  # pragma: no cover
+        pytest.skip("Invalid test data file")
 
-    def setUp(self):
-        unittest.TestCase.setUp(self)
+    return file_path
 
-        self.filepath = get_current_module_path(__file__, "../../test_data/vericold/k3670_30keV_OFeCalibration.csp")
-        if not is_test_data_file(self.filepath):  # pragma: no cover
-            raise self.skipTest("Test file not found.")
 
-        self.gp_file = GenesisPolarisFile()
+@pytest.fixture
+def line_scan_pls():
+    file_path = get_current_module_path(__file__, "../../test_data/vericold/line_scan_01.pls")
+    if not is_test_data_file(file_path):  # pragma: no cover
+        pytest.skip("Invalid test data file")
 
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
+    return file_path
 
-    def testSkeleton(self):
-        # self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
 
-    def testConstructor(self):
-        gp_file = GenesisPolarisFile()
+@pytest.fixture
+def map_psd():
+    file_path = get_current_module_path(__file__, "../../test_data/vericold/oxyde_scale.psd")
+    if not is_test_data_file(file_path):  # pragma: no cover
+        pytest.skip("Invalid test data file")
 
-        self.assertEqual(False, gp_file.is_file_read)
+    return file_path
 
-        gp_file = GenesisPolarisFile(self.filepath)
 
-        self.assertEqual(True, gp_file.is_file_read)
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-        # self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
 
-    def test_readFile(self):
-        self.assertEqual(False, self.gp_file.is_file_read)
+def test_constructor(spectrum_csp):
+    gp_file = GenesisPolarisFile()
+    assert gp_file.is_file_read is False
 
-        self.gp_file.read_file(self.filepath)
+    gp_file = GenesisPolarisFile(spectrum_csp)
+    assert gp_file.is_file_read is True
 
-        self.assertEqual(True, self.gp_file.is_file_read)
 
-    def test_readHeader(self):
-        header = self.gp_file.read_header(self.filepath)
+def test_read_file(spectrum_csp):
+    gp_file = GenesisPolarisFile()
+    assert gp_file.is_file_read is False
 
-        self.assertEqual(1001, header["version"])
+    gp_file.read_file(spectrum_csp)
+    assert gp_file.is_file_read is True
 
-        self.assertEqual(3072, header["pixOffset"])
 
-        self.assertEqual(0, header["pixSize"])
+def test_read_file_bad_file():
+    gp_file = GenesisPolarisFile()
 
-        self.assertEqual(3072, header["dataOffset"])
+    assert gp_file.is_file_read is False
 
-        self.assertEqual(19724, header["dataSize"])
+    file_path = "bad_file_does_not_exist.csp"
+    gp_file.read_file(file_path)
 
-        # self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+    assert gp_file.is_file_read is False
 
-    def test_get_spectrum(self):
-        gp_file = GenesisPolarisFile(self.filepath)
 
-        energies_eV, intensities = gp_file.get_spectrum()
-        self.assertEqual(20000, len(energies_eV))
-        self.assertEqual(20000, len(intensities))
+def test_read_header(spectrum_csp):
+    gp_file = GenesisPolarisFile()
+    header = gp_file.read_header(spectrum_csp)
 
-        energies_eV, intensities = gp_file.get_spectrum(eV_channel=5.0, limits=(10, 1000))
-        self.assertEqual(198, len(energies_eV))
-        self.assertEqual(198, len(intensities))
+    assert header["version"] == 1001
+    assert header["pixOffset"] == 3072
+    assert header["pixSize"] == 0
+    assert header["dataOffset"] == 3072
+    assert header["dataSize"] == 19724
+
+
+def test_get_spectrum(spectrum_csp):
+    gp_file = GenesisPolarisFile(spectrum_csp)
+
+    energies_eV, intensities = gp_file.get_spectrum()
+    assert len(energies_eV) == 20000
+    assert len(intensities) == 20000
+
+    energies_eV, intensities = gp_file.get_spectrum(eV_channel=5.0, limits=(10, 1000))
+    assert len(energies_eV) == 198
+    assert len(intensities) == 198
+
+
+def test_read_file_line_scan_pls(line_scan_pls):
+    gp_file = GenesisPolarisFile()
+
+    assert gp_file.is_file_read is False
+
+    gp_file.read_file(line_scan_pls)
+
+    assert gp_file.is_file_read is True
+
+
+def test_read_file_map_psd(map_psd):
+    gp_file = GenesisPolarisFile()
+
+    assert gp_file.is_file_read is False
+
+    gp_file.read_file(map_psd)
+
+    assert gp_file.is_file_read is True

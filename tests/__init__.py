@@ -3,10 +3,9 @@
 
 """
 .. py:currentmodule:: tests
-
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Test package for the project tests.
+Tests packages for the project.
 """
 
 # Copyright 2020 Hendrix Demers
@@ -27,6 +26,7 @@ Test package for the project tests.
 import os.path
 
 # Third party modules.
+import pytest
 
 # Local modules.
 
@@ -35,7 +35,17 @@ import os.path
 # Globals and constants variables.
 
 
+slow_test = pytest.mark.slow
+
+
 def is_test_data_file(file_path):
+    """
+    Check if the file path is a valid test data file and not a lfs file or missing file.
+
+    :param str file_path:
+    :return: True if `file_path` is a valid test data file.
+    :rtype: bool
+    """
     good_test_data_file = True
 
     if not os.path.isfile(file_path):

@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: vericold.test_trace_file
+.. py:currentmodule:: tests.vericold.test_trace_file
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`vericold.trace_file`.
+Tests for the module :py:mod:`microanalysis_file_format.vericold.trace_file`.
 """
 
 ###############################################################################
@@ -29,11 +29,12 @@ import unittest
 import os.path
 
 # Third party modules.
+import pytest
 
 # Local modules.
 
 # Project modules.
-from microanalysis_file_format.vericold.trace_file import TraceFile
+from microanalysis_file_format.vericold.trace_file import TraceFile, compute_baseline
 from microanalysis_file_format import get_current_module_path
 from tests import is_test_data_file
 
@@ -41,57 +42,104 @@ from tests import is_test_data_file
 # Globals and constants variables.
 
 
-class TestTraceFile(unittest.TestCase):
+@pytest.fixture
+def trace_file_path():
+    file_path = get_current_module_path(__file__, "../../test_data/vericold/test01.trc")
+    if not is_test_data_file(file_path):  # pragma: no cover
+        pytest.skip("Invalid test data file")
 
-    def setUp(self):
-        unittest.TestCase.setUp(self)
+    return file_path
 
-        self.filepath = get_current_module_path(__file__, "../../test_data/vericold/test01.trc")
-        if not is_test_data_file(self.filepath):  # pragma: no cover
-            raise self.skipTest("Test file not found.")
 
-        self.trace_file = TraceFile(self.filepath)
+@pytest.fixture
+def trace_file(trace_file_path):
+    trace_file = TraceFile(trace_file_path)
+    return trace_file
 
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
 
-    def testSkeleton(self):
-        # self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-    def testConstructor(self):
-        trace_file = TraceFile(self.filepath)
 
-        self.assertTrue(os.path.isfile(trace_file.filename))
+def test_constructor(trace_file_path):
+    trace_file = TraceFile(trace_file_path)
 
-        # self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+    assert os.path.isfile(trace_file.filename)
 
-    def testGetFileSize(self):
-        self.assertEqual(3253456, self.trace_file.get_file_size())
 
-        # self.trace_file.print_file_time()
+def test_get_file_size(trace_file):
+    assert trace_file.get_file_size() == 3253456
 
-        # self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
 
-    def test_read_trace(self):
-        header, times_ms, data = self.trace_file.read_trace(1)
-        self.assertEqual(24, len(header))
-        self.assertEqual(1000, len(times_ms))
-        self.assertEqual(1000, len(data))
+def test_read_trace(trace_file):
+    header, times_ms, data = trace_file.read_trace(1)
+    assert len(header) == 24
+    assert len(times_ms) == 1000
+    assert len(data) == 1000
 
-    def test_read_header(self):
-        self.assertEqual(0, len(self.trace_file.header))
-        self.trace_file.read_header()
-        self.assertEqual(31, len(self.trace_file.header))
 
-    def test_compute_baseline(self):
-        header, times_ms, data = self.trace_file.read_trace(1)
-        baseline = self.trace_file.compute_baseline(times_ms, data)
-        self.assertAlmostEqual(-896.848, baseline)
+def test_read_header(trace_file):
+    assert len(trace_file.header) == 0
+    trace_file.read_header()
+    assert len(trace_file.header) == 31
 
-    def test_get_pulse(self):
-        times_ms, pulse_data = self.trace_file.get_pulse(1)
-        self.assertEqual(1000, len(times_ms))
-        self.assertEqual(1000, len(pulse_data))
+
+def test_compute_baseline(trace_file):
+    header, times_ms, data = trace_file.read_trace(1)
+    baseline = compute_baseline(times_ms, data)
+    assert baseline == -896.848
+
+
+def test_get_pulse(trace_file):
+    times_ms, pulse_data = trace_file.get_pulse(1)
+
+    assert len(times_ms) == 1000
+    assert len(pulse_data) == 1000
+
+
+def test_print_file_time(capsys, trace_file):
+    trace_file.print_file_time()
+    captured = capsys.readouterr()
+    assert captured.out == "Time of the last access: Fri Mar 10 15:11:59 2017\n" \
+                           "Time of the last modification: Fri Mar 10 15:11:59 2017\n" \
+                           "Time of the last status change: Fri Mar 10 15:11:59 2017\n"
+
+
+def test_print_header(capsys, trace_file_path):
+    trace_file = TraceFile(trace_file_path)
+
+    trace_file.read_header()
+    trace_file.print_header()
+    captured = capsys.readouterr()
+    assert captured.out == "Size:  1180\n" \
+                           "Version:  1\n" \
+                           "CurrentSystemTime_64 113959555061\n" \
+                           "CurrentSystemTime_milli 61\n" \
+                           "CurrentSystemTime_timezone 300\n" \
+                           "CurrentSystemTime_dstflag 0\n" \
+                           "Localtime_sec 10\n" \
+                           "Localtime_min 19\n" \
+                           "Localtime_hour 13\n" \
+                           "Localtime_mday 10\n" \
+                           "Localtime_mon 1\n" \
+                           "Localtime_year 106\n" \
+                           "Localtime_wday 5\n" \
+                           "Localtime_yday 40\n" \
+                           "Localtime_isdst 0\n" \
+                           "ClockTime_ms 0\n" \
+                           "LiveTime_ms 0\n" \
+                           "DeadTime_ms 0\n" \
+                           "TraceLength 1024\n" \
+                           "SampleRate 0.0\n" \
+                           "RegTemperature 0.0\n" \
+                           "IBias 0.0\n" \
+                           "AmpFactor 0.0\n" \
+                           "AccVoltage 0.0\n" \
+                           "Aperture 0.0\n" \
+                           "WDistance 0.0\n" \
+                           "PixelSize 1.5851067981919654e-231\n"

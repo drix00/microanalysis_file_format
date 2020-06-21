@@ -43,9 +43,21 @@ __project_name__ = "microanalysis_file_format"
 
 
 def get_current_module_path(module_path, relative_path=""):
-    base_path = os.path.dirname(module_path)
+    """
+    Extract the current module path and combine it with the relative path and return it.
 
+    Example of use::
+
+          >>> file_path = get_current_module_path(__file__, '../test_data/Spectrum 10.txt')
+
+    :param str module_path: Pass the `__file__` python keyword for this parameter
+    :param str relative_path: The relative path to combine with the module path
+    :return: The path obtained when combine the module path and relative path
+    :rtype: str
+    """
+    base_path = os.path.dirname(module_path)
     file_path = os.path.join(base_path, relative_path)
+    file_path = os.path.abspath(file_path)
     file_path = os.path.normpath(file_path)
 
     return file_path

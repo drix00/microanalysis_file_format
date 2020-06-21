@@ -25,6 +25,7 @@ Package for file of microcalorimeter x-ray detector from VeriCold and EDAX.
 ###############################################################################
 
 # Standard library modules.
+import os
 
 # Third party modules.
 
@@ -33,3 +34,7 @@ Package for file of microcalorimeter x-ray detector from VeriCold and EDAX.
 # Project modules.
 
 # Globals and constants variables.
+
+
+def get_file_size(filepath):
+    return os.stat(filepath).st_size

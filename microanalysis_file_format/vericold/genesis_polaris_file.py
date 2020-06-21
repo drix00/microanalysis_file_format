@@ -34,6 +34,7 @@ import numpy as np
 # Local modules.
 
 # Project modules.
+from microanalysis_file_format.vericold import get_file_size
 
 # Globals and constants variables.
 
@@ -47,7 +48,7 @@ class GenesisPolarisFile(object):
 
         self.header_size = 3072
 
-        self.header_format = self.get_header_format()
+        self.header_format = get_header_format()
 
         # print "header_format size: %i (%i)" % (struct.calcsize(self.header_format), self.header_size)
         assert self.header_size == struct.calcsize(self.header_format)
@@ -84,86 +85,11 @@ class GenesisPolarisFile(object):
 
         self.pixel_times = {}
 
-    @staticmethod
-    def get_file_size(filepath):
-        return os.stat(filepath).st_size
-
-    @staticmethod
-    def get_header_format():
-        header_format = "<"
-
-        # tag[16]
-        header_format += "16s"
-        # version
-        header_format += "3l"
-
-        # pixOffset
-        header_format += "4L"
-
-        # dwell
-        header_format += "f"
-
-        # TODO: find the correct header_format for date.
-        # date
-        header_format += "8s"
-
-        # analyzerType
-        header_format += "2l"
-
-        # preset
-        header_format += "12f"
-
-        # nPeaks
-        header_format += "l"
-
-        # TODO: Find the correct header_format for Peaks.
-        # Peaks[48]
-        header_format += "384s"
-
-        # nRemark
-        header_format += "l"
-
-        # TODO: Find the correct header_format for Remarks.
-        # Remarks[10]
-        header_format += "400s"
-
-        # x
-        header_format += "4f"
-
-        # nDetRes
-        header_format += "l"
-
-        # detRes[12]
-        header_format += "12f"
-
-        # nStartX
-        header_format += "4l"
-
-        # Filler[1708]
-        header_format += "1708s"
-
-        # matLabel[40]
-        header_format += "40s"
-
-        # Filler[2]
-        # header_format += "2s"
-
-        # Label[216]
-        header_format += "216s"
-
-        # imgFilename[120]
-        header_format += "120s"
-
-        # TODO: finish all data in header.
-
-        return header_format
 
     # TODO: Add the option to read only a fraction of the data for huge file.
     def read_file(self, filepath):
         if os.path.isfile(filepath):
-            self.file_size = self.get_file_size(filepath)
-
-            # print self.file_size
+            self.file_size = get_file_size(filepath)
 
             self.header = self.read_header(filepath)
 
@@ -214,7 +140,6 @@ class GenesisPolarisFile(object):
 
         csp_file.seek(offset)
 
-        # TODO: Find if this is needed, no tests use that code.
         for dummy_index in range(number_pixels):
             pixel_times_str = csp_file.read(self.pixel_times_size)
 
@@ -292,3 +217,73 @@ class GenesisPolarisFile(object):
         # print len(self.csp_data), sum(intensities)
 
         return energies_eV, intensities
+
+
+def get_header_format():
+    header_format = "<"
+
+    # tag[16]
+    header_format += "16s"
+    # version
+    header_format += "3l"
+
+    # pixOffset
+    header_format += "4L"
+
+    # dwell
+    header_format += "f"
+
+    # TODO: find the correct header_format for date.
+    # date
+    header_format += "8s"
+
+    # analyzerType
+    header_format += "2l"
+
+    # preset
+    header_format += "12f"
+
+    # nPeaks
+    header_format += "l"
+
+    # TODO: Find the correct header_format for Peaks.
+    # Peaks[48]
+    header_format += "384s"
+
+    # nRemark
+    header_format += "l"
+
+    # TODO: Find the correct header_format for Remarks.
+    # Remarks[10]
+    header_format += "400s"
+
+    # x
+    header_format += "4f"
+
+    # nDetRes
+    header_format += "l"
+
+    # detRes[12]
+    header_format += "12f"
+
+    # nStartX
+    header_format += "4l"
+
+    # Filler[1708]
+    header_format += "1708s"
+
+    # matLabel[40]
+    header_format += "40s"
+
+    # Filler[2]
+    # header_format += "2s"
+
+    # Label[216]
+    header_format += "216s"
+
+    # imgFilename[120]
+    header_format += "120s"
+
+    # TODO: finish all data in header.
+
+    return header_format

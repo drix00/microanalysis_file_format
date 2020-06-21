@@ -78,7 +78,6 @@ Trace data
                 delete [] pi16Buf;
 """
 
-
 ###############################################################################
 # Copyright 2007 Hendrix Demers
 #
@@ -105,6 +104,7 @@ import struct
 # Project modules.
 
 # Globals and constants variables.
+from microanalysis_file_format.vericold import get_file_size
 
 
 class TraceFile(object):
@@ -140,9 +140,9 @@ class TraceFile(object):
         self.header = {}
 
     def get_file_size(self):
-        return os.stat(self.filename).st_size
+        return get_file_size(self.filename)
 
-    def print_file_time(self):  # pragma: no cover
+    def print_file_time(self):
         time_last_access = time.localtime(os.stat(self.filename).st_atime)
 
         time_last_access = time.asctime(time_last_access)
@@ -156,13 +156,11 @@ class TraceFile(object):
         time_last_change = time.asctime(time_last_change)
 
         print("Time of the last access: {}".format(time_last_access))
-
         print("Time of the last modification: {}".format(time_last_modification))
-
         print("Time of the last status change: {}".format(time_last_change))
 
     def read_trace(self, trace_id):
-        if trace_id > 0:
+        if trace_id > 0:  # pragma: no branch
             trace_file = open(self.filename, "rb")
 
             file_position = self.headerSize + (trace_id - 1) * self.traceSize
@@ -299,14 +297,14 @@ class TraceFile(object):
         self.header["PixelSize"] = float(values[30])
 
     # noinspection SpellCheckingInspection
-    def print_header(self):  # pragma: no cover
+    def print_header(self):
         print("Size: ", self.header["Size"])
         print("Version: ", self.header["Version"])
 
-        print("DetectorNumber: >>%s<<" % self.header["DetectorNumber"])
-        print("SQUIDNumber: >>%s<<" % self.header["SQUIDNumber"])
-        print("ElectronicNumber: >>%s<<" % self.header["ElectronicNumber"])
-        print("PolarisNumber: >>%s<<" % self.header["PolarisNumber"])
+        # print("DetectorNumber: >>%s<<" % self.header["DetectorNumber"])
+        # print("SQUIDNumber: >>%s<<" % self.header["SQUIDNumber"])
+        # print("ElectronicNumber: >>%s<<" % self.header["ElectronicNumber"])
+        # print("PolarisNumber: >>%s<<" % self.header["PolarisNumber"])
 
         print("CurrentSystemTime_64", self.header["CurrentSystemTime_64"])
         print("CurrentSystemTime_milli", self.header["CurrentSystemTime_milli"])
@@ -339,29 +337,27 @@ class TraceFile(object):
         print("WDistance", self.header["WDistance"])
         print("PixelSize", self.header["PixelSize"])
 
-    @staticmethod
-    def compute_baseline(times_ms, data):
-        end_index = 0
-
-        for index, time_ms in enumerate(times_ms):
-            if time_ms >= 0.2:
-                end_index = index
-                break
-
-        # print end_index
-
-        total = sum(data[:end_index])
-        number = len(data[:end_index])
-
-        baseline = total/number
-
-        return baseline
-
     def get_pulse(self, pulse_id, gain=1.0 / 5.0E3):
         dummy_header, times_ms, data = self.read_trace(pulse_id)
 
-        baseline = self.compute_baseline(times_ms, data)
+        baseline = compute_baseline(times_ms, data)
 
         pulse_data = [(xx - baseline)*gain for xx in data]
 
         return times_ms, pulse_data
+
+
+def compute_baseline(times_ms, data):
+    end_index = 0
+
+    for index, time_ms in enumerate(times_ms):  # pragma: no branch
+        if time_ms >= 0.2:
+            end_index = index
+            break
+
+    total = sum(data[:end_index])
+    number = len(data[:end_index])
+
+    baseline = total/number
+
+    return baseline

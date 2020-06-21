@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: tests.test_pySpectrumFileFormat
+.. py:currentmodule:: tests.test_microanalysis_file_format
 .. moduleauthor:: Hendrix Demers <Demers.Hendrix@hydro.qc.ca>
 
 Tests for the :py:mod:`microanalysis_file_format` module.
@@ -25,12 +25,15 @@ Tests for the :py:mod:`microanalysis_file_format` module.
 ###############################################################################
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
 
 # Local modules.
 
 # Project modules.
+from microanalysis_file_format import get_current_module_path
+from tests import is_test_data_file
 
 # Globals and constants variables.
 
@@ -42,3 +45,20 @@ def test_is_discovered():
     """
     # assert False
     assert True
+
+
+def test_is_test_data_file(tmp_path):
+    file_path = os.path.join(tmp_path, "lfs_test_file.txt")
+    with open(file_path, 'w') as lfs_file:
+        lines = """version https://git-lfs.github.com/spec/v1
+oid sha256:4d7a214614ab2935c943f9e0ff69d22eadbb8f32b1258daaa5e2ca24d17e2393
+size 12345
+
+"""
+        lfs_file.writelines(lines)
+
+    assert is_test_data_file(file_path) is False
+
+    assert is_test_data_file(get_current_module_path(__file__)) is False
+
+    assert is_test_data_file(__file__) is True
