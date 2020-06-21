@@ -26,8 +26,10 @@ Tests for the :py:mod:`microanalysis_file_format` module.
 
 # Standard library modules.
 import os.path
+import sys
 
 # Third party modules.
+import pytest
 
 # Local modules.
 
@@ -47,6 +49,7 @@ def test_is_discovered():
     assert True
 
 
+@pytest.mark.skipif(sys.version_info < (3, 6), reason="requires python3.6 or higher")
 def test_is_test_data_file(tmp_path):
     file_path = os.path.join(tmp_path, "lfs_test_file.txt")
     with open(file_path, 'w') as lfs_file:
