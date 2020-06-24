@@ -38,7 +38,7 @@ from microanalysis_file_format.oxford.map.map_raw_format import MapRawFormat
 
 
 def run():
-    path = r"J:\hdemers\work\mcgill2012\results\experimental\McGill\su8000\others\exampleEDS"
+    path = r"I:\archives\results\experiments\SU8000\others\exampleEDS"
     # filename = "Map30kV.raw"
     filename = "Project 1.raw"
     filepath = os.path.join(path, filename)
@@ -61,7 +61,7 @@ def run():
 
 
 def run20120307():
-    path = r"J:\hdemers\work\mcgill2012\results\experimental\McGill\su8000\hdemers\20120307\rareearthSample"
+    path = r"I:\archives\results\experiments\SU8000\hdemers\RareEarths\20120307\rareearthSample"
     filename = "mapSOI_15.raw"
     filepath = os.path.join(path, filename)
 
