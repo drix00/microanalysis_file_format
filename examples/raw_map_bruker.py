@@ -43,6 +43,11 @@ def run():
     filename = "D3-900-map4.raw"
     filepath = os.path.join(path, filename)
 
+    path = r"I:\archives\results\experiments\SU8000\others\exampleEDS"
+    # filename = "Map30kV.raw"
+    filename = "Project 1.raw"
+    filepath = os.path.join(path, filename)
+
     map_raw = MapRawFormat(filepath)
 
     channels, data_cube = map_raw.get_data_cube()
@@ -56,13 +61,18 @@ def run():
     plt.figure()
     plt.plot(x_data, y_data)
 
-    x_data, y_data = map_raw.get_sum_spectrum()
+    # x_data, y_data = map_raw.get_sum_spectrum()
 
-    plt.figure()
-    plt.plot(x_data, y_data)
+    # plt.figure()
+    # plt.plot(x_data, y_data)
 
     path = r"G:\backup_su8000\eds_ebsd\2010-2013-EDS\HDemers\AuCuStandard"
     filename = r"20130701_AuMap.raw"
+    filepath = os.path.join(path, filename)
+
+    path = r"I:\archives\results\experiments\SU8000\others\exampleEDS"
+    # filename = "Map30kV.raw"
+    filename = "Project 1.raw"
     filepath = os.path.join(path, filename)
 
     map_raw = MapRawFormat(filepath)
@@ -92,7 +102,7 @@ def run20120307():
 
 def main():
     run()
-    run20120307()
+    # run20120307()
 
 
 if __name__ == '__main__':  # pragma: no cover
