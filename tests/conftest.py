@@ -9,7 +9,6 @@ A Pytest local plugin for testing the project.
 """
 
 # Standard library modules.
-import os.path
 
 # Third party modules.
 import pytest
@@ -17,12 +16,12 @@ import pytest
 # Local modules.
 
 # Project modules.
-from microanalysis_file_format import get_current_module_path
 
 # Globals and constants variables.
 
 
 # pytest options.
+# noinspection SpellCheckingInspection
 def pytest_addoption(parser):
     parser.addoption(
         "--runslow", action="store_true", default=False, help="run slow tests"
@@ -33,6 +32,7 @@ def pytest_configure(config):
     config.addinivalue_line("markers", "slow: mark test as slow to run")
 
 
+# noinspection SpellCheckingInspection
 def pytest_collection_modifyitems(config, items):  # pragma no cover
     if not config.getoption("--runslow"):
         skip_slow = pytest.mark.skip(reason="need --runslow option to run")

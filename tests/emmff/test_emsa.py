@@ -270,6 +270,7 @@ class TestEmsaWriter(unittest.TestCase):
         emsa.write(spectrum, self.f)
         self.f.close()
 
+    # noinspection SpellCheckingInspection
     @staticmethod
     def _create_emsa():
         spectrum = emsa.Emsa()

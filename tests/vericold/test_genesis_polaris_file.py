@@ -27,7 +27,6 @@ Tests for the module :py:mod:`microanalysis_file_format.vericold.genesisPolarisF
 ###############################################################################
 
 # Standard library modules.
-import unittest
 
 # Third party modules.
 import pytest
@@ -63,6 +62,7 @@ def line_scan_pls():
 
 @pytest.fixture
 def map_psd():
+    # noinspection SpellCheckingInspection
     file_path = get_current_module_path(__file__, "../../test_data/vericold/oxyde_scale.psd")
     if not is_test_data_file(file_path):  # pragma: no cover
         pytest.skip("Invalid test data file")
@@ -120,10 +120,12 @@ def test_read_header(spectrum_csp):
 def test_get_spectrum(spectrum_csp):
     gp_file = GenesisPolarisFile(spectrum_csp)
 
+    # noinspection PyPep8Naming
     energies_eV, intensities = gp_file.get_spectrum()
     assert len(energies_eV) == 20000
     assert len(intensities) == 20000
 
+    # noinspection PyPep8Naming
     energies_eV, intensities = gp_file.get_spectrum(eV_channel=5.0, limits=(10, 1000))
     assert len(energies_eV) == 198
     assert len(intensities) == 198

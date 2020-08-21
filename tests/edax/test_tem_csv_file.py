@@ -34,7 +34,7 @@ import unittest
 # Local modules.
 
 # Project modules.
-import microanalysis_file_format.edax.tem_csv_file as TemCsvFile
+from microanalysis_file_format.edax.tem_csv_file import TemCsvFile, CHANNEL, COUNTS
 from microanalysis_file_format import get_current_module_path
 from tests import is_test_data_file
 
@@ -50,7 +50,7 @@ class TestTemCsvFile(unittest.TestCase):
         if not is_test_data_file(self.filepathRef):
             raise self.skipTest("File path is not a valid test data file")
 
-        self.data = TemCsvFile.TemCsvFile(self.filepathRef)
+        self.data = TemCsvFile(self.filepathRef)
 
         self.numberPoints = 1024
 
@@ -69,8 +69,8 @@ class TestTemCsvFile(unittest.TestCase):
     def test_read_data(self):
         data = self.data._read_data(self.filepathRef)
 
-        channels = data[TemCsvFile.CHANNEL]
-        counts = data[TemCsvFile.COUNTS]
+        channels = data[CHANNEL]
+        counts = data[COUNTS]
         self.assertEqual(self.numberPoints, len(channels))
         self.assertEqual(self.numberPoints, len(counts))
 
@@ -80,6 +80,7 @@ class TestTemCsvFile(unittest.TestCase):
         self.assert_(True)
 
     def test_get_data(self):
+        # noinspection PyPep8Naming
         energies_eV, counts = self.data.get_data()
 
         self.assertEqual(self.numberPoints, len(energies_eV))

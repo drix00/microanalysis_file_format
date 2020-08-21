@@ -124,6 +124,7 @@ Total:  100.48    100.48    100.00    100.00   100.000
         stage_x = 62.9595
         stage_y = 54.2735
         stage_z = 9.8025
+        # noinspection PyPep8Naming
         incident_energy_keV = 15.0
         probe_diameter = 0
         scan_on = False
@@ -131,6 +132,7 @@ Total:  100.48    100.48    100.00    100.00   100.000
         detector_type = "WDS only"
         number_accumulation = 1
 
+        # noinspection PyPep8Naming
         current_A = 1.999E-08
 
         # Test experimental condition.

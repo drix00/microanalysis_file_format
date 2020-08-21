@@ -25,7 +25,6 @@ Tests for the module :py:mod:`microanalysis_file_format.vericold.trace_file`.
 ###############################################################################
 
 # Standard library modules.
-import unittest
 import os.path
 
 # Third party modules.
@@ -102,12 +101,14 @@ def test_get_pulse(trace_file):
     assert len(pulse_data) == 1000
 
 
+# noinspection SpellCheckingInspection
 def test_print_file_time(capsys, trace_file):
     trace_file.print_file_time()
     captured = capsys.readouterr()
     assert len(captured.out.split("\n")) == 4
 
 
+# noinspection SpellCheckingInspection
 def test_print_header(capsys, trace_file_path):
     trace_file = TraceFile(trace_file_path)
 

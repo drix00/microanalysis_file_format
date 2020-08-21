@@ -36,7 +36,7 @@ import os.path
 # Local modules.
 
 # Project modules.
-import microanalysis_file_format.emmff.emsa_format as emsaFormat
+from microanalysis_file_format.emmff.emsa_format import EmsaFormat
 from microanalysis_file_format import get_current_module_path
 
 # Globals and constants variables.
@@ -51,13 +51,13 @@ class EmsaFormatTestCase(unittest.TestCase):
         if not os.path.isfile(self.filepath):
             raise self.skipTest("File path is not a valid test data file")
 
-        self.emsa = emsaFormat.EmsaFormat(self.filepath)
+        self.emsa = EmsaFormat(self.filepath)
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
 
     def test_constructor(self):
-        emsaFormat.EmsaFormat()
+        EmsaFormat()
 
         self.assertTrue(True)
 
@@ -85,7 +85,7 @@ class EmsaFormatTestCase(unittest.TestCase):
         self.assertEqual(None, self.emsa.is_line_data(line)[1], msg="None line")
         self.assertEqual(0, self.emsa.is_line_data(line)[2], msg="None line")
 
-        self.emsa = emsaFormat.EmsaFormat()
+        self.emsa = EmsaFormat()
         line = "1.2"
         self.assertEqual(True, self.emsa.is_line_data(line)[0], msg="Y value")
         self.assertEqual('Y', self.emsa.is_line_data(line)[1], msg="Y value")
@@ -269,12 +269,14 @@ class EmsaFormatTestCase(unittest.TestCase):
 
         line = r"#XPOSITION mm: 0.0000"
         keyword, keyword_comment, data = self.emsa.read_keyword_line(line)
+        # noinspection SpellCheckingInspection
         self.assertEqual("XPOSITION", keyword)
         self.assertEqual("mm", keyword_comment)
         self.assertEqual("0.0000", data)
 
         line = r"##OXINSTELEMS: 6,8,12"
         keyword, keyword_comment, data = self.emsa.read_keyword_line(line)
+        # noinspection SpellCheckingInspection
         self.assertEqual("OXINSTELEMS", keyword)
         self.assertEqual("", keyword_comment)
         self.assertEqual("6,8,12", data)
@@ -320,7 +322,7 @@ class EmsaFormatTestCase(unittest.TestCase):
         self.assertEqual(None, values)
 
     def test_read_line(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
 
         line = r"-0.200, 0."
         emsa.read_line(line)
@@ -347,7 +349,7 @@ class EmsaFormatTestCase(unittest.TestCase):
         self.assertEqual(3, emsa.keywords[2]["order"])
 
     def test_read_lines(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
 
         filename = get_current_module_path(__file__, "../../test_data/emmff/spectra/spectrum1.emsa")
 
@@ -360,157 +362,157 @@ class EmsaFormatTestCase(unittest.TestCase):
         self.assertEqual(1024, len(emsa.values))
 
     def test_set_get_format(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_format())
 
         self.assertEqual("EMSA/MAS Spectral Data File", self.emsa.get_format())
 
     def test_is_file_valid(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.is_file_valid)
 
         self.assertEqual(True, self.emsa.is_file_valid)
 
     def test_set_get_version(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_version())
 
         self.assertEqual("1.0", self.emsa.get_version())
 
     def test_set_get_title(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_title())
 
         self.assertEqual("Spectrum 1", self.emsa.get_title())
 
     def test_set_get_date(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_date())
 
         self.assertEqual("20-NOV-2006", self.emsa.get_date())
 
     def test_set_get_time(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_time())
 
         self.assertEqual("16:03", self.emsa.get_time())
 
     def test_set_get_owner(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_owner())
 
         self.assertEqual("helen", self.emsa.get_owner())
 
     def test_set_get_number_points(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_number_points())
 
         self.assertEqual(1024.0, self.emsa.get_number_points())
 
     def test_set_get_number_columns(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_number_columns())
 
         self.assertEqual(1.0, self.emsa.get_number_columns())
 
     def test_set_get_x_units(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_x_units())
 
         self.assertEqual("keV", self.emsa.get_x_units())
 
     def test_set_get_y_units(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_y_units())
 
         self.assertEqual("counts", self.emsa.get_y_units())
 
     def test_set_get_data_type(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_data_type())
 
         self.assertEqual("XY", self.emsa.get_data_type())
 
     def test_set_get_x_per_channel(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_x_per_channel())
 
         self.assertEqual(0.02, self.emsa.get_x_per_channel())
 
     def test_set_get_offset(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_offset())
 
         self.assertEqual(-0.2, self.emsa.get_offset())
 
     def test_set_get_signal_type(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_signal_type())
 
         self.assertEqual("EDS", self.emsa.get_signal_type())
 
     def test_set_get_channel_offset(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_channel_offset())
 
         self.assertEqual(10.0, self.emsa.get_channel_offset())
 
     def test_set_get_live_time(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_live_time())
 
         self.assertEqual(0.34635, self.emsa.get_live_time())
 
     def test_set_get_real_time(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_real_time())
 
         self.assertEqual(0.453241, self.emsa.get_real_time())
 
     def test_set_get_beam_energy(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_beam_energy())
 
         self.assertEqual(5.0, self.emsa.get_beam_energy())
 
     def test_set_get_probe_current(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_probe_current())
 
         self.assertEqual(0.0, self.emsa.get_probe_current())
 
     def test_set_get_magnification(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_magnification())
 
         self.assertEqual(250.0, self.emsa.get_magnification())
 
     def test_set_get_x_position(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_x_position())
 
         self.assertEqual(0.0, self.emsa.get_x_position())
 
     def test_set_get_y_position(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_y_position())
 
         self.assertEqual(0.0, self.emsa.get_y_position())
 
     def test_set_get_z_position(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_z_position())
 
         self.assertEqual(0.0, self.emsa.get_z_position())
 
     def test_set_get_oxford_instruments_element(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_oxford_instruments_element())
 
         self.assertEqual("6,8,12", self.emsa.get_oxford_instruments_element())
 
     def test_set_get_oxford_instruments_label(self):
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         self.assertEqual(None, emsa.get_oxford_instruments_label())
 
         self.assertEqual("8, 0.525, O", self.emsa.get_oxford_instruments_label())
@@ -532,7 +534,7 @@ class EmsaFormatTestCase(unittest.TestCase):
         if not os.path.isfile(filename):
             raise self.skipTest("File path is not a valid test data file")
 
-        emsa = emsaFormat.EmsaFormat()
+        emsa = EmsaFormat()
         emsa.open(filename)
         emsa.read_lines()
         emsa.set_header()

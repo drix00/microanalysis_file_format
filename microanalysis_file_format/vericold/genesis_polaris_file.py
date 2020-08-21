@@ -85,9 +85,8 @@ class GenesisPolarisFile(object):
 
         self.pixel_times = {}
 
-
-    # TODO: Add the option to read only a fraction of the data for huge file.
     def read_file(self, filepath):
+        # TODO: Add the option to read only a fraction of the data for huge file.
         if os.path.isfile(filepath):
             self.file_size = get_file_size(filepath)
 

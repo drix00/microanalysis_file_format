@@ -53,6 +53,7 @@ def test_is_discovered():
 def test_is_test_data_file(tmp_path):
     file_path = os.path.join(tmp_path, "lfs_test_file.txt")
     with open(file_path, 'w') as lfs_file:
+        # noinspection SpellCheckingInspection
         lines = """version https://git-lfs.github.com/spec/v1
 oid sha256:4d7a214614ab2935c943f9e0ff69d22eadbb8f32b1258daaa5e2ca24d17e2393
 size 12345
