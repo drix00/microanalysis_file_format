@@ -2,12 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: edax.test_TemCsvFile
-   :synopsis: Tests for the module :py:mod:`edax.TemCsvFile`
-
+.. py:currentmodule:: tests.edax.test_tem_csv_file
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`edax.TemCsvFile`.
+Tests for the module :py:mod:`microanalysis_file_format.edax.tem_csv_file`.
 """
 
 ###############################################################################
@@ -27,9 +25,9 @@ Tests for the module :py:mod:`edax.TemCsvFile`.
 ###############################################################################
 
 # Standard library modules.
-import unittest
 
 # Third party modules.
+import pytest
 
 # Local modules.
 
@@ -41,52 +39,54 @@ from tests import is_test_data_file
 
 # Globals and constants variables.
 
-class TestTemCsvFile(unittest.TestCase):
 
-    def setUp(self):
-        unittest.TestCase.setUp(self)
+@pytest.fixture
+def overall_csv_file_path():
+    file_path = get_current_module_path(__file__, "../../test_data/TEM_Edax/OVERALL.CSV")
+    if not is_test_data_file(file_path):  # pragma: no cover
+        pytest.skip("Invalid test data file")
 
-        self.filepathRef = get_current_module_path(__file__, "../../test_data/TEM_Edax/OVERALL.CSV")
-        if not is_test_data_file(self.filepathRef):
-            raise self.skipTest("File path is not a valid test data file")
+    return file_path
 
-        self.data = TemCsvFile(self.filepathRef)
 
-        self.numberPoints = 1024
+@pytest.fixture
+def overall_csv_data(overall_csv_file_path):
+    data = TemCsvFile(overall_csv_file_path)
+    return data
 
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
 
-    def testSkeleton(self):
-        # self.fail("Test if the testcase is working.")
-        self.assert_(True)
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-    def test_Constructor(self):
-        self.assertEqual(self.filepathRef, self.data._filepath)
 
-        self.assert_(True)
+# self.numberPoints = 1024
 
-    def test_read_data(self):
-        data = self.data._read_data(self.filepathRef)
+def test_constructor(overall_csv_file_path, overall_csv_data):
+    assert overall_csv_data._filepath == overall_csv_file_path
 
-        channels = data[CHANNEL]
-        counts = data[COUNTS]
-        self.assertEqual(self.numberPoints, len(channels))
-        self.assertEqual(self.numberPoints, len(counts))
 
-        self.assertEqual(1024, channels[-1])
-        self.assertEqual(775, counts[-1])
+def test_read_data(overall_csv_file_path, overall_csv_data):
+    data = overall_csv_data._read_data(overall_csv_file_path)
 
-        self.assert_(True)
+    channels = data[CHANNEL]
+    counts = data[COUNTS]
+    assert len(channels) == 1024
+    assert len(counts) == 1024
 
-    def test_get_data(self):
-        # noinspection PyPep8Naming
-        energies_eV, counts = self.data.get_data()
+    assert channels[-1] == 1024
+    assert counts[-1] == 775
 
-        self.assertEqual(self.numberPoints, len(energies_eV))
-        self.assertEqual(self.numberPoints, len(counts))
 
-        self.assertEqual(10240.0, energies_eV[-1])
-        self.assertEqual(775, counts[-1])
+def test_get_data(overall_csv_data):
+    energies_eV, counts = overall_csv_data.get_data()
 
-        self.assert_(True)
+    assert len(energies_eV) == 1024
+    assert len(counts) == 1024
+
+    assert energies_eV[-1] == 10240.0
+    assert counts[-1] == 775

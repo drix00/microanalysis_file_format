@@ -3,8 +3,6 @@
 
 """
 .. py:currentmodule:: microanalysis_file_format.epma.JEOL8900McGill
-   :synopsis: Read the McGill JEOL 8900 epma data.
-
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 Read the McGill JEOL 8900 epma data.
@@ -430,7 +428,7 @@ class DataPoint:
 class JEOL8900McGill:
     def __init__(self, filename):
         self.points = None
-        self.masterHeader = None
+        self.master_header = None
 
         self.read_results_file(filename)
 
@@ -474,7 +472,7 @@ class JEOL8900McGill:
 
             position_keywords.append(position)
 
-        self.masterHeader = {}
+        self.master_header = {}
 
     def get_values_list(self, label, symbol=None):
         ids = self.points.keys()

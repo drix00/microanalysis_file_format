@@ -3,8 +3,6 @@
 
 """
 .. py:currentmodule:: microanalysis_file_format.bruker.map.map_raw_format
-   :synopsis: Read Bruker Instruments map in the raw format.
-
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 Read Bruker Instruments map in the raw format.

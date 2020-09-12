@@ -2,12 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: microanalysis_file_format.oxford.inca.test_ReadSpectrumFullResults
-   :synopsis: Tests for the module :py:mod:`microanalysis_file_format.oxford.inca.ReadSpectrumFullResults`
-
+.. py:currentmodule:: tests.oxford.inca.test_read_spectrum_full_results
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`microanalysis_file_format.oxford.inca.ReadSpectrumFullResults`.
+Tests for the module :py:mod:`microanalysis_file_format.oxford.inca.read_spectrum_full_results`.
 """
 
 ###############################################################################
@@ -27,10 +25,10 @@ Tests for the module :py:mod:`microanalysis_file_format.oxford.inca.ReadSpectrum
 ###############################################################################
 
 # Standard library modules.
-import unittest
 import os.path
 
 # Third party modules.
+import pytest
 
 # Local modules.
 
@@ -42,52 +40,55 @@ from tests import is_test_data_file
 
 # Globals and constants variables.
 
-class TestReadSpectrumFullResults(unittest.TestCase):
 
-    def setUp(self):
-        unittest.TestCase.setUp(self)
+@pytest.fixture
+def spectrum_file_path():
+    file_path = get_current_module_path(__file__, "../../../test_data/SpectrumFullResults 10.txt")
+    if not is_test_data_file(file_path):  # pragma: no cover
+        pytest.skip("Invalid test data file")
 
-        self.filepath = get_current_module_path(__file__, "../../../test_data/SpectrumFullResults 10.txt")
-        if not is_test_data_file(self.filepath):
-            raise self.skipTest("File path is not a valid test data file")
+    return file_path
 
-        self.results = ReadSpectrumFullResults(self.filepath)
 
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
+@pytest.fixture
+def spectrum_data(spectrum_file_path):
+    data = ReadSpectrumFullResults(spectrum_file_path)
+    return data
 
-    def testSkeleton(self):
-        # self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
 
-    def testConstructor(self):
-        results = ReadSpectrumFullResults(self.filepath)
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-        assert len(results.data) > 0
 
-    def test_read(self):
-        self.results.read(self.filepath)
+def test_constructor(spectrum_file_path):
+    results = ReadSpectrumFullResults(spectrum_file_path)
 
-        data = self.results.data
+    assert len(results.data) > 0
 
-        self.assertAlmostEquals(0.0088, data["O"][2], 4)
 
-        self.assertAlmostEquals(0.28664, data["Zr"][2], 5)
+def test_read(spectrum_file_path, spectrum_data):
+    spectrum_data.read(spectrum_file_path)
 
-        self.assertAlmostEquals(100.00, data["Totals"], 2)
+    data = spectrum_data.data
 
-        self.assertTrue(True)
+    assert data["O"][2] == pytest.approx(0.0088, 4)
+    assert data["Zr"][2] == pytest.approx(0.28664, 5)
+    assert data["Totals"] == pytest.approx(100.00, 2)
 
-    def test_isValidFile(self):
-        folder_path = get_current_module_path(__file__, "../../../test_data")
 
-        filepath = os.path.join(folder_path, "SpectrumFullResults 10.txt")
-        self.assertEqual(True, is_valid_file(filepath))
+def test_is_valid_file():
+    folder_path = get_current_module_path(__file__, "../../../test_data")
 
-        filepath = os.path.join(folder_path, "SpectrumProcessing 10.txt")
-        self.assertEqual(False, is_valid_file(filepath))
+    filepath = os.path.join(folder_path, "SpectrumFullResults 10.txt")
+    assert is_valid_file(filepath) is True
 
-        filepath = os.path.join(folder_path, "AllSpectra.txt")
-        self.assertEqual(False, is_valid_file(filepath))
+    filepath = os.path.join(folder_path, "SpectrumProcessing 10.txt")
+    assert is_valid_file(filepath) is False
 
-        self.assertTrue(True)
+    filepath = os.path.join(folder_path, "AllSpectra.txt")
+    assert is_valid_file(filepath) is False

@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: oxford.map.ParametersFile
-   :synopsis: Parameters of the raw map file.
-
+.. py:currentmodule:: microanalysis_file_format.bruker.map.parameters_file
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 Parameters of the raw map file.

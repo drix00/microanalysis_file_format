@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: bruker.FileFormatRtx
-   :synopsis: Read EDS Esprit file format rtx.
-
+.. py:currentmodule:: microanalysis_file_format.bruker.file_format_rtx
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 Read EDS Esprit file format rtx.

@@ -2,12 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: oxford.map.test_ParametersFile
-   :synopsis: Tests for module `oxford.map.ParametersFile`.
-
+.. py:currentmodule:: tests.oxford.map.test_parameters_file
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for module `oxford.map.ParametersFile`.
+Tests for module `microanalysis_file_format.oxford.map.parameters_file`.
 """
 
 ###############################################################################
@@ -27,10 +25,10 @@ Tests for module `oxford.map.ParametersFile`.
 ###############################################################################
 
 # Standard library modules.
-import unittest
 import os.path
 
 # Third party modules.
+import pytest
 
 # Local modules.
 
@@ -40,99 +38,86 @@ from microanalysis_file_format.oxford.map.parameters_file import ParametersFile,
 from microanalysis_file_format import get_current_module_path
 from tests import is_test_data_file
 
-
 # Globals and constants variables.
 
-class TestParametersFile(unittest.TestCase):
+
+@pytest.fixture
+def raw_map_path():
+    path = get_current_module_path(__file__, "../../../test_data/OxfordInstruments/MapRaw")
+    if not os.path.isdir(path):  # pragma: no cover
+        pytest.skip("Invalid test data folder")
+
+    return path
+
+
+def test_is_discovered():
     """
-    TestCase class for the module `ParametersFile`.
+    Test used to validate the file is included in the tests
+    by the test framework.
     """
+    # assert False
+    assert True
 
-    def setUp(self):
-        """
-        Setup method.
-        """
 
-        unittest.TestCase.setUp(self)
+def test_read(raw_map_path):
+    filename = "Map30kV.rpl"
+    filepath = os.path.join(raw_map_path, filename)
+    if not is_test_data_file(filepath):
+        pytest.skip("File path is not a valid test data file")
 
-        self.path = get_current_module_path(__file__, "../../../test_data/OxfordInstruments/MapRaw")
-        if not os.path.isdir(self.path):
-            raise self.skipTest("File path is not a valid test data file")
+    parameters = ParametersFile()
+    parameters.read(filepath)
 
-    def tearDown(self):
-        """
-        Teardown method.
-        """
+    assert parameters.width == 512
+    assert parameters.height == 384
+    assert parameters.depth == 2048
+    assert parameters.offset == 0
+    assert parameters.data_length_B == 1
+    assert parameters.data_type == DATA_TYPE_UNSIGNED
+    assert parameters.byte_order == BYTE_ORDER_DONT_CARE
+    assert parameters.record_by == "IMAGE \"Site of Interest 1\""
 
-        unittest.TestCase.tearDown(self)
+    filename = "Project 1.rpl"
+    filepath = os.path.join(raw_map_path, filename)
 
-    def testSkeleton(self):
-        """
-        First test to check if the testcase is working with the testing framework.
-        """
+    parameters = ParametersFile()
+    parameters.read(filepath)
 
-        # self.fail("Test if the testcase is working.")
-        self.assert_(True)
+    assert parameters.width == 512
+    assert parameters.height == 384
+    assert parameters.depth == 2048
+    assert parameters.offset == 0
+    assert parameters.data_length_B == 2
+    assert parameters.data_type == DATA_TYPE_SIGNED
+    assert parameters.byte_order == BYTE_ORDER_LITTLE_ENDIAN
+    assert parameters.record_by == "IMAGE \"Site of Interest 1\""
 
-    def test_read(self):
-        filename = "Map30kV.rpl"
-        filepath = os.path.join(self.path, filename)
-        if not is_test_data_file(filepath):
-            raise self.skipTest("File path is not a valid test data file")
+    filename = "mapSOI_15.rpl"
+    filepath = os.path.join(raw_map_path, filename)
 
-        parameters = ParametersFile()
-        parameters.read(filepath)
+    parameters = ParametersFile()
+    parameters.read(filepath)
 
-        self.assertEqual(512, parameters.width)
-        self.assertEqual(384, parameters.height)
-        self.assertEqual(2048, parameters.depth)
-        self.assertEqual(0, parameters.offset)
-        self.assertEqual(1, parameters.data_length_B)
-        self.assertEqual(DATA_TYPE_UNSIGNED, parameters.data_type)
-        self.assertEqual(BYTE_ORDER_DONT_CARE, parameters.byte_order)
-        self.assertEqual("IMAGE \"Site of Interest 1\"", parameters.record_by)
+    assert parameters.width == 512
+    assert parameters.height == 384
+    assert parameters.depth == 2048
+    assert parameters.offset == 0
+    assert parameters.data_length_B == 4
+    assert parameters.data_type == DATA_TYPE_SIGNED
+    assert parameters.byte_order == BYTE_ORDER_LITTLE_ENDIAN
+    assert parameters.record_by == "IMAGE \"Site of Interest 15\""
 
-        filename = "Project 1.rpl"
-        filepath = os.path.join(self.path, filename)
+    filename = "mapSOI14.rpl"
+    filepath = os.path.join(raw_map_path, filename)
 
-        parameters = ParametersFile()
-        parameters.read(filepath)
+    parameters = ParametersFile()
+    parameters.read(filepath)
 
-        self.assertEqual(512, parameters.width)
-        self.assertEqual(384, parameters.height)
-        self.assertEqual(2048, parameters.depth)
-        self.assertEqual(0, parameters.offset)
-        self.assertEqual(2, parameters.data_length_B)
-        self.assertEqual(DATA_TYPE_SIGNED, parameters.data_type)
-        self.assertEqual(BYTE_ORDER_LITTLE_ENDIAN, parameters.byte_order)
-        self.assertEqual("IMAGE \"Site of Interest 1\"", parameters.record_by)
-
-        filename = "mapSOI_15.rpl"
-        filepath = os.path.join(self.path, filename)
-
-        parameters = ParametersFile()
-        parameters.read(filepath)
-
-        self.assertEqual(512, parameters.width)
-        self.assertEqual(384, parameters.height)
-        self.assertEqual(2048, parameters.depth)
-        self.assertEqual(0, parameters.offset)
-        self.assertEqual(4, parameters.data_length_B)
-        self.assertEqual(DATA_TYPE_SIGNED, parameters.data_type)
-        self.assertEqual(BYTE_ORDER_LITTLE_ENDIAN, parameters.byte_order)
-        self.assertEqual("IMAGE \"Site of Interest 15\"", parameters.record_by)
-
-        filename = "mapSOI14.rpl"
-        filepath = os.path.join(self.path, filename)
-
-        parameters = ParametersFile()
-        parameters.read(filepath)
-
-        self.assertEqual(512, parameters.width)
-        self.assertEqual(384, parameters.height)
-        self.assertEqual(2048, parameters.depth)
-        self.assertEqual(0, parameters.offset)
-        self.assertEqual(4, parameters.data_length_B)
-        self.assertEqual(DATA_TYPE_SIGNED, parameters.data_type)
-        self.assertEqual(BYTE_ORDER_LITTLE_ENDIAN, parameters.byte_order)
-        self.assertEqual("IMAGE \"Site of Interest 14\"", parameters.record_by)
+    assert parameters.width == 512
+    assert parameters.height == 384
+    assert parameters.depth == 2048
+    assert parameters.offset == 0
+    assert parameters.data_length_B == 4
+    assert parameters.data_type == DATA_TYPE_SIGNED
+    assert parameters.byte_order == BYTE_ORDER_LITTLE_ENDIAN
+    assert parameters.record_by == "IMAGE \"Site of Interest 14\""

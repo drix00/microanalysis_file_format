@@ -27,7 +27,6 @@ Tests for module `oxford.map.MapRawFormat`.
 ###############################################################################
 
 # Standard library modules.
-import unittest
 
 # Third party modules.
 
@@ -38,29 +37,10 @@ import unittest
 # Globals and constants variables.
 
 
-class TestMapRawFormat(unittest.TestCase):
+def test_is_discovered():
     """
-    TestCase class for the module `MapRawFormat`.
+    Test used to validate the file is included in the tests
+    by the test framework.
     """
-
-    def setUp(self):
-        """
-        Setup method.
-        """
-
-        unittest.TestCase.setUp(self)
-
-    def tearDown(self):
-        """
-        Teardown method.
-        """
-
-        unittest.TestCase.tearDown(self)
-
-    def testSkeleton(self):
-        """
-        First test to check if the testcase is working with the testing framework.
-        """
-
-        # self.fail("Test if the testcase is working.")
-        self.assert_(True)
+    # assert False
+    assert True

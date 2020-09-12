@@ -3,7 +3,6 @@
 
 """
 .. py:currentmodule:: tests.oxford.map
-
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 

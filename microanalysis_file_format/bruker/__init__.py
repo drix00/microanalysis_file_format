@@ -3,8 +3,6 @@
 
 """
 .. py:currentmodule:: microanalysis_file_format.bruker
-   :synopsis: Init for the package.
-
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 Init for the package.

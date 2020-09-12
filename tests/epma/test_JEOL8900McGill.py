@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: microanalysis_file_format.epma.test_JEOL8900McGill
+.. py:currentmodule:: tests.epma.test_JEOL8900McGill
    :synopsis: Tests for the module :py:mod:`microanalysis_file_format.epma.JEOL8900McGill`
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
@@ -27,63 +27,63 @@ Tests for the module :py:mod:`microanalysis_file_format.epma.JEOL8900McGill`.
 ###############################################################################
 
 # Standard library modules.
-import unittest
-import os.path
-import warnings
 
 # Third party modules.
+import pytest
 
 # Local modules.
 
 # Project modules.
-import microanalysis_file_format.epma.JEOL8900McGill as JEOL8900McGill
+from microanalysis_file_format.epma.JEOL8900McGill import JEOL8900McGill
 from microanalysis_file_format import get_current_module_path
 from tests import is_test_data_file
 
 
 # Globals and constants variables.
 
-class TestJEOL8900McGill(unittest.TestCase):
 
-    def setUp(self):
-        warnings.simplefilter("ignore")
+@pytest.fixture
+def data_0407_file_path():
+    file_path = get_current_module_path(__file__, "../../test_data/data0407.ful")
+    if not is_test_data_file(file_path):  # pragma: no cover
+        pytest.skip("Invalid test data file")
 
-        unittest.TestCase.setUp(self)
+    return file_path
 
-        project_path = get_current_module_path(__file__)
 
-        self.filename = os.path.join(project_path, "../../test_data/data0407.ful")
-        if not is_test_data_file(self.filename):
-            raise self.skipTest("File is not a test data file")
+@pytest.fixture
+def line_scan_file(data_0407_file_path):
+    line_scan_file = JEOL8900McGill(data_0407_file_path)
+    return line_scan_file
 
-        self.line_scan_file = JEOL8900McGill.JEOL8900McGill(self.filename)
 
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-    def testSkeleton(self):
-        self.assertTrue(True)
 
-    def testReadResultsFile(self):
-        line_scan_file = JEOL8900McGill.JEOL8900McGill(self.filename)
+def test_read_results_file(data_0407_file_path):
+    line_scan_file = JEOL8900McGill(data_0407_file_path)
 
-        number_lines = line_scan_file.read_results_file(self.filename)
+    number_lines = line_scan_file.read_results_file(data_0407_file_path)
 
-        self.assertEqual(5276, number_lines)
+    assert number_lines == 5276
 
-        self.assertTrue(True)
 
-    def testReadMasterHeader(self):
-        line = "Intensity & Wt. %      Group : Lang            Sample : Song             Page 1 \n"
+def test_read_master_header(line_scan_file):
+    line = "Intensity & Wt. %      Group : Lang            Sample : Song             Page 1 \n"
 
-        self.line_scan_file.read_master_header(line)
+    line_scan_file.read_master_header(line)
 
-        self.assertEqual(self.line_scan_file.masterHeader, {})
+    assert line_scan_file.master_header == {}
 
-        self.assertTrue(True)
 
-    def testReadPointData(self):
-        lines = """Unknown Specimen No. 1178
+def test_read_point_data(line_scan_file):
+    lines = """Unknown Specimen No. 1178
  Group        : Lang            Sample  : Song
  UNK No.      : 1178            Comment : Line 255 AlMgZn-region3
  Stage        :    X=   62.9595  Y=   54.2735  Z=    9.8025
@@ -114,92 +114,89 @@ Total:  100.48    100.48    100.00    100.00   100.000
 
 """.splitlines()
 
-        self.line_scan_file.read_point_data(lines)
+    line_scan_file.read_point_data(lines)
 
-        spectrum_id = 1178
-        group = "Lang"
-        sample = "Song"
-        number = 1178
-        comment = "Line 255 AlMgZn-region3"
-        stage_x = 62.9595
-        stage_y = 54.2735
-        stage_z = 9.8025
-        # noinspection PyPep8Naming
-        incident_energy_keV = 15.0
-        probe_diameter = 0
-        scan_on = False
-        date = "Apr 11 16:22 2007"
-        detector_type = "WDS only"
-        number_accumulation = 1
+    spectrum_id = 1178
+    group = "Lang"
+    sample = "Song"
+    number = 1178
+    comment = "Line 255 AlMgZn-region3"
+    stage_x = 62.9595
+    stage_y = 54.2735
+    stage_z = 9.8025
+    # noinspection PyPep8Naming
+    incident_energy_keV = 15.0
+    probe_diameter = 0
+    scan_on = False
+    date = "Apr 11 16:22 2007"
+    detector_type = "WDS only"
+    number_accumulation = 1
 
-        # noinspection PyPep8Naming
-        current_A = 1.999E-08
+    # noinspection PyPep8Naming
+    current_A = 1.999E-08
 
-        # Test experimental condition.
-        point = self.line_scan_file.points[1178]
-        self.assertEqual(spectrum_id, point.spectrum_id)
+    # Test experimental condition.
+    point = line_scan_file.points[1178]
+    assert point.spectrum_id == spectrum_id
 
-        self.assertEqual(group, point.group)
+    assert point.group == group
 
-        self.assertEqual(sample, point.sample)
+    assert point.sample == sample
 
-        self.assertEqual(number, point.number)
+    assert point.number == number
 
-        self.assertEqual(comment, point.comment)
+    assert point.comment == comment
 
-        self.assertEqual(stage_x, point.stage_x)
+    assert point.stage_x == stage_x
 
-        self.assertEqual(stage_y, point.stage_y)
+    assert point.stage_y == stage_y
 
-        self.assertEqual(stage_z, point.stage_z)
+    assert point.stage_z == stage_z
 
-        self.assertEqual(incident_energy_keV, point.incident_energy_keV)
+    assert point.incident_energy_keV == incident_energy_keV
 
-        self.assertEqual(probe_diameter, point.probe_diameter)
+    assert point.probe_diameter == probe_diameter
 
-        self.assertEqual(scan_on, point.scan_on)
+    assert point.scan_on == scan_on
 
-        self.assertEqual(date, point.date)
+    assert point.date == date
 
-        self.assertEqual(detector_type, point.detector_type)
+    assert point.detector_type == detector_type
 
-        self.assertEqual(number_accumulation, point.number_accumulation)
+    assert point.number_accumulation == number_accumulation
 
-        self.assertEqual(current_A, point.current_A)
+    assert point.current_A == current_A
 
-        # Test intensities lines.
-        self.assertEqual(300.0, point.element_data['Al']['sd_%%'])
+    # Test intensities lines.
+    assert point.element_data['Al']['sd_%%'] == 300.0
 
-        self.assertEqual(86.0, point.element_data['Al']['dl_ppm'])
+    assert point.element_data['Al']['dl_ppm'] == 86.0
 
-        self.assertEqual(30962.1, point.element_data['Mg']['net_cps'])
+    assert point.element_data['Mg']['net_cps'] == 30962.1
 
-        self.assertEqual(3, point.element_data['Zn']['id'])
+    assert point.element_data['Zn']['id'] == 3
 
-        self.assertEqual(507.0, point.element_data['Zn']['dl_ppm'])
+    assert point.element_data['Zn']['dl_ppm'] == 507.0
 
-        # Test correction lines.
-        self.assertEqual(0.0000, point.element_data['Mg']['If/Ip'])
+    # Test correction lines.
+    assert point.element_data['Mg']['If/Ip'] == 0.0000
 
-        self.assertEqual(1.1033, point.element_data['Mg']['c/k-el'])
+    assert point.element_data['Mg']['c/k-el'] == 1.1033
 
-        self.assertEqual(0.7657, point.element_data['Zn']['f(chi)'])
+    assert point.element_data['Zn']['f(chi)'] == 0.7657
 
-        self.assertEqual(0.9752, point.element_data['Zn']['c/k-std'])
+    assert point.element_data['Zn']['c/k-std'] == 0.9752
 
-        # Test concentration lines.
-        self.assertEqual(-0.00001, point.element_data['Al']['k-std'])
+    # Test concentration lines.
+    assert point.element_data['Al']['k-std'] == -0.00001
 
-        self.assertEqual(98.451, point.element_data['Mg']['Atomic'])
+    assert point.element_data['Mg']['Atomic'] == 98.451
 
-        self.assertEqual(4.08, point.element_data['Zn']['El fw'])
+    assert point.element_data['Zn']['El fw'] == 4.08
 
-        self.assertEqual(0.04183, point.element_data['Zn']['k-value'])
+    assert point.element_data['Zn']['k-value'] == 0.04183
 
-        # Test total line.
-        self.assertEqual(100.48, point.element_data['total']['El fw'])
+    # Test total line.
+    assert point.element_data['total']['El fw'] == 100.48
 
-        self.assertEqual(100.0, point.element_data['total']['Atomic'])
-
-        # self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+    assert point.element_data['total']['Atomic'] == 100.0

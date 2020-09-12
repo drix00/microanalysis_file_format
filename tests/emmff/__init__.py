@@ -3,7 +3,6 @@
 
 """
 .. py:currentmodule:: tests.emmff
-
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 

@@ -3,8 +3,6 @@
 
 """
 .. py:currentmodule:: microanalysis_file_format.bruker.exported_csv_file
-   :synopsis: Read exported bruker csv file.
-
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 Read exported bruker csv file.

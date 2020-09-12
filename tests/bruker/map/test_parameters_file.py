@@ -2,12 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: oxford.map.test_ParametersFile
-   :synopsis: Tests for the module :py:mod:`microanalysis_file_format.bruker.map.ParametersFile`
-
+.. py:currentmodule::microanalysis_file_format.bruker.map.test_parameters_file
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`microanalysis_file_format.bruker.map.ParametersFile`.
+Tests for the module :py:mod:`microanalysis_file_format.bruker.map.parameters_file`.
 """
 
 ###############################################################################
@@ -27,10 +25,9 @@ Tests for the module :py:mod:`microanalysis_file_format.bruker.map.ParametersFil
 ###############################################################################
 
 # Standard library modules.
-import unittest
-import os.path
 
 # Third party modules.
+import pytest
 
 # Local modules.
 
@@ -43,51 +40,34 @@ from tests import is_test_data_file
 
 # Globals and constants variables.
 
-class TestParametersFile(unittest.TestCase):
+
+@pytest.fixture
+def sample01_file_path():
+    file_path = get_current_module_path(__file__, "../../../test_data/Bruker/MapRaw/Sample01.rpl")
+    if not is_test_data_file(file_path):  # pragma: no cover
+        pytest.skip("Invalid test data file")
+
+    return file_path
+
+
+def test_is_discovered():
     """
-    TestCase class for the module `ParametersFile`.
+    Test used to validate the file is included in the tests
+    by the test framework.
     """
+    # assert False
+    assert True
 
-    def setUp(self):
-        """
-        Setup method.
-        """
 
-        unittest.TestCase.setUp(self)
+def test_read(sample01_file_path):
+    parameters = ParametersFile()
+    parameters.read(sample01_file_path)
 
-        self.path = get_current_module_path(__file__, "../../../test_data/Bruker/MapRaw")
-
-    def tearDown(self):
-        """
-        Teardown method.
-        """
-
-        unittest.TestCase.tearDown(self)
-
-    def testSkeleton(self):
-        """
-        First test to check if the testcase is working with the testing framework.
-        """
-
-        # self.fail("Test if the testcase is working.")
-        self.assert_(True)
-
-    def test_read(self):
-        filename = "Sample01.rpl"
-        filepath = os.path.join(self.path, filename)
-        if not is_test_data_file(filepath):
-            raise self.skipTest("File path is not a valid test data file")
-
-        parameters = ParametersFile()
-        parameters.read(filepath)
-
-        self.assertEqual(1024, parameters.width)
-        self.assertEqual(768, parameters.height)
-        self.assertEqual(2048, parameters.depth)
-        self.assertEqual(0, parameters.offset)
-        self.assertEqual(1, parameters.data_length_B)
-        self.assertEqual(DATA_TYPE_UNSIGNED, parameters.data_type)
-        self.assertEqual(BYTE_ORDER_DONT_CARE, parameters.byte_order)
-        self.assertEqual("vector", parameters.record_by)
-
-        # self.fail("Test if the testcase is working.")
+    assert parameters.width == 1024
+    assert parameters.height == 768
+    assert parameters.depth == 2048
+    assert parameters.offset == 0
+    assert parameters.data_length_B == 1
+    assert parameters.data_type == DATA_TYPE_UNSIGNED
+    assert parameters.byte_order == BYTE_ORDER_DONT_CARE
+    assert parameters.record_by == "vector"

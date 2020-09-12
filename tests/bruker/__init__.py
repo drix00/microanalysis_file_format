@@ -3,7 +3,6 @@
 
 """
 .. py:currentmodule:: tests.bruker
-
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 

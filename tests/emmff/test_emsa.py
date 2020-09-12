@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: microanalysis_file_format.emmff.test_emsa
-   :synopsis: Tests for the module :py:mod:`microanalysis_file_format.emmff.emsa`
-
+.. py:currentmodule:: tests.emmff.test_emsa
 .. moduleauthor:: Philippe T. Pinard <philippe.pinard@gmail.com>
 
 Tests for the module :py:mod:`microanalysis_file_format.emmff.emsa`.
@@ -27,289 +25,318 @@ Tests for the module :py:mod:`microanalysis_file_format.emmff.emsa`.
 ###############################################################################
 
 # Standard library modules.
-import unittest
-import tempfile
-import os
 from six import PY2, PY3
 
 # Third party modules.
+import pytest
 
 # Local modules.
 from microanalysis_file_format import get_current_module_path
 
 # Project modules.
 import microanalysis_file_format.emmff.emsa as emsa
+from tests import is_test_data_file
 
 # Globals and constants variables.
 
 
-class TestEmsaReader(unittest.TestCase):
-
-    def setUp(self):
-        unittest.TestCase.setUp(self)
-
-        filepath = get_current_module_path(__file__, "../../test_data/emmff/spectra/spectrum1.emsa")
-        if not os.path.isfile(filepath):
-            raise self.skipTest("File path is not a valid test data file")
-        if PY3:
-            with open(filepath, 'r', newline="\r\n") as f:
-                self.emsa = emsa.read(f)
-        elif PY2:
-            with open(filepath, 'rb') as f:
-                self.emsa = emsa.read(f)
-
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
-
-    def test_skeleton(self):
-        self.assertEqual(1024, len(self.emsa.y_data))
-
-    def test_is_line_keyword(self):
-        reader = emsa.EmsaReader()
-
-        line = ""
-        self.assertEqual(False, reader._is_line_keyword(line), msg="Empty line")
-
-        line = None
-        self.assertEqual(False, reader._is_line_keyword(line), msg="None line")
-
-        line = "#keyword"
-        self.assertEqual(True, reader._is_line_keyword(line), msg="With leading #")
-
-        line = "  #keyword"
-        self.assertEqual(True, reader._is_line_keyword(line), msg="With leading space + #")
-
-        line = "\t#keyword"
-        self.assertEqual(True, reader._is_line_keyword(line), msg="With leading space + #")
-
-        line = "1#keyword"
-        self.assertEqual(False, reader._is_line_keyword(line), msg="With invalid line")
-
-        line = "1.2, 0.2"
-        self.assertEqual(False, reader._is_line_keyword(line), msg="With invalid line")
-
-        line = "1.2 0.2"
-        self.assertEqual(False, reader._is_line_keyword(line), msg="With invalid line")
-
-    def test_parse_keyword_line(self):
-        reader = emsa.EmsaReader()
-
-        line = r"#FORMAT      : EMSA/MAS Spectral Data File"
-        keyword, comment, value = reader._parse_keyword_line(line)
-        self.assertEqual("FORMAT", keyword)
-        self.assertEqual("", comment)
-        self.assertEqual("EMSA/MAS Spectral Data File", value)
+@pytest.fixture
+def spectrum1_emsa_file_path():
+    file_path = get_current_module_path(__file__, "../../test_data/emmff/spectra/spectrum1.emsa")
+    if not is_test_data_file(file_path):  # pragma: no cover
+        pytest.skip("Invalid test data file")
 
-        line = r"#VERSION     : 1.0"
-        keyword, comment, value = reader._parse_keyword_line(line)
-        self.assertEqual("VERSION", keyword)
-        self.assertEqual("", comment)
-        self.assertEqual('1.0', value)
+    return file_path
 
-        line = r"#TITLE       : Spectrum 1"
-        keyword, comment, value = reader._parse_keyword_line(line)
-        self.assertEqual("TITLE", keyword)
-        self.assertEqual("", comment)
-        self.assertEqual("Spectrum 1", value)
 
-        line = r"#DATE        : 20-NOV-2006"
-        keyword, comment, value = reader._parse_keyword_line(line)
-        self.assertEqual("DATE", keyword)
-        self.assertEqual("", comment)
-        self.assertEqual("20-NOV-2006", value)
+@pytest.fixture
+def spectrum1_emsa_data(spectrum1_emsa_file_path):
+    if PY3:
+        with open(spectrum1_emsa_file_path, 'r', newline="\r\n") as f:
+            data = emsa.read(f)
+    elif PY2:
+        with open(spectrum1_emsa_file_path, 'rb') as f:
+            data = emsa.read(f)
+    return data
 
-        line = r"#TIME        : 16:03"
-        keyword, comment, value = reader._parse_keyword_line(line)
-        self.assertEqual("TIME", keyword)
-        self.assertEqual("", comment)
-        self.assertEqual("16:03", value)
 
-        line = r"#X_POSITION mm: 0.0000"
-        keyword, comment, value = reader._parse_keyword_line(line)
-        self.assertEqual("X_POSITION", keyword)
-        self.assertEqual("mm", comment)
-        self.assertEqual('0.0000', value)
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-    def test_parse_data_line(self):
-        reader = emsa.EmsaReader()
 
-        line = r"-0.200, 0."
-        values = reader._parse_data_line(line)
-        self.assertEqual(2, len(values))
-        self.assertEqual(-0.2, values[0])
-        self.assertEqual(0.0, values[1])
+def test_number_data(spectrum1_emsa_data):
+    assert len(spectrum1_emsa_data.y_data) == 1024
+
+
+def test_is_line_keyword():
+    reader = emsa.EmsaReader()
 
-        line = r"-0.200 0."
-        values = reader._parse_data_line(line)
-        self.assertEqual(2, len(values))
-        self.assertEqual(-0.2, values[0])
-        self.assertEqual(0.0, values[1])
+    line = ""
+    assert reader._is_line_keyword(line) is False, "Empty line"
 
-        line = r"-0.200"
-        values = reader._parse_data_line(line)
-        self.assertEqual(1, len(values))
-        self.assertEqual(-0.2, values[0])
+    line = None
+    assert reader._is_line_keyword(line) is False, "None line"
 
-        line = r"1.0, 2.0, 3.0, 4.0, 5.0"
-        values = reader._parse_data_line(line)
-        self.assertEqual(5, len(values))
-        self.assertEqual(1.0, values[0])
-        self.assertEqual(5.0, values[-1])
+    line = "#keyword"
+    assert reader._is_line_keyword(line) is True, "With leading #"
 
-        line = r"1.0, 2.0, 3.0, 4.0, 5.0, 6.0"
-        values = reader._parse_data_line(line)
-        self.assertEqual(6, len(values))
-        self.assertEqual(1.0, values[0])
-        self.assertEqual(6.0, values[-1])
+    line = "  #keyword"
+    assert reader._is_line_keyword(line) is True, "With leading space + #"
 
-    def test_format(self):
-        self.assertEqual("EMSA/MAS Spectral Data File", self.emsa.header.format)
+    line = "\t#keyword"
+    assert reader._is_line_keyword(line) is True, "With leading space + #"
 
-    def test_version(self):
-        self.assertEqual(1.0, self.emsa.header.version)
+    line = "1#keyword"
+    assert reader._is_line_keyword(line) is False, "With invalid line"
 
-    def test_title(self):
-        self.assertEqual("Spectrum 1", self.emsa.header.title)
+    line = "1.2, 0.2"
+    assert reader._is_line_keyword(line) is False, "With invalid line"
 
-    def test_date(self):
-        self.assertEqual("20-NOV-2006", self.emsa.header.date)
-
-    def test_time(self):
-        self.assertEqual("16:03", self.emsa.header.time)
-
-    def test_owner(self):
-        self.assertEqual("helen", self.emsa.header.owner)
-
-    def test_number_points(self):
-        self.assertEqual(1024.0, self.emsa.header.number_points)
-
-    def test_number_columns(self):
-        self.assertEqual(1.0, self.emsa.header.ncolumns)
-
-    def test_x_units(self):
-        self.assertEqual("keV", self.emsa.header.xunits)
-
-    def test_y_units(self):
-        self.assertEqual("counts", self.emsa.header.yunits)
-
-    def test_data_type(self):
-        self.assertEqual("XY", self.emsa.header.datatype)
-
-    def test_x_per_channel(self):
-        self.assertEqual(0.02, self.emsa.header.xperchan)
-
-    def test_offset(self):
-        self.assertEqual(-0.2, self.emsa.header.offset)
-
-    def test_signal_type(self):
-        self.assertEqual("EDS", self.emsa.header.signaltype)
-
-    def test_channel_offset(self):
-        self.assertEqual(10.0, self.emsa.header.choffset)
-
-    def test_live_time(self):
-        self.assertEqual(0.34635, self.emsa.header.livetime)
-
-    def test_real_time(self):
-        self.assertEqual(0.453241, self.emsa.header.realtime)
-
-    def test_beam_energy(self):
-        self.assertEqual(5.0, self.emsa.header.beamkv)
-
-    def test_probe_current(self):
-        self.assertEqual(0.0, self.emsa.header.probecur)
-
-    def test_magnification(self):
-        self.assertEqual(250.0, self.emsa.header.magcam)
-
-    def test_x_position(self):
-        self.assertEqual(0.0, self.emsa.header.xposition[0])
-        self.assertEqual('mm', self.emsa.header.xposition[1])
-
-    def test_y_position(self):
-        self.assertEqual(0.0, self.emsa.header.yposition[0])
-        self.assertEqual('mm', self.emsa.header.yposition[1])
-
-    def test_z_position(self):
-        self.assertEqual(0.0, self.emsa.header.zposition[0])
-        self.assertEqual('mm', self.emsa.header.zposition[1])
-
-
-class TestEmsaWriter(unittest.TestCase):
-    LINES = ['#FORMAT      : EMSA/MAS Spectral Data File',
-             '#VERSION     : 1.0',
-             '#TITLE       : Test EMSA file',
-             '#DATE        : 14-MAY-2011',
-             '#TIME        : 10:10',
-             '#OWNER       : John Doe',
-             '#NPOINTS     : 5',
-             '#NCOLUMNS    : 2',
-             '#XUNITS      : eV',
-             '#YUNITS      : counts',
-             '#DATATYPE    : XY',
-             '#XPERCHAN    : 1',
-             '#OFFSET      : 0',
-             '#SPECTRUM    : Spectral Data Starts Here',
-             '0, 10',
-             '1, 20',
-             '2, 30',
-             '3, 40',
-             '4, 50',
-             '#ENDOFDATA   :',
-             '#CHECKSUM    : 21860']
-
-    def setUp(self):
-        unittest.TestCase.setUp(self)
-
-        spectrum = self._create_emsa()
-
-        if PY3:
-            self.f = tempfile.NamedTemporaryFile('w', delete=False, newline="\r\n")
-        elif PY2:
-            self.f = tempfile.NamedTemporaryFile('w', delete=False)
-        emsa.write(spectrum, self.f)
-        self.f.close()
-
-    # noinspection SpellCheckingInspection
-    @staticmethod
-    def _create_emsa():
-        spectrum = emsa.Emsa()
-        spectrum.x_data = [0, 1, 2, 3, 4]
-        spectrum.y_data = [10, 20, 30, 40, 50]
-
-        spectrum.header.title = 'Test EMSA file'
-        spectrum.header.date = '14-MAY-2011'
-        spectrum.header.time = '10:10'
-        spectrum.header.owner = 'John Doe'
-        spectrum.header.npoints = 5
-        spectrum.header.ncolumns = 2
-        spectrum.header.xunits = 'eV'
-        spectrum.header.yunits = 'counts'
-        spectrum.header.datatype = emsa.DATA_TYPE_XY
-        spectrum.header.xperchan = 1
-        spectrum.header.offset = 0
-
-        spectrum.validate()
-
-        return spectrum
-
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
-
-        os.remove(self.f.name)
-
-    def test_skeleton(self):
-        self.assertTrue(True)
-
-    def test_lines(self):
-        if PY3:
-            with open(self.f.name, 'r', newline="\r\n") as f:
-                lines = [line.strip() for line in f.readlines()]
-        elif PY2:
-            with open(self.f.name, 'rb') as f:
-                lines = [line.strip() for line in f.readlines()]
-
-        self.assertEqual(len(lines), len(self.LINES))
-
-        for expected, actual in zip(self.LINES, lines):
-            self.assertEqual(expected, actual)
+    line = "1.2 0.2"
+    assert reader._is_line_keyword(line) is False, "With invalid line"
+
+
+def test_parse_keyword_line():
+    reader = emsa.EmsaReader()
+
+    line = r"#FORMAT      : EMSA/MAS Spectral Data File"
+    keyword, comment, value = reader._parse_keyword_line(line)
+    assert keyword == "FORMAT"
+    assert comment == ""
+    assert value == "EMSA/MAS Spectral Data File"
+
+    line = r"#VERSION     : 1.0"
+    keyword, comment, value = reader._parse_keyword_line(line)
+    assert keyword == "VERSION"
+    assert comment == ""
+    assert value == '1.0'
+
+    line = r"#TITLE       : Spectrum 1"
+    keyword, comment, value = reader._parse_keyword_line(line)
+    assert keyword == "TITLE"
+    assert comment == ""
+    assert value == "Spectrum 1"
+
+    line = r"#DATE        : 20-NOV-2006"
+    keyword, comment, value = reader._parse_keyword_line(line)
+    assert keyword == "DATE"
+    assert comment == ""
+    assert value == "20-NOV-2006"
+
+    line = r"#TIME        : 16:03"
+    keyword, comment, value = reader._parse_keyword_line(line)
+    assert keyword == "TIME"
+    assert comment == ""
+    assert value == "16:03"
+
+    line = r"#X_POSITION mm: 0.0000"
+    keyword, comment, value = reader._parse_keyword_line(line)
+    assert keyword == "X_POSITION"
+    assert comment == "mm"
+    assert value == '0.0000'
+
+
+def test_parse_data_line():
+    reader = emsa.EmsaReader()
+
+    line = r"-0.200, 0."
+    values = reader._parse_data_line(line)
+    assert len(values) == 2
+    assert values[0] == -0.2
+    assert values[1] == 0.0
+
+    line = r"-0.200 0."
+    values = reader._parse_data_line(line)
+    assert len(values) == 2
+    assert values[0] == -0.2
+    assert values[1] == 0.0
+
+    line = r"-0.200"
+    values = reader._parse_data_line(line)
+    assert len(values) == 1
+    assert values[0] == -0.2
+
+    line = r"1.0, 2.0, 3.0, 4.0, 5.0"
+    values = reader._parse_data_line(line)
+    assert len(values) == 5
+    assert values[0] == 1.0
+    assert values[-1] == 5.0
+
+    line = r"1.0, 2.0, 3.0, 4.0, 5.0, 6.0"
+    values = reader._parse_data_line(line)
+    assert len(values) == 6
+    assert values[0] == 1.0
+    assert values[-1] == 6.0
+
+
+def test_format(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.format == "EMSA/MAS Spectral Data File"
+
+
+def test_version(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.version == 1.0
+
+
+def test_title(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.title == "Spectrum 1"
+
+
+def test_date(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.date == "20-NOV-2006"
+
+
+def test_time(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.time == "16:03"
+
+
+def test_owner(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.owner == "helen"
+
+
+def test_number_points(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.number_points == 1024.0
+
+
+def test_number_columns(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.ncolumns == 1.0
+
+
+def test_x_units(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.xunits == "keV"
+
+
+def test_y_units(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.yunits == "counts"
+
+
+def test_data_type(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.datatype == "XY"
+
+
+def test_x_per_channel(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.xperchan == 0.02
+
+
+def test_offset(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.offset == -0.2
+
+
+def test_signal_type(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.signaltype == "EDS"
+
+
+def test_channel_offset(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.choffset == 10.0
+
+
+def test_live_time(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.livetime == 0.34635
+
+
+def test_real_time(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.realtime == 0.453241
+
+
+def test_beam_energy(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.beamkv == 5.0
+
+
+def test_probe_current(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.probecur == 0.0
+
+
+def test_magnification(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.magcam == 250.0
+
+
+def test_x_position(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.xposition[0] == 0.0
+    assert spectrum1_emsa_data.header.xposition[1] == 'mm'
+
+
+def test_y_position(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.yposition[0] == 0.0
+    assert spectrum1_emsa_data.header.yposition[1] == 'mm'
+
+
+def test_z_position(spectrum1_emsa_data):
+    assert spectrum1_emsa_data.header.zposition[0] == 0.0
+    assert spectrum1_emsa_data.header.zposition[1] == 'mm'
+
+
+LINES = ['#FORMAT      : EMSA/MAS Spectral Data File',
+         '#VERSION     : 1.0',
+         '#TITLE       : Test EMSA file',
+         '#DATE        : 14-MAY-2011',
+         '#TIME        : 10:10',
+         '#OWNER       : John Doe',
+         '#NPOINTS     : 5',
+         '#NCOLUMNS    : 2',
+         '#XUNITS      : eV',
+         '#YUNITS      : counts',
+         '#DATATYPE    : XY',
+         '#XPERCHAN    : 1',
+         '#OFFSET      : 0',
+         '#SPECTRUM    : Spectral Data Starts Here',
+         '0, 10',
+         '1, 20',
+         '2, 30',
+         '3, 40',
+         '4, 50',
+         '#ENDOFDATA   :',
+         '#CHECKSUM    : 21860']
+
+
+@pytest.fixture
+def created_emsa_file_path(tmpdir):
+    spectrum = _create_emsa()
+    file_path = tmpdir / "spectrum1.emsa"
+
+    if PY3:
+        with open(file_path, 'w', newline="\r\n") as f:
+            emsa.write(spectrum, f)
+    elif PY2:
+        with open(file_path, 'wb') as f:
+            emsa.write(spectrum, f)
+    return file_path
+
+
+def _create_emsa():
+    spectrum = emsa.Emsa()
+    spectrum.x_data = [0, 1, 2, 3, 4]
+    spectrum.y_data = [10, 20, 30, 40, 50]
+
+    spectrum.header.title = 'Test EMSA file'
+    spectrum.header.date = '14-MAY-2011'
+    spectrum.header.time = '10:10'
+    spectrum.header.owner = 'John Doe'
+    spectrum.header.npoints = 5
+    spectrum.header.ncolumns = 2
+    spectrum.header.xunits = 'eV'
+    spectrum.header.yunits = 'counts'
+    spectrum.header.datatype = emsa.DATA_TYPE_XY
+    spectrum.header.xperchan = 1
+    spectrum.header.offset = 0
+
+    spectrum.validate()
+
+    return spectrum
+
+
+def test_lines(created_emsa_file_path):
+    if PY3:
+        with open(created_emsa_file_path, 'r', newline="\r\n") as f:
+            lines = [line.strip() for line in f.readlines()]
+    elif PY2:
+        with open(created_emsa_file_path, 'rb') as f:
+            lines = [line.strip() for line in f.readlines()]
+
+    assert len(lines), len(LINES)
+
+    for expected, actual in zip(LINES, lines):
+        assert actual == expected
