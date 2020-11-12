@@ -1,5 +1,5 @@
 numpy==1.19.4
-matplotlib==3.3.2
+matplotlib==3.3.3
 scipy==1.5.4
 six==1.15.0
 coverage==5.3
