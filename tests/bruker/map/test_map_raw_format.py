@@ -27,6 +27,7 @@ Tests for the module :py:mod:`microanalysis_file_format.bruker.map.map_raw_forma
 # Standard library modules.
 
 # Third party modules.
+import numpy as np
 
 # Local modules.
 
@@ -42,3 +43,18 @@ def test_is_discovered():
     """
     # assert False
     assert True
+
+
+def test_indexes():
+    data = np.arange(12).reshape(3, 4)
+
+    assert data.shape == (3, 4)
+    assert data[0, 0] == 0.0
+    assert data[2, 3] == 11
+
+    values = data[:, 1]
+    assert np.all(values == np.array([1, 5, 9]))
+
+    indices = (Ellipsis, 1)
+    values = data[indices]
+    assert np.all(values == np.array([1, 5, 9]))

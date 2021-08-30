@@ -186,14 +186,14 @@ class MapRawFormat(object):
 
         self._read_data()
 
+        data_cube = self._data[:, :, :]
         if self._parameters.record_by == RECORDED_BY_IMAGE:
-            data_cube = self._data[:, :, :]
             print(data_cube.shape)
             data_cube = np.rollaxis(data_cube, 0, 3)
             print(data_cube.shape)
 
         elif self._parameters.record_by == RECORDED_BY_VECTOR:
-            data_cube = self._data[:, :, :]
+            pass
 
         channels = np.arange(0, self._parameters.depth)
 
@@ -235,11 +235,11 @@ class MapRawFormat(object):
         self._read_data()
 
         if self._parameters.record_by == RECORDED_BY_IMAGE:
-            image = np.sum(self._data, axis=0)
-
+            axis = 0
         elif self._parameters.record_by == RECORDED_BY_VECTOR:
-            image = np.sum(self._data, axis=2)
+            axis = 2
 
+        image = np.sum(self._data, axis=axis)
         return image
 
     def get_roi_intensity_image(self, channel_range):
@@ -259,11 +259,11 @@ class MapRawFormat(object):
         self._read_data()
 
         if self._parameters.record_by == RECORDED_BY_IMAGE:
-            spectrum = np.amax(self._data, axis=(1, 2))
-
+            axis = (1, 2)
         elif self._parameters.record_by == RECORDED_BY_VECTOR:
-            spectrum = np.amax(self._data, axis=(0, 1))
+            axis = (0, 1)
 
+        spectrum = np.amax(self._data, axis=axis)
         channels = np.arange(0, self._parameters.depth)
 
         assert len(channels) == len(spectrum)
@@ -307,11 +307,11 @@ class MapRawFormat(object):
         self._read_data()
 
         if self._parameters.record_by == RECORDED_BY_IMAGE:
-            spectrum = np.sum(self._data, axis=(1, 2))
-
+            axis = (1, 2)
         elif self._parameters.record_by == RECORDED_BY_VECTOR:
-            spectrum = np.sum(self._data, axis=(0, 1))
+            axis = (0, 1)
 
+        spectrum = np.sum(self._data, axis=axis)
         channels = np.arange(0, self._parameters.depth)
 
         assert len(channels) == len(spectrum)
