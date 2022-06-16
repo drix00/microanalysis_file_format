@@ -1,6 +1,6 @@
 numpy
 matplotlib
 scipy
-six
+six==1.16.0
 coverage
 nose
