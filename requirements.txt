@@ -2,5 +2,5 @@ numpy
 matplotlib
 scipy
 six
-coverage
+coverage==6.4.1
 nose
