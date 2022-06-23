@@ -3,4 +3,4 @@ matplotlib
 scipy
 six
 coverage
-nose
+nose==1.3.7
